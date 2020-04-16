@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Movies
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/movielist.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="movielist" class="container">
+    <form action="." class="p-3">
+        <div class="form-row">
+            <div class="form-group col-12">
+                <label for="searchbyname">Search by name:</label>
+                <div class="input-group" id="searchbyname">                                        
+                    <input class="form-control py-2 border-right-0 border" id="name" type="search" name="name" placeholder="Name..." {% if name is not None %} value="{{ name }}" {% endif %} />
+                    <a class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" id="actor" type="search" name="actor_contains" placeholder="Search by actor..." {% if actor is not None %} value="{{ actor }}" {% endif %} />
+                    <a class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>         -->
+        <div class="form-row">            
+            <div class="form-group col-md-3">
+                <label for="inputGenre">Genre:</label>
+                <select id="inputGenre" class="form-control" name="genrename" id="genre">
+                    <option {% if genrename is None %} selected {% endif %}>Choose...</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre }}" {% if genrename == genre.name %} selected {% endif %}>{{ genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputRating">IMDB Rating /Min/:</label>
+                <input type="number" min="0" step="0.1" class="form-control" name="rating" id="inputRating" placeholder="0" {% if rating is not None %} value="{{ rating }}" {% endif %} >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="inputDate">Release Date /Since/:</label>
+                <input type="date" class="form-control" id="inputDate" name="release_date" {% if release_date is not None %} value="{{ release_date }}" {% endif %} >
+            </div>
+            <div class="form-group col-md-3">
+                <label for="sort">Sort by:</label>
+                <select id="sort" class="form-control" name="sortby">
+                    <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>       
+                    <option {% if sortby == "Rating" %} selected {% endif %} >Rating</option>                    
+                    <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                    
+                    <option {% if sortby == "Release date" %} selected {% endif %} >Release date</option>                    
+                    <option {% if sortby == "Alphabetically" %} selected {% endif %} >Alphabetically</option>                                        
+                </select>
+            </div>
+        </div>   
+        <div class="form-row">
+            <div class="form-group col-12">
+                <button class="btn btn-primary" type="submit">Search</button>          
+            </div>            
+        </div>           
+        <div class="form-row">                     
+            <div class="form-group col-12 text-center">                                   
+                <label for="pagination">Total: {{ count }} movies</label>
+                <div id="pagination" class="d-flex justify-content-center">           
+                    {% include 'includes/pagination.html' %}  
+                </div>
+            </div>            
+        </div>           
+    </form>    
+    <div class="row pl-3 pr-3">
+        {% for movie in queryset %}
+        <div class="col-md-3 mb-3">
+            <div class="card border-secondary">                
+                <a href="#" class="stretched-link"><img class="card-img-top" src="{{ movie.image }}" alt="Card image cap" style="min-height: 320px;"></a>
+                <div class="card-body p-2 text-center">
+                    <p class="card-title" style="font-size: small; font-weight: bold; height: 40px; overflow: hidden;">{{ movie.name }}</p>
+                    <p class="card-text" style="font-size: small; height: 40px; overflow: hidden;">
+                        {% for gen in movie.genre.all %}
+                        <span class="m-2">{{ gen.name }}</span>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="card-footer d-flex justify-content-start p-0 text-center" style="font-size: small;">                    
+                    <div class="border-top border-right p-2" style="width: 33%;">
+                        <strong class="m-0">Year</strong>
+                        <p class="m-0">{{ movie.release_date|date:"Y" }}</p>
+                    </div>   
+                    <div class="border-top border-right p-2" style="width: 33%;">
+                        <strong class="m-0">Rating</strong>
+                        <p class="m-0">{{ movie.rating }}</p>
+                    </div>   
+                    <div class="border-top pt-2" style="width: 33%;">
+                        <strong class="m-0">Views</strong>
+                        <p class="m-0">{{ movie.views }}</p>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        {% endfor %}       
+        <!-- <div class="col-12 d-flex justify-content-center mt-3">        
+            {% include 'includes/pagination.html' %}
+        </div>          -->
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<!-- <script type="text/javascript">
+    $('form').submit(function(event){        
+        event.preventDefault();
+        var name = $('#name').val();
+        var actor = $('#actor').val();
+        var genre = $('#genre').val();
+        var rating = $('#inputRating').val();
+        var date = $('#inputDate').val();        
+        $.ajax({
+            type: "GET",
+            url: "/movielist",
+            data: {
+                name_contains: name,
+                actor_contains: actor,
+                rating: rating,
+                release_date: date,
+                genre: genre
+            }
+            success: function(data)
+            {
+                console.log("success");
+            }
+        })
+    });
+</script> -->
+{% endblock %}

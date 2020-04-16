@@ -1,0 +1,15 @@
+#movielist form a {
+    cursor: pointer;
+}
+
+#movielist form a:hover {
+    background: #efe2ed;    
+}
+
+#movielist ul {
+    list-style-type: none;
+}
+
+#movielist .row nav {
+    background: white;
+}
