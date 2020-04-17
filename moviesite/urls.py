@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('movielist/', views.movielist, name='movielist'),
+    path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
 ]
 
 if settings.DEBUG:

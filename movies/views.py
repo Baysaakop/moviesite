@@ -69,3 +69,11 @@ def movielist(request):
         'count': count
     }
     return render(request, 'movielist.html', context)
+
+
+def moviedetail(request, pk):
+    movie = Movie.objects.get(pk=pk)
+    context = {
+        'movie': movie
+    }
+    return render(request, 'moviedetail.html', context)
