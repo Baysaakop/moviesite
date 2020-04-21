@@ -1,0 +1,33 @@
+#action .fa {
+    padding: 10px;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;    
+    text-decoration: none;    
+}
+
+#action a {
+    color: black;
+    text-decoration: none;
+}
+
+#action a:hover {
+    background: #dedede;   
+}
+
+@media screen and (max-width:576px) {
+    #action a {
+        height: 50px;
+    }
+
+    #action a p {
+        visibility: hidden;
+    }
+
+    #action .fa {
+        font-size: 26px;
+        padding: 12px;    
+        width: 50px;
+        height: 50px;    
+    }
+}

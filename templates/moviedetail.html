@@ -5,6 +5,7 @@ Movies
 {% endblock %}
 
 {% block style %}
+<link rel="stylesheet" href="{% static 'css/moviedetail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -16,7 +17,7 @@ Movies
             <li class="breadcrumb-item active" aria-current="page">{{ movie.name }}</li>
         </ol>
     </nav> 
-    <div class="m-3 p-3 border rounded">    
+    <div id="info" class="m-3 p-3 border rounded">    
         <div class="row">
             <div class="col-md-3">
                 <img class="movie-img rounded" src="{{ movie.image }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
@@ -30,7 +31,7 @@ Movies
                                 <th>Genres</th>
                                 <td>
                                     {% for genre in movie.genre.all %}
-                                        {{ genre.name }}  
+                                    {{ genre.name }}  
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -45,11 +46,7 @@ Movies
                             <tr>
                                 <th>IMDB Rating</th>
                                 <td>{{ movie.rating }}</td>
-                            </tr>
-                            <tr>
-                                <th>Total Views</th>
-                                <td>{{ movie.views }}</td>
-                            </tr>                            
+                            </tr>                                                       
                         </table> 
                     </div>
                     <div class="col-md-6">
@@ -57,28 +54,28 @@ Movies
                             <tr>
                                 <th>Production</th>
                                 <td>
-                                
+                                    
                                 </td>
                             </tr>          
                             <tr>
                                 <th>Director</th>
                                 <td>
                                     {% for director in movie.director.all %}
-                                        {{ director.name }}  
+                                    {{ director.name }}  
                                     {% endfor %}
                                 </td>
                             </tr>
                             <tr>
                                 <th>Writer</th>
                                 <td>
-                                
+                                    
                                 </td>
                             </tr>
                             <tr>
                                 <th>Cast crew</th>
                                 <td>
                                     {% for actor in movie.cast.all %}
-                                        {{ actor.name }}  
+                                    {{ actor.name }}  
                                     {% endfor %}
                                 </td>
                             </tr>                          
@@ -88,7 +85,7 @@ Movies
             </div>
         </div>
     </div>
-    <div class="m-3 p-3 border rounded">     
+    <div id="about" class="m-3 p-3 border rounded">     
         <div class="row">
             <div class="col-md-6">
                 <h5>Plot:</h5>        
@@ -100,15 +97,81 @@ Movies
             </div>
         </div>       
     </div>
-    <div class="m-3 p-3 border rounded">     
+    <div id="action" class="m-3 border rounded d-flex justify-content-around text-center">             
+        <a href="#" class="w-100">
+            <i class="fa fa-thumbs-o-up"></i>
+            <p class="m-0">968</p>
+        </a>
+        <a href="#" class="w-100">
+            <i class="fa fa-plus-circle"></i>
+            <p class="m-0">Add to watched</p>
+        </a>
+        <a href="#" class="w-100">
+            <i class="fa fa-list"></i>
+            <p class="m-0">Add to watchlist</p>
+        </a>
+        <a href="#" class="w-100">
+            <i class="fa fa-star-o"></i>
+            <p class="m-0">Give rating</p>
+        </a>
+    </div>
+    <div id="comments" class="m-3 p-3 border rounded">
         <div class="row">
-            <div class="col-md-6">
-                <h5>Comments:</h5>                        
+            <div class="col-6 col-md-3">                
+                <p class="ml-3">127 comments</p>                
             </div>
-            <div class="col-md-6">
-                <h5>Leave review:</h5>                        
+            <div class="col-6 col-md-9">
+                <div class="dropdown">
+                    <button type="button" class="dropdown-toggle border-0 bg-transparent" data-toggle="dropdown">
+                        Sort By
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">Top comments</a>
+                        <a href="#" class="dropdown-item">Newest first</a>
+                    </div>
+                </div>
             </div>
-        </div>       
+        </div>
+        <hr class="m-0">
+        <!-- <div class="media p-3">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar5.png" alt="Jessie Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <form action="." class="was-invalidated">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
+                        <input type="text" class="form-control" id="usercomment" placeholder="Leave comment" name="usercomment" required>
+                    </div>
+                </form>               
+            </div>
+        </div> -->
+        <div class="media p-3">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <p>John Doe <small><i>Posted on February 19, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+                <div class="media p-3">
+                    <img src="https://www.w3schools.com/bootstrap4/img_avatar4.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
+                    <div class="media-body">
+                        <p>Jane Doe <small><i>Posted on February 20 2020</i></small></p>
+                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                        
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="media p-3">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar2.png" alt="Jason Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <p>Jason Doe <small><i>Posted on February 18, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+            </div>
+        </div>
+        <div class="media p-3">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" alt="Jack Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+            <div class="media-body">
+                <p>Jack Doe <small><i>Posted on February 17, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
