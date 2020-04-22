@@ -117,10 +117,10 @@ Movies
     </div>
     <div id="comments" class="m-3 p-3 border rounded">
         <div class="row">
-            <div class="col-6 col-md-3">                
-                <p class="ml-3">127 comments</p>                
+            <div class="col-12 col-md-3 pl-3">                
+                <p>127 comments</p>                
             </div>
-            <div class="col-6 col-md-9">
+            <div class="col-12 col-md-6">
                 <div class="dropdown">
                     <button type="button" class="dropdown-toggle border-0 bg-transparent" data-toggle="dropdown">
                         Sort By
@@ -130,6 +130,9 @@ Movies
                         <a href="#" class="dropdown-item">Newest first</a>
                     </div>
                 </div>
+            </div>
+            <div class="col-12 col-md-3 text-right">
+                <p>{{ movie.views }} views</p>
             </div>
         </div>
         <hr class="m-0">

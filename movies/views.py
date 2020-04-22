@@ -47,7 +47,7 @@ def movielist(request):
 
     count = qs.count()
     page = request.GET.get('page', 1)
-    paginator = Paginator(qs, 32)
+    paginator = Paginator(qs, 36)
 
     try:
         qs = paginator.page(page)

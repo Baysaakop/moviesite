@@ -7,8 +7,13 @@ body {
     color: #e7c9c9;    
 }
 
+#top h3 {
+    color: #000000;
+    margin-top: 10px;
+}
+
 #top .fa {
-    padding: 12px;
+    padding: 10px;
     font-size: 25px;
     width: 50px;
     height: 50px;
@@ -16,10 +21,11 @@ body {
     text-decoration: none;
     margin-left: 5px;
     border-radius: 50%;    
-    border: 1px solid #8c8b8a;
+    border: 4px solid #000000;
+    color: #000000;
 }
 
-#top .fa-facebook {
+/* #top .fa-facebook {
     color: #3B5998;
 }
 
@@ -37,31 +43,36 @@ body {
 
 #top .fa-instagram {
     color: #125688;
-}
+} */
 
 #top .fa-facebook:hover {
     background: #3B5998;
     color: white;
+    border: 4px solid #f1f1f1;
 }
 
 #top .fa-twitter:hover {
     background: #55ACEE;
     color: white;
+    border: 4px solid #f1f1f1;
 }
 
 #top .fa-google:hover {
     background: #dd4b39;
     color: white;
+    border: 4px solid #f1f1f1;
 }
 
 #top .fa-youtube:hover {
     background: #bb0000;
     color: white;
+    border: 4px solid #f1f1f1;
 }
 
 #top .fa-instagram:hover {
     background: #125688;
     color: white;
+    border: 4px solid #f1f1f1;
 }
 
 #top #logo {    

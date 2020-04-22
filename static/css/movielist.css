@@ -14,56 +14,105 @@
     background: white;
 }
 
-#movielist .card {    
-    border: 2px solid #263238;   
+#movielist .list .column {
+    padding: 5px;
 }
 
-#movielist .card-img { 
-    display: inline-block;           
-    overflow: hidden;
+#movielist .list .card {    
+    border: 5px solid #dedede;    
+    width: 100%;
+    height: 300px;    
+    transition: all .5s;    
 }
 
-#movielist .card-img-top {
-    height: 280px;
-    width: auto;
-    display: block;
-    transition: transform .4s;
+#movielist .list .card:hover {
+    border: 5px solid #000;    
 }
 
-#movielist .card-img:hover .card-img-top {
-    transform: scale(1.2);
-    transform-origin: 50% 50%;
+#movielist .list .card-img {     
+    height: 70%;
+    overflow: hidden;    
 }
 
-#movielist .card-title {
-    font-size: small;
-    font-weight: bold;
-    height: 35px; 
+#movielist .list .card-img .card-img-top {
+    width: 100%;
+    height: 100%;    
+    display: block;    
+}
+
+#movielist .list .card-body {
+    padding: 5px;
+    color: #000;
+    text-decoration: none;
     overflow: hidden; 
-    margin: 0; 
-    padding: 0%;
 }
 
-#movielist a {
+#movielist .list .card-title {    
+    font-size: 11px;
+    font-weight: bold;        
+    margin-top: 0; 
+    padding: 0;    
+}
+
+#movielist .list .action {
     text-decoration: none;
     color: black;
 }
 
-#movielist a:hover {
+#movielist .list .action:hover {
     background: #dedede;
 }
 
+@media screen and (max-width:992px) {
+    #movielist .list .card {
+        height: 400px;
+    }
+
+    #movielist .list .card-img {     
+        height: 70%;
+    }
+    
+    #movielist .list .card-title {
+        font-size: 12px;             
+    }
+}
+
+@media screen and (max-width:768px) {
+    #movielist .list .column {
+        padding: 10px;
+    }
+
+    #movielist .list .card {
+        height: 400px;
+    }
+
+    #movielist .list .card-img {     
+        height: 70%;
+    }
+    
+    #movielist .list .card-body {
+        padding: 10px; 
+    }
+
+    #movielist .list .card-title {
+        font-size: 14px;                    
+    }
+
+    #movielist .list .fa {
+        font-size: 24px;
+    }
+}
+
 @media screen and (max-width:576px) {
-    #movielist .card {
-        max-width: 500px;
+    #movielist .list .card {
+        height: 500px;
     }
 
-    #movielist .card-img-top {
-        height: auto;
-        width: 100%;
+    #movielist .list .card-img {     
+        height: 75%;
     }
 
-    #movielist .card-title {
-        font-size: large;
+    #movielist .list .card-title {
+        font-size: 16px;        
     }
 }

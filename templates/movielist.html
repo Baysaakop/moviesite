@@ -43,7 +43,7 @@ Movies
             </div>
         </div>         -->
         <div class="form-row">            
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="inputGenre">Genre:</label>
                 <select id="inputGenre" class="form-control" name="genrename" id="genre">
                     <option {% if genrename is None %} selected {% endif %}>Choose...</option>
@@ -52,15 +52,15 @@ Movies
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="inputRating">IMDB Rating /Min/:</label>
                 <input type="number" min="0" step="0.1" class="form-control" name="rating" id="inputRating" placeholder="0" {% if rating is not None %} value="{{ rating }}" {% endif %} >
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="inputDate">Release Date /Since/:</label>
                 <input type="date" class="form-control" id="inputDate" name="release_date" {% if release_date is not None %} value="{{ release_date }}" {% endif %} >
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="sort">Sort by:</label>
                 <select id="sort" class="form-control" name="sortby">
                     <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>       
@@ -85,48 +85,53 @@ Movies
             </div>            
         </div>           
     </form>    
-    <div class="row p-3">
+    <div class="list p-3">
+        <div class="row p-3">
         {% for movie in queryset %}
-        {% if forloop.counter0|divisibleby:4 %}
-            {% if forloop.counter0  > 0 %}
-            </div>
-            {% endif %}
-            <div class="card-deck mb-3 p-3">
-        {% endif %}
-                <div class="card">                
-                    <div class="card-img d-flex justify-content-center">
-                        <a href="{% url 'moviedetail' movie.pk %}"><img class="card-img-top" src="{{ movie.image }}" alt="Card image cap"></a>
-                    </div>
-                    <div class="card-body p-2 text-center">
-                        <p class="card-title">{{ movie.name }}</p>
-                    </div>
-                    <div class="d-flex justify-content-start p-0 text-center">
-                        <a href="#" class="p-2" style="width: 33%;">
-                            <i class="fa fa-thumbs-o-up" style="font-size: 24px;"></i>
+            <!-- {% if forloop.counter0|divisibleby:4 %}
+                {% if forloop.counter0  > 0 %}
+                </div>
+                {% endif %}
+                <div class="row p-3">
+            {% endif %} -->            
+                <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
+                    <div class="card">
+                        <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
+                            <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
                         </a>
-                        <a href="#" class="p-2" style="width: 33%;">
-                            <i class="fa fa-plus-circle " style="font-size: 24px;"></i>
-                        </a>
-                        <a href="#" class="p-2" style="width: 33%;">
-                            <i class="fa fa-list" style="font-size: 24px;"></i>
-                        </a>
-                    </div> 
-                    <div class="card-footer d-flex justify-content-start p-0 text-center" style="font-size: small;">                    
-                        <div class="border-top border-right p-2" style="width: 33%;">
-                            <strong class="m-0">Year</strong>
-                            <p class="m-0">{{ movie.release_date|date:"Y" }}</p>
-                        </div>   
-                        <div class="border-top border-right p-2" style="width: 33%;">
-                            <strong class="m-0">Rating</strong>
-                            <p class="m-0">{{ movie.rating }}</p>
-                        </div>   
-                        <div class="border-top pt-2" style="width: 33%;">
-                            <strong class="m-0">Views</strong>
-                            <p class="m-0">{{ movie.views }}</p>
-                        </div>                    
-                    </div>
-                </div>        
+                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }}">
+                            <p class="card-title">{{ movie.name }}</p>
+                        </a>                                                
+                        <div class="d-flex justify-content-start p-0 text-center">
+                            <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to favorites">
+                                <i class="fa fa-thumbs-o-up"></i>
+                            </a>
+                            <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watched">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                            <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
+                                <i class="fa fa-list"></i>
+                            </a>
+                        </div> 
+                        <!-- 
+                        <div class="card-footer d-flex justify-content-start p-0 text-center" style="font-size: small;">                    
+                            <div class="border-top border-right p-2" style="width: 33%;">
+                                <strong class="m-0">Year</strong>
+                                <p class="m-0">{{ movie.release_date|date:"Y" }}</p>
+                            </div>   
+                            <div class="border-top border-right p-2" style="width: 33%;">
+                                <strong class="m-0">Rating</strong>
+                                <p class="m-0">{{ movie.rating }}</p>
+                            </div>   
+                            <div class="border-top pt-2" style="width: 33%;">
+                                <strong class="m-0">Views</strong>
+                                <p class="m-0">{{ movie.views }}</p>
+                            </div>                    
+                        </div> -->
+                    </div>              
+                </div>                  
         {% endfor %}       
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -158,4 +163,9 @@ Movies
         })
     });
 </script> -->
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+</script>
 {% endblock %}
