@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ actor.name }}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/actordetail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="moviedetail" class="container">   
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <!-- <li class="breadcrumb-item"><a href="{% url 'movielist' %}">Movie List</a></li> -->
+            <li class="breadcrumb-item active" aria-current="page">{{ actor.name }}</li>
+        </ol>
+    </nav> 
+    <div class="p-3">
+        <h4>{{ actor.name }}</h4>
+        <h5>Occupation</h5>
+        {% for occ in actor.occupation.all %}
+            <p>{{ occ.name }}</h5>
+        {% endfor %}
+        <h5>Movies</h5>
+        {% for mov in movies %}
+            <a href="{% url 'moviedetail' mov.pk %}">{{ mov.name }}</a>
+            <hr />
+        {% endfor %}
+    </div>    
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{% endblock %}

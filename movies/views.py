@@ -34,16 +34,26 @@ def movielist(request):
         qs = qs.filter(genre__name=genrename)
 
     if is_valid_queryparam(sortby):
-        if sortby == 'Latest':
+        if sortby == 'Latest first':
             qs = qs.order_by('-updated_at')
-        elif sortby == 'Views':
-            qs = qs.order_by('-views')
-        elif sortby == 'Rating':
+        elif sortby == 'Latest last':
+            qs = qs.order_by('updated_at')
+        elif sortby == 'Rating (DESC)':
             qs = qs.order_by('-rating')
-        elif sortby == 'Release date':
+        elif sortby == 'Rating (ASC)':
+            qs = qs.order_by('rating')
+        elif sortby == 'Views (DESC)':
+            qs = qs.order_by('-views')   
+        elif sortby == 'Views (ASC)':
+            qs = qs.order_by('views')        
+        elif sortby == 'Release date (Newest first)':
             qs = qs.order_by('-release_date')
-        elif sortby == 'Alphabetically':
+        elif sortby == 'Release date (Oldest first)':
+            qs = qs.order_by('release_date')
+        elif sortby == 'Alphabetically (A-Z)':
             qs = qs.order_by('name')
+        elif sortby == 'Alphabetically (Z-A)':
+            qs = qs.order_by('-name')
 
     count = qs.count()
     page = request.GET.get('page', 1)
@@ -76,3 +86,12 @@ def moviedetail(request, pk):
         'movie': movie
     }
     return render(request, 'moviedetail.html', context)
+
+def actordetail(request, pk):
+    actor = Staff.objects.get(pk=pk)
+    movies = Movie.objects.filter(cast=actor)
+    context = {
+        'actor': actor,
+        'movies': movies,
+    }
+    return render(request, 'actordetail.html', context)    

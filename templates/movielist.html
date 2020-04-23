@@ -63,11 +63,16 @@ Movies
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="sort">Sort by:</label>
                 <select id="sort" class="form-control" name="sortby">
-                    <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>       
-                    <option {% if sortby == "Rating" %} selected {% endif %} >Rating</option>                    
-                    <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                    
-                    <option {% if sortby == "Release date" %} selected {% endif %} >Release date</option>                    
-                    <option {% if sortby == "Alphabetically" %} selected {% endif %} >Alphabetically</option>                                        
+                    <option {% if sortby == "Latest first" %} selected {% endif %} >Latest first</option>   
+                    <option {% if sortby == "Latest last" %} selected {% endif %} >Latest last</option>       
+                    <option {% if sortby == "Rating (DESC)" %} selected {% endif %} >Rating (DESC)</option>       
+                    <option {% if sortby == "Rating (ASC)" %} selected {% endif %} >Rating (ASC)</option>                    
+                    <option {% if sortby == "Views (DESC)" %} selected {% endif %} >Views (DESC)</option>                    
+                    <option {% if sortby == "Views (ASC)" %} selected {% endif %} >Views (ASC)</option>                    
+                    <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
+                    <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
+                    <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
+                    <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                        
                 </select>
             </div>
         </div>   
@@ -98,6 +103,11 @@ Movies
                     <div class="card">
                         <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
                             <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                            <div class="card-img-overlay">                                
+                                <p>Release: {{ movie.release_date|date:"Y" }}</p>
+                                <p>Rating:  {{ movie.rating }}</p>
+                                <p>Views:   {{ movie.views }}</p>
+                            </div>
                         </a>
                         <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }}">
                             <p class="card-title">{{ movie.name }}</p>
@@ -113,21 +123,6 @@ Movies
                                 <i class="fa fa-list"></i>
                             </a>
                         </div> 
-                        <!-- 
-                        <div class="card-footer d-flex justify-content-start p-0 text-center" style="font-size: small;">                    
-                            <div class="border-top border-right p-2" style="width: 33%;">
-                                <strong class="m-0">Year</strong>
-                                <p class="m-0">{{ movie.release_date|date:"Y" }}</p>
-                            </div>   
-                            <div class="border-top border-right p-2" style="width: 33%;">
-                                <strong class="m-0">Rating</strong>
-                                <p class="m-0">{{ movie.rating }}</p>
-                            </div>   
-                            <div class="border-top pt-2" style="width: 33%;">
-                                <strong class="m-0">Views</strong>
-                                <p class="m-0">{{ movie.views }}</p>
-                            </div>                    
-                        </div> -->
                     </div>              
                 </div>                  
         {% endfor %}       
