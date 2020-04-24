@@ -61,7 +61,7 @@
                                 <th>Director</th>
                                 <td>
                                     {% for director in movie.director.all %}
-                                    <a href="{% url 'actordetail' director.pk %}">
+                                    <a href="{% url 'artistdetail' director.pk %}">
                                         {{ director.name }}  
                                     </a>
                                     {% endfor %}
@@ -77,7 +77,7 @@
                                 <th>Cast crew</th>
                                 <td>
                                     {% for actor in movie.cast.all %}
-                                    <a href="{% url 'actordetail' actor.pk %}">
+                                    <a href="{% url 'artistdetail' actor.pk %}">
                                         {{ actor.name }}  
                                     </a>
                                     {% endfor %}

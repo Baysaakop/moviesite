@@ -205,3 +205,15 @@ nav .nav-item a::after {
 nav .nav-item a:hover::after {
     width: 100%;
 }
+
+nav form a {
+    text-decoration: none;    
+}
+
+nav form a:hover {    
+    text-decoration: none;    
+}
+
+nav form a:hover i {
+    color: #f1f1f1;
+}

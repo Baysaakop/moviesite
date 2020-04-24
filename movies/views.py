@@ -69,8 +69,7 @@ def movielist(request):
     context = {
         'queryset': qs,
         'genres': genres,
-        'name': name,
-         # 'actor': actor_contains_query,
+        'name': name,         
         'rating': rating,
         'release_date': release_date,
         'genrename': genrename,
@@ -87,11 +86,52 @@ def moviedetail(request, pk):
     }
     return render(request, 'moviedetail.html', context)
 
-def actordetail(request, pk):
-    actor = Staff.objects.get(pk=pk)
-    movies = Movie.objects.filter(cast=actor)
+def artistlist(request):
+    qs = Staff.objects.all().order_by('name')
+    occupations = Occupation.objects.all().order_by('name')
+    name = request.GET.get('name')
+    occupationname = request.GET.get('occupationname')
+    sortby = request.GET.get('sortby')
+
+    if is_valid_queryparam(name):
+        qs = qs.filter(name__icontains=name)
+    if is_valid_queryparam(occupationname) and occupationname != 'Choose...':
+        qs = qs.filter(occupation__name=occupationname)
+
+    if is_valid_queryparam(sortby):
+        if sortby == 'Alphabetically (A-Z)':
+            qs = qs.order_by('name')
+        elif sortby == 'Alphabetically (Z-A)':
+            qs = qs.order_by('-name')
+
+    count = qs.count()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(qs, 36)
+
+    try:
+        qs = paginator.page(page)
+    except PageNotAnInteger:
+        qs = paginator.page(1)
+    except EmptyPage:
+        qs = paginator.page(paginator.num_pages)
+
     context = {
-        'actor': actor,
-        'movies': movies,
+        'queryset': qs,
+        'occupations': occupations,
+        'name': name,
+        'occupationname': occupationname,
+        'sortby': sortby,
+        'count': count
     }
-    return render(request, 'actordetail.html', context)    
+    return render(request, 'artistlist.html', context)
+
+def artistdetail(request, pk):
+    artist = Staff.objects.get(pk=pk)
+    movies_as_actor = Movie.objects.filter(cast=artist).order_by('release_date')
+    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')
+    context = {
+        'artist': artist,
+        'movies_as_actor': movies_as_actor,
+        'movies_as_director': movies_as_director,
+    }
+    return render(request, 'artistdetail.html', context)    

@@ -66,9 +66,22 @@
                     <a class="nav-link" href="#">Series</a>
                 </li>  
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'artistlist' %}">Artists</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Sign in</a>
-                </li>                  
+                </li>                                 
             </ul>
+            <form class="form-inline" action="." >         
+                <div class="input-group" id="searchbyname">                       
+                    <input class="form-control py-2 border-right-0 border" id="search" type="search" name="search" placeholder="Search..." />
+                    <a href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </a>
+                </div>
+            </form>
         </div>  
     </nav>
     

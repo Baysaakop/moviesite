@@ -9,7 +9,8 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('movielist/', views.movielist, name='movielist'),
     path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
-    path('actordetail/<pk>/', views.actordetail, name='actordetail'),
+    path('artistlist/', views.artistlist, name='artistlist'),
+    path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
 ]
 
 if settings.DEBUG:
