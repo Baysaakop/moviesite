@@ -17,31 +17,113 @@
             <li class="breadcrumb-item active" aria-current="page">{{ artist.name }}</li>
         </ol>
     </nav> 
-    <div class="p-3">
-        <h4>{{ artist.name }}</h4>        
-        {% for occ in artist.occupation.all %}
-            <p>{{ occ.name }}</h5>
-        {% endfor %}
-        <h5>Career as actor</h5>
+    <div id="info" class="m-3 p-3 border rounded">
+        <div class="row">
+            <div class="col-md-3">
+                <img class="artist-img rounded" src="https://image.flaticon.com/icons/svg/219/219970.svg" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+            </div>
+            <div class="col-md-9">
+                <h4>{{ artist.name }}</h4>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <table class="table table-striped" style="font-size: 14px;">                
+                            <tr>
+                                <th>Occupation</th>
+                                <td>
+                                    {% for occ in artist.occupation.all %}
+                                        <span>{{ occ.name }} </span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Date of birth</th>
+                                <td>25 September 1951</td>
+                            </tr>
+                            <tr>
+                                <th>Place of birth</th>
+                                <td>Oakland, California, U.S.</td>
+                            </tr>
+                            <tr>
+                                <th>Nationality</th>
+                                <td>American</td>
+                            </tr>                                                       
+                        </table> 
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-striped" style="font-size: 14px;">      
+                            <tr>
+                                <th>Production</th>
+                                <td>
+                                    Lucas films
+                                </td>
+                            </tr>          
+                            <tr>
+                                <th>Net worth</th>
+                                <td>
+                                    $75.5m
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Awards</th>
+                                <td>
+                                    <a href="#">Awards list</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Followers</th>
+                                <td>72.8K</td>
+                            </tr>                          
+                        </table> 
+                    </div>
+                </div>  
+            </div>
+        </div>   
+    </div>     
+    <div id="about" class="m-3 p-3 border rounded">     
+        <h4>Biography</h4>
+        <hr />
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non fermentum tortor. Maecenas sit amet leo dolor. Ut vel tempus tellus. Sed a magna sagittis, blandit massa nec, dictum massa. Maecenas ac diam vel est tincidunt fringilla ut ut mi. Aliquam leo velit, aliquam at pretium a, consequat in ipsum. Ut porta euismod odio id eleifend. Aliquam erat volutpat. Aliquam purus mauris, tempor quis nisi vitae, tempus interdum mauris. Vestibulum a nisi venenatis, consectetur ex sed, accumsan dui.</p>
+    </div> 
+    <div id="filmography" class="m-3 p-3 border rounded">
+        <h4>Filmography</h4>
+        <hr />
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Release Date</th>
                     <th>Film name</th>
                     <th>IMDB Rating</th>
+                    <th>Actor</th>
+                    <th>Director</th>
+                    <th>Writer</th>
                 </tr>
             </thead>
             <tbody>
-                {% for movie in movies_as_actor %}
+                {% for movie in movies %}
                 <tr>
                     <td>{{ movie.release_date|date:"Y" }}</td>
                     <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                    <td>{{ movie.rating }}</td>
+                    <td>{{ movie.rating }}</td>     
+                    <td>
+                        {% if artist in movie.cast.all %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>           
+                    <td>
+                        {% if artist in movie.director.all %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>   
+                    <td>No</td>        
                 </tr>
                 {% endfor %}
             </tbody>            
         </table>
-        <h5>Career as director</h5>
+        <!-- <h5>Career as director</h5>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -59,8 +141,8 @@
                 </tr>
                 {% endfor %}
             </tbody>            
-        </table>        
-    </div>    
+        </table>    -->
+    </div>                 
 </div>
 {% endblock %}
 

@@ -1,0 +1,89 @@
+{% extends "account/base.html" %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Sign in
+{% endblock %}
+
+{% block style %}
+<style>
+    #container {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;        
+    }
+
+    #content {
+        background: #f1f1f1;
+        color: black;
+        width: 600px;
+        height: auto;
+        padding: 30px;
+    }
+
+    .socialbtn {        
+        color: white;
+        text-decoration: none;             
+        padding: 10px;       
+        margin-top: 10px;        
+    }
+
+    .fb {
+        background-color: #3B5998;
+    }
+
+    .google {
+        background-color: #dd4b39;              
+    }
+
+    .seperator {        
+        text-align: center;
+        border-bottom: 1px solid #bbb;
+        line-height: 0.1em;        
+        margin-top: 30px;
+    }
+
+    .seperator span {
+        background: #f1f1f1;
+        padding: 0 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container" id="container">
+    <div class="border rounded" id="content">
+        <h2 class="text-center">Sign in</h2>        
+        <p class="text-muted">
+            Sign in using social media account to get quick access
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <a class="socialbtn btn btn-block google" href="{% provider_login_url "google" %}">
+                    <i class="fa fa-google"></i> Sign in with Google
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a class="socialbtn btn btn-block fb" href="{% provider_login_url "facebook" method="oauth2" %}">
+                    <i class="fa fa-facebook"></i> Sign in with Facebook
+                </a>   
+            </div>
+        </div>             
+        <p class="seperator text-muted"><span>OR</span></p>
+        <form class="login text-left" method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button class="btn btn-dark btn-block" type="submit">Sign in</button>
+        </form>                  
+        <p class="text-center mt-3"><a href="{% url 'account_reset_password' %}">Forgot your password?</a></p>
+        <p class="text-center">Not a member yet? <a href="{% url 'account_signup' %}">Create an account</a></p>
+    </div>        
+</div>
+{% endblock %}

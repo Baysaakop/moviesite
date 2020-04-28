@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from movies import views
@@ -11,6 +11,8 @@ urlpatterns = [
     path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
     path('artistlist/', views.artistlist, name='artistlist'),
     path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
+    ## AUTH
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

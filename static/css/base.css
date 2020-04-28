@@ -183,17 +183,17 @@ body {
     }
 }
 
-nav .nav-item {
+.navbar-dark .nav-item {
     min-width: 150px;
 }
 
-nav .nav-item a {        
+.navbar-dark .nav-item .nav-link {        
     font-size: large;
     text-decoration: none;
     display: inline-block;
 }
 
-nav .nav-item a::after {
+.navbar-dark .nav-item .nav-link::after {
     content: '';
     display: block;
     width: 0;
@@ -202,8 +202,24 @@ nav .nav-item a::after {
     transition: width .3s;
 }
 
-nav .nav-item a:hover::after {
+.navbar-dark .nav-item .nav-link:hover::after {
     width: 100%;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,1);
+}
+
+.navbar-dark .navbar-nav .dropdown {
+    min-width: 150px;
+    display: flex;    
+    align-items: center;
+}
+
+.navbar-dark .navbar-nav #navbardrop {
+    color: #fff;
+    text-decoration: none;
+    font-size: large;        
 }
 
 nav form a {

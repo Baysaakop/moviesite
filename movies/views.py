@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 from .models import Occupation, Staff, Genre, Movie
 
 def home(request):
@@ -127,10 +128,12 @@ def artistlist(request):
 
 def artistdetail(request, pk):
     artist = Staff.objects.get(pk=pk)
+    movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist)).order_by('release_date').distinct()
     movies_as_actor = Movie.objects.filter(cast=artist).order_by('release_date')
     movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')
     context = {
         'artist': artist,
+        'movies': movies,
         'movies_as_actor': movies_as_actor,
         'movies_as_director': movies_as_director,
     }

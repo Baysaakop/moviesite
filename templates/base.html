@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 d-flex justify-content-center justify-content-sm-start align-items-center" style="min-height: 80px;">
-                    <h3>Brand</h3>
+                    <h3>Mollywood</h3>
                     <div id="logo">
                         <div class="body"></div>                        
                         <div class="roll small">
@@ -68,9 +68,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'artistlist' %}">Artists</a>
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" id="navbardrop" data-toggle="dropdown" href="#">{{ user }}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
+                    </div>
+                </li>
+                {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign in</a>
+                    <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
                 </li>                                 
+                {% endif %}
             </ul>
             <form class="form-inline" action="." >         
                 <div class="input-group" id="searchbyname">                       
