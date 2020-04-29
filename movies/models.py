@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Occupation(models.Model):
     name = models.CharField(max_length=50)
@@ -50,4 +52,29 @@ class Movie(models.Model):
     def __str__(self):
         return self.name
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+    watchlist = models.ManyToManyField(Movie, related_name='watchlist')
+    watchedlist = models.ManyToManyField(Movie, related_name='watchedlist')
+    liked_movies = models.ManyToManyField(Movie, related_name='liked_movies')
+    followed_artists = models.ManyToManyField(Staff)
+
+    def __str__(self):
+        return self.user.username
+
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()        
+
+class MovieRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " on " + self.movie.name
     

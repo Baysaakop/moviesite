@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+<div id="profile" class="container">   
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>        
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+        </ol>
+    </nav> 
+    <div id="info" class="m-3 p-3 border rounded">
+        <h2>Profile</h2>
+        <table class="table">
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{{ profile.user.email }}</td>
+                <td><a href="#">Change email address</a></td>
+            </tr>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>{{ profile.user.username }}</td>
+                <td><a href="#">Change username</a></td>
+            </tr>
+            <tr>
+                <td><strong>Phone number</strong></td>
+                <td>99219571</td>
+                <td><a href="#">Change phone number</a></td>
+            </tr>
+            <tr>
+                <td><strong>Password</strong></td>
+                <td>* * * * * * * *</td>
+                <td><a href="#">Change password</a></td>
+            </tr>
+        </table>
+    </div> 
+    <div id="watchlist" class="m-3 p-3 border rounded">
+        <h2>Watchlist</h2>        
+    </div>  
+    <div id="watchedlist" class="m-3 p-3 border rounded">
+        <h2>Watchedlist</h2>        
+    </div>                 
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{% endblock %}

@@ -13,6 +13,7 @@ urlpatterns = [
     path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
+    path('profile/', views.profile, name='profile'),
 ]
 
 if settings.DEBUG:

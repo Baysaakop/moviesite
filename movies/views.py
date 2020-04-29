@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from .models import Occupation, Staff, Genre, Movie
+from .models import Occupation, Staff, Genre, Movie, Profile, MovieRating
 
 def home(request):
-    return render(request, 'home.html', {}) 
+    return render(request, 'home.html', {})     
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    return render(request, 'profile.html', {'profile': profile})
 
 def movielist(request):
     qs = Movie.objects.all().order_by('-updated_at')
@@ -138,3 +142,4 @@ def artistdetail(request, pk):
         'movies_as_director': movies_as_director,
     }
     return render(request, 'artistdetail.html', context)    
+    

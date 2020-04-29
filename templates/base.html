@@ -72,7 +72,7 @@
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" id="navbardrop" data-toggle="dropdown" href="#">{{ user }}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                         <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
                     </div>
                 </li>
