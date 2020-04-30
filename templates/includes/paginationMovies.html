@@ -1,4 +1,39 @@
 {% if queryset.has_other_pages %}
+<style>
+    .pagination > li > a
+    {
+        background-color: white;
+        color: #292b2c;
+    }
+
+    .pagination > li > a:focus,
+    .pagination > li > a:hover,
+    .pagination > li > span:focus,
+    .pagination > li > span:hover
+    {
+        color: #5a5a5a;
+        background-color: #eee;
+        border-color: #ddd;
+    }
+
+    .pagination > .active > a
+    {
+        color: white;
+        background-color: #292b2c !Important;
+        border: solid 1px #292b2c !Important;
+    }
+
+    .pagination > .active > .page-link {
+        background-color: #292b2c;
+        border: solid 1px #292b2c;
+    }
+
+    .pagination > .active > a:hover
+    {
+        background-color: #292b2c !Important;
+        border: solid 1px #292b2c;
+    }
+</style>
 <nav aria-label="Movies pagination" class="bg-white">
     <ul class="pagination">
         {% if queryset.has_previous %}

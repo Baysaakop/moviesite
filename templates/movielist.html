@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_tags %}
 {% block title %}
 Movies
 {% endblock %}
@@ -66,7 +66,7 @@ Movies
         </div>   
         <div class="form-row">
             <div class="form-group col-12">
-                <button class="btn btn-primary" type="submit">Search</button>          
+                <button class="btn btn-dark" type="submit">Search</button>          
             </div>            
         </div>           
         <div class="form-row">                     
@@ -101,15 +101,27 @@ Movies
                             <p class="card-title">{{ movie.name }}</p>
                         </a>                                                
                         <div class="d-flex justify-content-start p-0 text-center">
-                            <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to favorites">
+                            {% if profile is None %}
+                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
                                 <i class="fa fa-thumbs-o-up"></i>
                             </a>
-                            <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watched">
-                                <i class="fa fa-plus-circle"></i>
+                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watched list" data-id="{{ movie.id }}">
+                                <i class="fa fa-check-circle-o"></i>
                             </a>
-                            <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
-                                <i class="fa fa-list"></i>
+                            <a href="{% url 'account_login' %}" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watchlist" data-id="{{ movie.id }}">
+                                <i class="fa fa-plus-square-o"></i>
                             </a>
+                            {% else %}
+                            <div id="like-{{ movie.id }}" class="action like border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
+                                <i id="icon-like-{{ movie.id }}" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
+                            </div>
+                            <div id="watched-{{ movie.id }}" class="action watched border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
+                                <i id="icon-watched-{{ movie.id }}" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
+                            </div>
+                            <div id="watchlist-{{ movie.id }}" class="action watchlist border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
+                                <i id="icon-watchlist-{{ movie.id }}" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
+                            </div>
+                            {% endif %}                            
                         </div> 
                     </div>              
                 </div>                  
@@ -121,34 +133,78 @@ Movies
 
 
 {% block javascript %}
-<!-- <script type="text/javascript">
-    $('form').submit(function(event){        
-        event.preventDefault();
-        var name = $('#name').val();
-        var actor = $('#actor').val();
-        var genre = $('#genre').val();
-        var rating = $('#inputRating').val();
-        var date = $('#inputDate').val();        
-        $.ajax({
-            type: "GET",
-            url: "/movielist",
-            data: {
-                name_contains: name,
-                actor_contains: actor,
-                rating: rating,
-                release_date: date,
-                genre: genre
-            }
-            success: function(data)
-            {
-                console.log("success");
-            }
-        })
-    });
-</script> -->
 <script>
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
+    });
+
+    $('.like').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/likemovie/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_liked) {
+                    $("#like-" + id).attr('title', 'Remove from favorite list');                    
+                    $("#icon-like-" + id).attr("class", "fa fa-thumbs-up");
+                }
+                else
+                {
+                    $("#like-" + id).attr('title', 'Add to favorite list');                          
+                    $("#icon-like-" + id).attr("class", "fa fa-thumbs-o-up");
+                }
+            }
+        })
+    });
+
+    $('.watched').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/addtowatched/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_watched) {
+                    $("#watched-" + id).attr('title', 'Remove from watched list');                    
+                    $("#icon-watched-" + id).attr("class", "fa fa-check-circle");
+                }
+                else
+                {
+                    $("#watched-" + id).attr('title', 'Add to watched list');                          
+                    $("#icon-watched-" + id).attr("class", "fa fa-check-circle-o");
+                }
+            }
+        })
+    });
+
+    $('.watchlist').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/addtowatchlist/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_added) {
+                    $("#watchlist-" + id).attr('title', 'Remove from watchlist');                    
+                    $("#icon-watchlist-" + id).attr("class", "fa fa-plus-square");
+                }
+                else
+                {
+                    $("#watchlist-" + id).attr('title', 'Add to watchlist');                          
+                    $("#icon-watchlist-" + id).attr("class", "fa fa-plus-square-o");
+                }
+            }
+        })
     });
 </script>
 {% endblock %}

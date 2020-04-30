@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_tags %}
 {% block title %}
 {{ movie.name }}
 {% endblock %}
@@ -102,22 +102,22 @@
         </div>       
     </div>
     <div id="action" class="m-3 border rounded d-flex justify-content-around text-center">             
-        <a href="#" class="w-100">
-            <i class="fa fa-thumbs-o-up"></i>
+        <div id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
+            <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
             <p class="m-0">968</p>
-        </a>
-        <a href="#" class="w-100">
-            <i class="fa fa-plus-circle"></i>
-            <p class="m-0">Add to watched</p>
-        </a>
-        <a href="#" class="w-100">
-            <i class="fa fa-list"></i>
-            <p class="m-0">Add to watchlist</p>
-        </a>
-        <a href="#" class="w-100">
+        </div>
+        <div id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
+            <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
+            <p class="m-0">2374</p>
+        </div>
+        <div id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
+            <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
+            <p class="m-0">2549</p>
+        </div>
+        <div class="w-100">
             <i class="fa fa-star-o"></i>
-            <p class="m-0">Give rating</p>
-        </a>
+            <p class="m-0">{{ movie.rating }}</p>
+        </div>
     </div>
     <div id="comments" class="m-3 p-3 border rounded">
         <div class="row">
@@ -183,6 +183,79 @@
 </div>
 {% endblock %}
 
-
 {% block javascript %}
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+
+    $('#like').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/likemovie/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_liked) {
+                    $("#like").attr('title', 'Remove from favorite list');                    
+                    $("#icon-like").attr("class", "fa fa-thumbs-up");
+                }
+                else
+                {
+                    $("#like").attr('title', 'Add to favorite list');                          
+                    $("#icon-like").attr("class", "fa fa-thumbs-o-up");
+                }
+            }
+        })
+    });
+
+    $('#watched').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/addtowatched/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_watched) {
+                    $("#watched").attr('title', 'Remove from watched list');                    
+                    $("#icon-watched").attr("class", "fa fa-check-circle");
+                }
+                else
+                {
+                    $("#watched").attr('title', 'Add to watched list');                          
+                    $("#icon-watched").attr("class", "fa fa-check-circle-o");
+                }
+            }
+        })
+    });
+
+    $('#watchlist').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/addtowatchlist/",
+            data: {
+                movie_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_added) {
+                    $("#watchlist").attr('title', 'Remove from watchlist');                    
+                    $("#icon-watchlist").attr("class", "fa fa-plus-square");
+                }
+                else
+                {
+                    $("#watchlist").attr('title', 'Add to watchlist');                          
+                    $("#icon-watchlist").attr("class", "fa fa-plus-square-o");
+                }
+            }
+        })
+    });
+</script>
 {% endblock %}

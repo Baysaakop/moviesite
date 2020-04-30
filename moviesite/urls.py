@@ -11,6 +11,10 @@ urlpatterns = [
     path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
     path('artistlist/', views.artistlist, name='artistlist'),
     path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
+    ## ACTION
+    path('likemovie/', views.likeMovie, name='likemovie'),
+    path('addtowatched/', views.addToWatched, name='addtowatched'),
+    path('addtowatchlist/', views.addToWatchlist, name='addtowatchlist'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),

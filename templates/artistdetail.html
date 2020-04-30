@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/actordetail.css' %}">
+<link rel="stylesheet" href="{% static 'css/moviedetail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -58,12 +58,6 @@
                                 </td>
                             </tr>          
                             <tr>
-                                <th>Net worth</th>
-                                <td>
-                                    $75.5m
-                                </td>
-                            </tr>
-                            <tr>
                                 <th>Awards</th>
                                 <td>
                                     <a href="#">Awards list</a>
@@ -74,6 +68,14 @@
                                 <td>72.8K</td>
                             </tr>                          
                         </table> 
+                        <div id="action" class="d-flex justify-content-start p-0 text-center">
+                            <a href="#" class="border" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Follow">
+                                <i class="fa fa-user-plus fa-fw"></i> Follow
+                            </a>
+                            <a href="#" class="border" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Give a rating">
+                                <i class="fa fa-star-o fa-fw"></i> Give rating
+                            </a>
+                        </div> 
                     </div>
                 </div>  
             </div>

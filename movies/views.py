@@ -1,6 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, Http404, JsonResponse
+from datetime import datetime
+from django.contrib.auth.models import User
 from django.db.models import Q
+from django.conf import settings
 from .models import Occupation, Staff, Genre, Movie, Profile, MovieRating
 
 def home(request):
@@ -10,14 +15,22 @@ def is_valid_queryparam(param):
     return param != '' and param is not None
 
 def profile(request):
-    profile = Profile.objects.get(user=request.user)
-    return render(request, 'profile.html', {'profile': profile})
+    profile = Profile.objects.get(user=request.user)  
+    favoritelist = profile.liked_movies.order_by('name')  
+    watchedlist = profile.watchedlist.order_by('name')
+    watchlist = profile.watchlist.order_by('name')
+    context = {
+        'profile': profile,
+        'favoritelist': favoritelist,
+        'watchedlist': watchedlist,
+        'watchlist': watchlist
+    }
+    return render(request, 'profile.html', context)
 
 def movielist(request):
     qs = Movie.objects.all().order_by('-updated_at')
     genres = Genre.objects.all().order_by('name')
     name = request.GET.get('name')
-    # actor_contains_query = request.GET.get('actor_contains')
     rating = request.GET.get('rating')
     release_date = request.GET.get('release_date')
     genrename = request.GET.get('genrename')
@@ -25,9 +38,6 @@ def movielist(request):
 
     if is_valid_queryparam(name):
         qs = qs.filter(name__icontains=name)
-
-    # elif is_valid_queryparam(actor_contains_query):
-    #     qs = qs.filter(cast__name__icontains=actor_contains_query).distinct()
 
     if is_valid_queryparam(rating):        
         qs = qs.filter(rating__gte=rating)
@@ -71,6 +81,10 @@ def movielist(request):
     except EmptyPage:
         qs = paginator.page(paginator.num_pages)
 
+    profile = None
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+
     context = {
         'queryset': qs,
         'genres': genres,
@@ -79,15 +93,18 @@ def movielist(request):
         'release_date': release_date,
         'genrename': genrename,
         'sortby': sortby,
-        'count': count
+        'count': count,
+        'profile': profile
     }
     return render(request, 'movielist.html', context)
 
 
 def moviedetail(request, pk):
     movie = Movie.objects.get(pk=pk)
+    profile = Profile.objects.get(user=request.user)
     context = {
-        'movie': movie
+        'movie': movie,
+        'profile': profile
     }
     return render(request, 'moviedetail.html', context)
 
@@ -142,4 +159,76 @@ def artistdetail(request, pk):
         'movies_as_director': movies_as_director,
     }
     return render(request, 'artistdetail.html', context)    
-    
+
+# ACTIONS
+@login_required
+def likeMovie(request):
+    if request.method == 'GET':
+        is_liked = False
+        user = request.user
+        movie_id = request.GET.get('movie_id')
+        movie = Movie.objects.get(pk=movie_id)
+        profile = Profile.objects.get(user=user)
+        result = profile.liked_movies.filter(pk=movie_id).first()        
+        if result is None:
+            profile.liked_movies.add(movie)
+            is_liked = True
+        else:
+            profile.liked_movies.remove(movie)
+            is_liked = False
+            
+        data = {
+            'is_liked': is_liked
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")
+
+@login_required
+def addToWatched(request):
+    if request.method == 'GET':
+        is_watched = False
+        user = request.user
+        movie_id = request.GET.get('movie_id')
+        movie = Movie.objects.get(pk=movie_id)
+        profile = Profile.objects.get(user=user)
+        result = profile.watchedlist.filter(pk=movie_id).first()        
+        if result is None:
+            profile.watchedlist.add(movie)
+            is_watched = True
+        else:
+            profile.watchedlist.remove(movie)
+            is_watched = False
+        
+        data = {
+            'is_watched': is_watched
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")
+
+@login_required
+def addToWatchlist(request):
+    if request.method == 'GET':
+        is_added = False
+        user = request.user
+        movie_id = request.GET.get('movie_id')
+        movie = Movie.objects.get(pk=movie_id)
+        profile = Profile.objects.get(user=user)
+        result = profile.watchlist.filter(pk=movie_id).first()        
+        if result is None:
+            profile.watchlist.add(movie)
+            is_added = True
+        else:
+            profile.watchlist.remove(movie)
+            is_added = False
+        
+        data = {
+            'is_added': is_added
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")        
