@@ -102,9 +102,15 @@ def movielist(request):
 def moviedetail(request, pk):
     movie = Movie.objects.get(pk=pk)
     profile = Profile.objects.get(user=request.user)
+    total_likes = Profile.objects.filter(liked_movies=movie).count()
+    total_watched = Profile.objects.filter(watchedlist=movie).count()
+    total_watchlist = Profile.objects.filter(watchlist=movie).count()
     context = {
         'movie': movie,
-        'profile': profile
+        'profile': profile,
+        'total_likes': total_likes,
+        'total_watched': total_watched,
+        'total_watchlist': total_watchlist
     }
     return render(request, 'moviedetail.html', context)
 

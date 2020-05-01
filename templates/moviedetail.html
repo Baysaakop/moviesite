@@ -104,15 +104,15 @@
     <div id="action" class="m-3 border rounded d-flex justify-content-around text-center">             
         <div id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
-            <p class="m-0">968</p>
+            <p id="count-like" class="m-0">{{ total_likes }}</p>
         </div>
         <div id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
-            <p class="m-0">2374</p>
+            <p id="count-watched" class="m-0">{{ total_watched }}</p>
         </div>
         <div id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
-            <p class="m-0">2549</p>
+            <p id="count-watchlist" class="m-0">{{ total_watchlist }}</p>
         </div>
         <div class="w-100">
             <i class="fa fa-star-o"></i>
@@ -199,14 +199,18 @@
             },
             success: function(data)
             {
+                var text = $('#count-like').text();
+                var count = parseInt(text);
                 if (data.is_liked) {
                     $("#like").attr('title', 'Remove from favorite list');                    
                     $("#icon-like").attr("class", "fa fa-thumbs-up");
+                    $("#count-like").text((count + 1).toString());
                 }
                 else
                 {
                     $("#like").attr('title', 'Add to favorite list');                          
                     $("#icon-like").attr("class", "fa fa-thumbs-o-up");
+                    $("#count-like").text((count - 1).toString());
                 }
             }
         })
@@ -222,14 +226,18 @@
             },
             success: function(data)
             {
+                var text = $('#count-watched').text();
+                var count = parseInt(text);
                 if (data.is_watched) {
                     $("#watched").attr('title', 'Remove from watched list');                    
                     $("#icon-watched").attr("class", "fa fa-check-circle");
+                    $("#count-watched").text((count + 1).toString());
                 }
                 else
                 {
                     $("#watched").attr('title', 'Add to watched list');                          
                     $("#icon-watched").attr("class", "fa fa-check-circle-o");
+                    $("#count-watched").text((count - 1).toString());
                 }
             }
         })
@@ -245,14 +253,18 @@
             },
             success: function(data)
             {
+                var text = $('#count-watchlist').text();
+                var count = parseInt(text);
                 if (data.is_added) {
                     $("#watchlist").attr('title', 'Remove from watchlist');                    
                     $("#icon-watchlist").attr("class", "fa fa-plus-square");
+                    $("#count-watchlist").text((count + 1).toString());
                 }
                 else
                 {
                     $("#watchlist").attr('title', 'Add to watchlist');                          
                     $("#icon-watchlist").attr("class", "fa fa-plus-square-o");
+                    $("#count-watchlist").text((count - 1).toString());
                 }
             }
         })
