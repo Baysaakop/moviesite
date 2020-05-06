@@ -31,7 +31,7 @@
                                 <th>Genres</th>
                                 <td>
                                     {% for genre in movie.genre.all %}
-                                    {{ genre.name }}  
+                                    {{ genre.name }} |
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -91,43 +91,83 @@
     </div>
     <div id="about" class="m-3 p-3 border rounded">     
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h5>Plot:</h5>        
                 <p>{{ movie.plot }}</p>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <h5>Trailer:</h5>        
                 <iframe width="100%" height="240" src="https://www.youtube.com/embed/LoebZZ8K5N0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>       
     </div>
-    <div id="action" class="m-3 border rounded d-flex justify-content-around text-center">             
+    <div id="action" class="m-3 border rounded d-flex flex-column flex-md-row justify-content-around text-center">   
+        {% if profile is None %}
+        <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
+            <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
+            <span id="count-like">{{ total_likes }}</span>
+            <p class="m-0">Like</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watched list">
+            <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
+            <span id="count-watched">{{ total_watched }}</span>
+            <p class="m-0">Watched list</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
+            <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
+            <span id="count-watchlist">{{ total_watchlist }}</span>
+            <p class="m-0">Watchlist</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
+            <i class="fa fa-star-o"></i>
+            <span id="average-rating">{{ movie.rating }}</span>
+            <p class="m-0">Rating</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
+            <i class="fa fa-comment-o"></i>
+            <span id="count-comment">4</span>
+            <p class="m-0">Comment</p>
+        </a>
+        {% else %}                        
         <div id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
-            <p id="count-like" class="m-0">{{ total_likes }}</p>
+            <span id="count-like">{{ total_likes }}</span>
+            <p class="m-0">Like</p>
         </div>
         <div id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
-            <p id="count-watched" class="m-0">{{ total_watched }}</p>
+            <span id="count-watched">{{ total_watched }}</span>
+            <p class="m-0">Watched list</p>
         </div>
         <div id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
             <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
-            <p id="count-watchlist" class="m-0">{{ total_watchlist }}</p>
+            <span id="count-watchlist">{{ total_watchlist }}</span>
+            <p class="m-0">Watchlist</p>
         </div>
-        <div class="w-100">
+        <div id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
             <i class="fa fa-star-o"></i>
-            <p class="m-0">{{ movie.rating }}</p>
+            <span id="average-rating">{{ movie.rating }}</span>
+            <p class="m-0">Rating</p>
         </div>
+        <div id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
+            <i class="fa fa-comment-o"></i>
+            <span id="count-comment">4</span>
+            <p class="m-0">Comment</p>
+        </div>
+        {% endif %}
     </div>
     <div id="comments" class="m-3 p-3 border rounded">
-        <div class="row">
-            <div class="col-12 col-md-3 pl-3">                
-                <p>127 comments</p>                
+        <div class="row px-3 top">
+            <div class="col-4 col-md-2">                
+                <span>4 comments</span>                
+            </div>            
+            <div class="col-4 col-md-2">
+                <span>{{ movie.views }} views</span>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-4 col-md-8 text-md-right">
                 <div class="dropdown">
                     <button type="button" class="dropdown-toggle border-0 bg-transparent" data-toggle="dropdown">
-                        Sort By
+                        <span>Sort By</span>
                     </button>
                     <div class="dropdown-menu">
                         <a href="#" class="dropdown-item">Top comments</a>
@@ -135,48 +175,96 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-3 text-right">
-                <p>{{ movie.views }} views</p>
-            </div>
         </div>
         <hr class="m-0">
-        <!-- <div class="media p-3">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar5.png" alt="Jessie Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        <div class="media p-3 border-bottom">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar5.png" alt="Jessie Doe" class="mr-3 mt-3 rounded-circle">
             <div class="media-body">
                 <form action="." class="was-invalidated">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
-                        <input type="text" class="form-control" id="usercomment" placeholder="Leave comment" name="usercomment" required>
+                    <div class="form-group m-0">                                                                      
+                        <textarea class="form-control" rows="3" id="usercomment" placeholder="Write a comment..." name="usercomment" required></textarea>
+                    </div>
+                    <div id="commentbuttons" class="form-group mt-2 d-flex justify-content-end">
+                        {% if profile is None %}
+                        <a href="{% url 'account_login' %}" class="btn btn-primary mr-2">Comment</a>
+                        {% else %}
+                        <button type="submit" class="btn btn-primary mr-2">Comment</button>                        
+                        {% endif %}
+                        <button class="btn btn-danger">Cancel</button>
                     </div>
                 </form>               
             </div>
-        </div> -->
-        <div class="media p-3">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        </div>
+        <div class="media p-3 border-bottom">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle">
             <div class="media-body">
-                <p>John Doe <small><i>Posted on February 19, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+                <p class="m-0 p-0">John Doe <small><i>Posted on February 19, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>    
+                <div class="commentactions d-flex justify-content-start">
+                    <div class="like" style="width: 50px;" title="Like">
+                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 13
+                    </div>
+                    <div class="dislike" style="width: 50px;" title="Dislike">
+                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 2
+                    </div>
+                    <div class="reply" style="width: 50px;" title="Reply">
+                        <i class="fa fa-reply" style="font-size: 18px;"></i> 1
+                    </div>
+                </div>            
                 <div class="media p-3">
-                    <img src="https://www.w3schools.com/bootstrap4/img_avatar4.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle" style="width:45px;">
+                    <img src="https://www.w3schools.com/bootstrap4/img_avatar4.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle">
                     <div class="media-body">
-                        <p>Jane Doe <small><i>Posted on February 20 2020</i></small></p>
+                        <p class="m-0 p-0">Jane Doe <small><i>Posted on February 20 2020</i></small></p>
                         <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                        
+                        <div class="commentactions d-flex justify-content-start">
+                            <div class="like" style="width: 50px;" title="Like">
+                                <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 3
+                            </div>
+                            <div class="dislike" style="width: 50px;" title="Dislike">
+                                <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 1
+                            </div>
+                            <div class="reply" style="width: 50px;" title="Reply">
+                                <i class="fa fa-reply" style="font-size: 18px;"></i> 0
+                            </div>
+                        </div>   
                     </div>
                 </div>  
             </div>
         </div>
-        <div class="media p-3">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar2.png" alt="Jason Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        <div class="media p-3 border-bottom">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar2.png" alt="Jason Doe" class="mr-3 mt-3 rounded-circle">
             <div class="media-body">
-                <p>Jason Doe <small><i>Posted on February 18, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+                <p class="m-0 p-0">Jason Doe <small><i>Posted on February 18, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
+                <div class="commentactions d-flex justify-content-start">
+                    <div class="like" style="width: 50px;" title="Like">
+                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 6
+                    </div>
+                    <div class="dislike" style="width: 50px;" title="Dislike">
+                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 2
+                    </div>
+                    <div class="reply" style="width: 50px;" title="Reply">
+                        <i class="fa fa-reply" style="font-size: 18px;"></i> 0
+                    </div>
+                </div>                 
             </div>
         </div>
-        <div class="media p-3">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" alt="Jack Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+        <div class="media p-3 border-bottom">
+            <img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" alt="Jack Doe" class="mr-3 mt-3 rounded-circle">
             <div class="media-body">
-                <p>Jack Doe <small><i>Posted on February 17, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                
+                <p class="m-0 p-0">Jack Doe <small><i>Posted on February 17, 2020</i></small></p>
+                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>  
+                <div class="commentactions d-flex justify-content-start">
+                    <div class="like" style="width: 50px;" title="Like">
+                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 2
+                    </div>
+                    <div class="dislike" style="width: 50px;" title="Dislike">
+                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 0
+                    </div>
+                    <div class="reply" style="width: 50px;" title="Reply">
+                        <i class="fa fa-reply" style="font-size: 18px;"></i> 0
+                    </div>
+                </div>               
             </div>
         </div>
     </div>
@@ -269,5 +357,9 @@
             }
         })
     });
+
+    $('#comment').click(function () {
+        $('#usercomment').focus();
+    })
 </script>
 {% endblock %}

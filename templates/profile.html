@@ -21,7 +21,7 @@ Profile
             <h4 class="d-block">Profile</h4>    
             <a href="#collapseInfo" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
         </div>    
-        <div id="collapseInfo" class="collapse show" data-parent="#profile">
+        <div id="collapseInfo" class="collapse show table-responsive" data-parent="#profile">
             <table class="table">
                 <tr>
                     <td><strong>Email</strong></td>
@@ -48,7 +48,7 @@ Profile
     </div> 
     <div id="likelist" class="m-3 p-3 border rounded">        
         <div class="d-flex justify-content-between align-items-center">
-            <h4>Favorite list</h4>    
+            <h4>Favorite list: {{ favoritelist.count }}</h4>    
             <a href="#collapseLikelist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
         </div>   
         <div id="collapseLikelist" class="collapse hide" data-parent="#profile">
@@ -86,7 +86,7 @@ Profile
     </div> 
     <div id="watchedlist" class="m-3 p-3 border rounded">        
         <div class="d-flex justify-content-between align-items-center">
-            <h4>Watched list</h4>    
+            <h4>Watched list {{ watchedlist.count }}</h4>    
             <a href="#collapseWatchedlist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
         </div>  
         <div id="collapseWatchedlist" class="collapse hide" data-parent="#profile">
@@ -124,7 +124,7 @@ Profile
     </div> 
     <div id="watchlist" class="m-3 p-3 border rounded">        
         <div class="d-flex justify-content-between align-items-center">
-            <h4>Watchlist</h4>    
+            <h4>Watchlist {{ watchlist.count }}</h4>    
             <a href="#collapseWatchlist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
         </div>  
         <div id="collapseWatchlist" class="collapse hide" data-parent="#profile">

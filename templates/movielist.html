@@ -97,8 +97,8 @@ Movies
                                 <p>Views:   {{ movie.views }}</p>
                             </div>
                         </a>
-                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }}">
-                            <p class="card-title">{{ movie.name }}</p>
+                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
+                            <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
                         </a>                                                
                         <div class="d-flex justify-content-start p-0 text-center">
                             {% if profile is None %}

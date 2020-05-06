@@ -72,7 +72,7 @@ def movielist(request):
 
     count = qs.count()
     page = request.GET.get('page', 1)
-    paginator = Paginator(qs, 36)
+    paginator = Paginator(qs, 60)
 
     try:
         qs = paginator.page(page)
@@ -100,11 +100,13 @@ def movielist(request):
 
 
 def moviedetail(request, pk):
-    movie = Movie.objects.get(pk=pk)
-    profile = Profile.objects.get(user=request.user)
+    movie = Movie.objects.get(pk=pk)    
     total_likes = Profile.objects.filter(liked_movies=movie).count()
     total_watched = Profile.objects.filter(watchedlist=movie).count()
     total_watchlist = Profile.objects.filter(watchlist=movie).count()
+    profile = None
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
     context = {
         'movie': movie,
         'profile': profile,
@@ -134,7 +136,7 @@ def artistlist(request):
 
     count = qs.count()
     page = request.GET.get('page', 1)
-    paginator = Paginator(qs, 36)
+    paginator = Paginator(qs, 60)
 
     try:
         qs = paginator.page(page)

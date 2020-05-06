@@ -71,7 +71,7 @@
                     </li>                                   
                 </ul>    
                 <ul class="navbar-nav right text-center">
-                    <form class="form-inline mr-3" action="." >         
+                    <!-- <form class="form-inline mr-3" action="." >         
                         <div class="input-group" id="searchbyname">                       
                             <input class="form-control py-1 border-right-0 border" id="search" type="search" name="search" placeholder="Search..." />
                             <a href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
@@ -80,16 +80,15 @@
                                 </div>
                             </a>
                         </div>
-                    </form>
-                    <!-- <li class="nav-item">                
-                        <input type="text" class="p-1" id="search" name="search" placeholder="Search..." />
-                        <a class="search p-1" href="#">
-                            <i class="fa fa-search" style="font-size: 24px;"></i>
+                    </form> -->
+                    <li class="nav-item">                                        
+                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="search" href="#" title="Search">
+                            <i class="fa fa-search" style="font-size: 22px;"></i>
                         </a>
-                    </li> -->
-                    <li class="nav-item dropdown mr-3">
-                        <a class="dropdown-toggle py-2" id="notification" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell-o" style="font-size: 24px;"></i>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="Search">
+                            <i class="fa fa-bell" style="font-size: 20px;"></i>
                         </a>
                         <div class="dropdown-menu py-2">
                             <a class="dropdown-item" href="#">News 1</a>
@@ -97,10 +96,29 @@
                             <a class="dropdown-item" href="#">News 3</a>
                         </div>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="help" data-toggle="dropdown" href="#" title="Help"> 
+                            <i class="fa fa-question-circle" style="font-size: 24px;"></i>
+                        </a>
+                        <div class="dropdown-menu py-2">
+                            <a class="dropdown-item" href="#">Help</a>
+                            <a class="dropdown-item" href="#">About us</a>
+                            <a class="dropdown-item" href="#">Q&A</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="language" data-toggle="dropdown" href="#" title="Language">
+                            <i class="fa fa-globe" style="font-size: 22px;"></i>
+                        </a>
+                        <div class="dropdown-menu py-2">
+                            <a class="dropdown-item" href="#">English</a>
+                            <a class="dropdown-item" href="#">Mongolian</a>                            
+                        </div>
+                    </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="dropdown-toggle" id="account" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user-circle-o" style="font-size: 24px;"></i>
+                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="account" data-toggle="dropdown" href="#" title="Account">
+                            <i class="fa fa-user-circle" style="font-size: 22px;"></i>
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
@@ -111,7 +129,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
                     </li>                                 
-                    {% endif %}
+                    {% endif %}                    
                 </ul>
             </div>  
         </div>
@@ -120,7 +138,7 @@
     {% block content %}
     {% endblock %}        
     
-    <div class="jumbotron text-center" style="margin-bottom:0">
+    <div id="footer" class="jumbotron text-center" style="margin-bottom:0">
         <p>Footer</p>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
