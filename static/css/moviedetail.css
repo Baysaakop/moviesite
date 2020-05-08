@@ -1,4 +1,4 @@
-#action .fa {
+#action_section .fa {
     padding: 10px;
     font-size: 20px;
     width: 40px;
@@ -6,58 +6,84 @@
     text-decoration: none;    
 }
 
-#action a,
-#action div {
+#action_section a,
+#action_section div {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-#action a:hover,
-#action div:hover {
+#action_section a:hover,
+#action_section div:hover {
     background: #dedede;   
 }
 
-#comments .top span {
+#comment_section .top span {
     font-size: 16px;
 }
 
-.media img {
-    width: 50px;
+#comment_section .card .card-img {
+    width: 100px;
+    border-radius: 50%;
 }
 
-.media .media-body .commentactions div {
-    color: black;
-    text-decoration: none;
+#comment_section #allcomments .commentactions div {
     cursor: pointer;
-    padding: 5px;
+    padding: 3px;
+    width: 75px;
 }
 
-.media .media-body .commentactions div:hover {
-    background: #dedede;   
+#comment_section #allcomments .commentactions i {
+    font-size: 18px;
+}
+
+#comment_section #allcomments .commentactions div:hover {
+    background: #dedede;
 }
 
 @media screen and (max-width:576px) {
-    #action a {
+    #action_section a {
         height: 50px;
     }
 
-    #action a p {
+    #action_section a p {
         visibility: hidden;
     }
 
-    #action .fa {
+    #action_section .fa {
         font-size: 26px;
         padding: 12px;    
         width: 50px;
         height: 50px;    
     }
 
-    #comments .top span {
+    #comment_section .top span {
         font-size: 12px;
     }
 
-    .media img {
-        width: 30px;
+    #comment_section .card .card-img {
+        display: none;
+    }    
+
+    #allcomments .comment_username {
+        font-size: 12px;
+    }
+
+    #allcomments .comment_datetime,
+    #allcomments .comment_text {
+        font-size: 11px;
+    }
+
+    #comment_section #allcomments .commentactions div {
+        width: 40px;
+        font-size: 12px;
+    } 
+    
+    #comment_section #allcomments .commentactions i {
+        font-size: 12px;
+    } 
+
+    #comment_section #commentbuttons .btn {
+        font-size: 12px;
     }
 }

@@ -1,0 +1,13 @@
+- Comment reply
+- Comment like, dislike
+- Movie rating
+- Admin panel /Movie, Artist - CRUD/
+- Artist list page
+- Artist detail page
+- Home page
+- Series page
+- Search page
+- News page
+- Language selection
+- Help page
+- Notificatio page

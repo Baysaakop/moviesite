@@ -15,6 +15,7 @@ urlpatterns = [
     path('likemovie/', views.likeMovie, name='likemovie'),
     path('addtowatched/', views.addToWatched, name='addtowatched'),
     path('addtowatchlist/', views.addToWatchlist, name='addtowatchlist'),
+    path('postcomment/', views.postComment, name='postcomment'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),

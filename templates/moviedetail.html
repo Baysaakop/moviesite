@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags %}
+{% load static custom_tags humanize %}
 {% block title %}
 {{ movie.name }}
 {% endblock %}
@@ -13,17 +13,17 @@
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">Movie List</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">Films</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ movie.name }}</li>
         </ol>
     </nav> 
-    <div id="info" class="m-3 p-3 border rounded">    
+    <div id="info_section" class="m-3 p-3 border rounded">    
         <div class="row">
             <div class="col-md-3">
                 <img class="movie-img rounded" src="{{ movie.image }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
             </div>
             <div class="col-md-9">
-                <h4>{{ movie.name }}</h4>
+                <h4 class="mt-3">{{ movie.name }}</h4>
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <table class="table table-striped" style="font-size: 13px;">                
@@ -89,7 +89,7 @@
             </div>
         </div>
     </div>
-    <div id="about" class="m-3 p-3 border rounded">     
+    <div id="about_section" class="m-3 p-3 border rounded">     
         <div class="row">
             <div class="col-md-6">
                 <h5>Plot:</h5>        
@@ -101,7 +101,7 @@
             </div>
         </div>       
     </div>
-    <div id="action" class="m-3 border rounded d-flex flex-column flex-md-row justify-content-around text-center">   
+    <div id="action_section" class="m-3 border rounded d-flex flex-column flex-md-row justify-content-around text-center">   
         {% if profile is None %}
         <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
             <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
@@ -151,15 +151,15 @@
         </div>
         <div id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
             <i class="fa fa-comment-o"></i>
-            <span id="count-comment">4</span>
+            <span id="count-comment">{{ comments.count }}</span>
             <p class="m-0">Comment</p>
         </div>
         {% endif %}
     </div>
-    <div id="comments" class="m-3 p-3 border rounded">
+    <div id="comment_section" class="m-3 p-3 border rounded">
         <div class="row px-3 top">
             <div class="col-4 col-md-2">                
-                <span>4 comments</span>                
+                <span id="commentscount">{{ comments.count }} comments</span>                
             </div>            
             <div class="col-4 col-md-2">
                 <span>{{ movie.views }} views</span>
@@ -176,97 +176,69 @@
                 </div>
             </div>
         </div>
-        <hr class="m-0">
-        <div class="media p-3 border-bottom">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar5.png" alt="Jessie Doe" class="mr-3 mt-3 rounded-circle">
-            <div class="media-body">
-                <form action="." class="was-invalidated">
-                    <div class="form-group m-0">                                                                      
-                        <textarea class="form-control" rows="3" id="usercomment" placeholder="Write a comment..." name="usercomment" required></textarea>
+        <hr />        
+        <div class="card mb-2">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" alt="profile_picture" class="card-img">                        
                     </div>
-                    <div id="commentbuttons" class="form-group mt-2 d-flex justify-content-end">
-                        {% if profile is None %}
-                        <a href="{% url 'account_login' %}" class="btn btn-primary mr-2">Comment</a>
-                        {% else %}
-                        <button type="submit" class="btn btn-primary mr-2">Comment</button>                        
-                        {% endif %}
-                        <button class="btn btn-danger">Cancel</button>
-                    </div>
-                </form>               
-            </div>
-        </div>
-        <div class="media p-3 border-bottom">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle">
-            <div class="media-body">
-                <p class="m-0 p-0">John Doe <small><i>Posted on February 19, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>    
-                <div class="commentactions d-flex justify-content-start">
-                    <div class="like" style="width: 50px;" title="Like">
-                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 13
-                    </div>
-                    <div class="dislike" style="width: 50px;" title="Dislike">
-                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 2
-                    </div>
-                    <div class="reply" style="width: 50px;" title="Reply">
-                        <i class="fa fa-reply" style="font-size: 18px;"></i> 1
-                    </div>
-                </div>            
-                <div class="media p-3">
-                    <img src="https://www.w3schools.com/bootstrap4/img_avatar4.png" alt="Jane Doe" class="mr-3 mt-3 rounded-circle">
-                    <div class="media-body">
-                        <p class="m-0 p-0">Jane Doe <small><i>Posted on February 20 2020</i></small></p>
-                        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>                        
-                        <div class="commentactions d-flex justify-content-start">
-                            <div class="like" style="width: 50px;" title="Like">
-                                <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 3
+                    <div class="col-md-10">         
+                        <form id="formcomment" action="." class="was-invalidated" method="GET">
+                            {% csrf_token %}
+                            <div class="form-group">                                                                      
+                                <textarea class="form-control" rows="3" id="textcomment" placeholder="Write a comment..." name="textcomment" required></textarea>
                             </div>
-                            <div class="dislike" style="width: 50px;" title="Dislike">
-                                <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 1
+                            <div id="commentbuttons" class="form-group d-flex justify-content-end mb-0">
+                                {% if profile is None %}
+                                <a href="{% url 'account_login' %}" class="btn btn-primary mr-2">Comment</a>
+                                {% else %}
+                                <button type="submit" class="btn btn-primary mr-2">Comment</button>                        
+                                {% endif %}
+                                <button id="cancel" class="btn btn-danger">Cancel</button>
                             </div>
-                            <div class="reply" style="width: 50px;" title="Reply">
-                                <i class="fa fa-reply" style="font-size: 18px;"></i> 0
+                        </form>           
+                    </div>                        
+                </div>
+            </div>
+        </div>
+        <div id="allcomments">
+            {% for comment in comments %}
+            <div class="card mb-2">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-md-2 text-center">
+                            <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" alt="profile_picture" class="card-img">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="row mb-3">
+                                <div class="col-4 col-md-6">
+                                    <strong class="comment_username text-muted">{{ comment.user.username }}</strong>
+                                </div>
+                                <div class="col-8 col-md-6 text-right">
+                                    <small class="comment_datetime text-muted">
+                                        {{ comment.updated_at|naturaltime }}
+                                    </small>
+                                </div>
                             </div>
-                        </div>   
+                            <small class="comment_text">{{ comment.text_comment }}</small>
+                            <div class="commentactions d-flex justify-content-start">
+                                <div class="like" title="Like">
+                                    <i class="fa fa-chevron-up"></i> 0
+                                </div>
+                                <div class="dislike" title="Dislike">
+                                    <i class="fa fa-chevron-down"></i> 0
+                                </div>
+                                <div class="reply" title="Reply">
+                                    <i class="fa fa-reply"></i> 0
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
-                </div>  
+                </div>
             </div>
-        </div>
-        <div class="media p-3 border-bottom">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar2.png" alt="Jason Doe" class="mr-3 mt-3 rounded-circle">
-            <div class="media-body">
-                <p class="m-0 p-0">Jason Doe <small><i>Posted on February 18, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
-                <div class="commentactions d-flex justify-content-start">
-                    <div class="like" style="width: 50px;" title="Like">
-                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 6
-                    </div>
-                    <div class="dislike" style="width: 50px;" title="Dislike">
-                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 2
-                    </div>
-                    <div class="reply" style="width: 50px;" title="Reply">
-                        <i class="fa fa-reply" style="font-size: 18px;"></i> 0
-                    </div>
-                </div>                 
-            </div>
-        </div>
-        <div class="media p-3 border-bottom">
-            <img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" alt="Jack Doe" class="mr-3 mt-3 rounded-circle">
-            <div class="media-body">
-                <p class="m-0 p-0">Jack Doe <small><i>Posted on February 17, 2020</i></small></p>
-                <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>  
-                <div class="commentactions d-flex justify-content-start">
-                    <div class="like" style="width: 50px;" title="Like">
-                        <i class="fa fa-thumbs-o-up" style="font-size: 18px;"></i> 2
-                    </div>
-                    <div class="dislike" style="width: 50px;" title="Dislike">
-                        <i class="fa fa-thumbs-o-down" style="font-size: 18px;"></i> 0
-                    </div>
-                    <div class="reply" style="width: 50px;" title="Reply">
-                        <i class="fa fa-reply" style="font-size: 18px;"></i> 0
-                    </div>
-                </div>               
-            </div>
-        </div>
+            {% endfor %}
+        </div>        
     </div>
 </div>
 {% endblock %}
@@ -359,7 +331,100 @@
     });
 
     $('#comment').click(function () {
-        $('#usercomment').focus();
-    })
+        $('#textcomment').focus();
+    });
+
+    $('#formcomment').submit(function(e) {
+        e.preventDefault();
+        var movie_id = $('#like').attr("data-id");
+        var textcomment = $('#textcomment').val();
+        $.ajax({
+            type: "GET",
+            url: "/postcomment/",
+            data: {
+                movie_id: movie_id,
+                textcomment: textcomment
+            },
+            success: function(data)
+            {
+                $('#textcomment').val("");
+                $('#count-comment').text(data.count_comments);
+                $('#commentscount').text(data.count_comments + " comments");
+                var x = window.matchMedia("(max-width: 576px)");
+                if (x.matches) {
+                    $('#allcomments').prepend(
+                    '<div class="card mb-2">' +
+                        '<div class="card-body p-3">' +
+                            '<div class="row">' +
+                                '<div class="col-12">' +
+                                    '<div class="row mb-3">' +
+                                        '<div class="col-6">' +
+                                            '<strong class="text-muted" style="font-size: 12px;">' + data.username + '</strong>' +
+                                        '</div>' +
+                                        '<div class="col-6 text-right">' +
+                                            '<small class="text-muted" style="font-size: 11px;"> Just now </small>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<small style="font-size: 12px;">' + data.textcomment + '</small>' +
+                                    '<div class="commentactions d-flex justify-content-start">' +
+                                        '<div class="like" style="cursor: pointer; padding: 3px; width: 40px;" title="Like">' +
+                                            '<i class="fa fa-chevron-up" style="font-size: 12px;"></i> 0' +
+                                        '</div>' +
+                                        '<div class="dislike" style="cursor: pointer; padding: 3px; width: 40px;" title="Dislike">' +
+                                            '<i class="fa fa-chevron-down" style="font-size: 12px;"></i> 0' +
+                                        '</div>' +
+                                        '<div class="reply" style="cursor: pointer; padding: 3px; width: 40px;" title="Reply">' +
+                                            '<i class="fa fa-reply" style="font-size: 12px;"></i> 0' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +             
+                            '</div>' +
+                        '</div>' +
+                    '</div>'                   
+                    )
+                }
+                else {                                   
+                    $('#allcomments').prepend(
+                    '<div class="card mb-2">' +
+                        '<div class="card-body p-3">' +
+                            '<div class="row">' +
+                                '<div class="col-md-2 text-center">' +
+                                    '<img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" alt="profile_picture" class="card-img">' +
+                                '</div>' +
+                                '<div class="col-md-10">' +
+                                    '<div class="row mb-3">' +
+                                        '<div class="col-6">' +
+                                            '<strong class="text-muted">' + data.username + '</strong>' +
+                                        '</div>' +
+                                        '<div class="col-6 text-right">' +
+                                            '<small class="text-muted"> Just now </small>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<small>' + data.textcomment + '</small>' +
+                                    '<div class="commentactions d-flex justify-content-start">' +
+                                        '<div class="like" style="cursor: pointer; padding: 3px; width: 75px;" title="Like">' +
+                                            '<i class="fa fa-chevron-up" style="font-size: 18px;"></i> 0' +
+                                        '</div>' +
+                                        '<div class="dislike" style="cursor: pointer; padding: 3px; width: 75px;" title="Dislike">' +
+                                            '<i class="fa fa-chevron-down" style="font-size: 18px;"></i> 0' +
+                                        '</div>' +
+                                        '<div class="reply" style="cursor: pointer; padding: 3px; width: 75px;" title="Reply">' +
+                                            '<i class="fa fa-reply" style="font-size: 18px;"></i> 0' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +             
+                            '</div>' +
+                        '</div>' +
+                    '</div>'                   
+                    )
+                }
+            }
+        })
+    });
+
+    $('#cancel').click(function(e) {
+        e.preventDefault();
+        $('#textcomment').val("");
+    });
 </script>
 {% endblock %}

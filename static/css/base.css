@@ -223,30 +223,28 @@ body {
     color: #f1f1f1;
 }
 
+.navbar-dark .right .icontext {
+    display: none;
+}
+
 @media screen and (max-width:576px) {
     .navbar-dark .right .nav-item {
         justify-content: start;
-        align-items: center;
+        align-items: center;        
     }
 
-    .navbar-dark .right .nav-item #search::before {
-        content: 'Search';
+    .navbar-dark .right .icontext {
+        display: inline;
     }
 
-    .navbar-dark .right .nav-item #notification::before {
-        content: 'Notification';
+    .navbar-dark .right i {
+        display: none;
     }
-
-    .navbar-dark .right .nav-item #help::before {
-        content: 'Help';
-    }
-
-    .navbar-dark .right .nav-item #account::before {
-        content: 'Account';
-    }
-
-    .navbar-dark .right .nav-item #language::before {
-        content: 'Language';
+    
+    .navbar-dark .right .icon {  
+        color: white;   
+        padding: 0px;        
+        font-size: large;
     }
 }
 

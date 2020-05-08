@@ -80,4 +80,22 @@ class MovieRating(models.Model):
 
     def __str__(self):
         return self.user.username + " on " + self.movie.name
+
+class MovieComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    text_comment = models.TextField()        
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " on " + self.movie.name
+
+class MovieCommentReply(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    target_comment = models.ForeignKey(MovieComment, on_delete=models.CASCADE)
+    text_comment = models.TextField()
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username + " on " + self.movie.name
     

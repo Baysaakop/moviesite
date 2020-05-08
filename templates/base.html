@@ -61,7 +61,7 @@
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>  
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'movielist' %}">Movies</a>
+                        <a class="nav-link" href="{% url 'movielist' %}">Films</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Series</a>
@@ -70,7 +70,7 @@
                         <a class="nav-link" href="{% url 'artistlist' %}">Artists</a>
                     </li>                                   
                 </ul>    
-                <ul class="navbar-nav right text-center">
+                <ul class="navbar-nav right text-left text-md-center">
                     <!-- <form class="form-inline mr-3" action="." >         
                         <div class="input-group" id="searchbyname">                       
                             <input class="form-control py-1 border-right-0 border" id="search" type="search" name="search" placeholder="Search..." />
@@ -82,12 +82,14 @@
                         </div>
                     </form> -->
                     <li class="nav-item">                                        
-                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="search" href="#" title="Search">
+                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="search" href="#" title="Search">
                             <i class="fa fa-search" style="font-size: 22px;"></i>
+                            <span class="icontext">Search</span>                            
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="Search">
+                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="Notification">
+                            <span class="icontext">Notification</span>
                             <i class="fa fa-bell" style="font-size: 20px;"></i>
                         </a>
                         <div class="dropdown-menu py-2">
@@ -97,7 +99,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="help" data-toggle="dropdown" href="#" title="Help"> 
+                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="help" data-toggle="dropdown" href="#" title="Help"> 
+                            <span class="icontext">Help</span>
                             <i class="fa fa-question-circle" style="font-size: 24px;"></i>
                         </a>
                         <div class="dropdown-menu py-2">
@@ -107,7 +110,8 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="language" data-toggle="dropdown" href="#" title="Language">
+                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="language" data-toggle="dropdown" href="#" title="Language">
+                            <span class="icontext">Language</span>
                             <i class="fa fa-globe" style="font-size: 22px;"></i>
                         </a>
                         <div class="dropdown-menu py-2">
@@ -117,7 +121,8 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-center align-items-center" id="account" data-toggle="dropdown" href="#" title="Account">
+                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="account" data-toggle="dropdown" href="#" title="Account">
+                            <span class="icontext">Account</span>
                             <i class="fa fa-user-circle" style="font-size: 22px;"></i>
                         </a>
                         <div class="dropdown-menu">

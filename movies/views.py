@@ -6,7 +6,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.conf import settings
-from .models import Occupation, Staff, Genre, Movie, Profile, MovieRating
+from .models import Occupation, Staff, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply
 
 def home(request):
     return render(request, 'home.html', {})     
@@ -107,12 +107,14 @@ def moviedetail(request, pk):
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
+    comments = MovieComment.objects.filter(movie=movie).order_by('-updated_at')
     context = {
         'movie': movie,
         'profile': profile,
         'total_likes': total_likes,
         'total_watched': total_watched,
-        'total_watchlist': total_watchlist
+        'total_watchlist': total_watchlist,
+        'comments': comments
     }
     return render(request, 'moviedetail.html', context)
 
@@ -240,3 +242,28 @@ def addToWatchlist(request):
 
     else:
         return HttpResponse("Request method is not a GET")        
+
+@login_required
+def postComment(request):
+    if request.method == 'GET':
+        user = request.user
+        movie_id = request.GET.get('movie_id')
+        movie = Movie.objects.get(pk=movie_id)
+        textcomment = request.GET.get('textcomment')
+        moviecomment = MovieComment.objects.create(
+            user = user,
+            movie = movie,
+            text_comment = textcomment
+        )
+        count_comments = MovieComment.objects.filter(movie=movie).count()
+        data = {
+            'username': user.username,
+            'textcomment': textcomment,
+            #'updated_at': moviecomment.updated_at.strftime('%B %d, %Y'),
+            'updated_at': moviecomment.updated_at,
+            'count_comments': count_comments
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")

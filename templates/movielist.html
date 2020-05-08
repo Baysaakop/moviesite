@@ -13,7 +13,7 @@ Movies
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Movie List</li>
+            <li class="breadcrumb-item active" aria-current="page">Films</li>
         </ol>
     </nav>
     <form action="." class="p-3" id="filterform">
@@ -71,7 +71,7 @@ Movies
         </div>           
         <div class="form-row">                     
             <div class="form-group col-12 text-center">                                   
-                <label for="pagination">Total: {{ count }} movies</label>
+                <label for="pagination">Total: {{ count }} films</label>
                 <div id="pagination" class="d-flex justify-content-center">           
                     {% include 'includes/paginationMovies.html' %}  
                 </div>
