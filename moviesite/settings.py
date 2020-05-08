@@ -13,7 +13,7 @@ SECRET_KEY = 'no*vrg@q1dr9dgr9a8q_4snnp*_cva=#@jmg2wa_)&+qj28lq5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://mollywood.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['mollywood.herokuapp.com', '127.0.0.1']
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
