@@ -100,71 +100,114 @@
                 <iframe width="100%" height="240" src="https://www.youtube.com/embed/LoebZZ8K5N0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>       
-    </div>
-    <div id="action_section" class="m-3 border rounded d-flex flex-column flex-md-row justify-content-around text-center">   
-        {% if profile is None %}
-        <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
-            <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
-            <span id="count-like">{{ total_likes }}</span>
-            <p class="m-0">Like</p>
-        </a>
-        <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watched list">
-            <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
-            <span id="count-watched">{{ total_watched }}</span>
-            <p class="m-0">Watched list</p>
-        </a>
-        <a href="{% url 'account_login' %}" id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
-            <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
-            <span id="count-watchlist">{{ total_watchlist }}</span>
-            <p class="m-0">Watchlist</p>
-        </a>
-        <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
-            <i class="fa fa-star-o"></i>
-            <span id="average-rating">{{ movie.rating }}</span>
-            <p class="m-0">Rating</p>
-        </a>
-        <a href="{% url 'account_login' %}" id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
-            <i class="fa fa-comment-o"></i>
-            <span id="count-comment">4</span>
-            <p class="m-0">Comment</p>
-        </a>
-        {% else %}                        
-        <div id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
-            <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
-            <span id="count-like">{{ total_likes }}</span>
-            <p class="m-0">Like</p>
+    </div>    
+    <div class="m-3 p-3 border rounded">      
+        <h5>Your actions:</h5>
+        <div id="action_section" class="d-flex flex-column flex-md-row justify-content-around text-center">
+            {% if profile is None %}
+            <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
+                <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
+                <span id="count-like">{{ total_likes }}</span>
+                <p class="m-0">Like</p>
+            </a>
+            <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watched list">
+                <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
+                <span id="count-watched">{{ total_watched }}</span>
+                <p class="m-0">Watched list</p>
+            </a>
+            <a href="{% url 'account_login' %}" id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
+                <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
+                <span id="count-watchlist">{{ total_watchlist }}</span>
+                <p class="m-0">Watchlist</p>
+            </a>
+            <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
+                <i class="fa fa-star-o"></i>
+                <span id="average-rating">{{ movie.rating }}</span>
+                <p class="m-0">Rating</p>
+            </a>
+            <a href="{% url 'account_login' %}" id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
+                <i class="fa fa-comment-o"></i>
+                <span id="count-comment">4</span>
+                <p class="m-0">Comment</p>
+            </a>
+            {% else %}                        
+            <div id="like" class="w-100" data-id="{{ movie.id }}">
+                <i id="icon-like" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
+                <span id="count-like">{{ total_likes }}</span>
+                <p id="text-like" class="m-0" style="font-size: 14px;">{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}</p>
+            </div>
+            <div id="watched" class="w-100" data-id="{{ movie.id }}">
+                <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
+                <span id="count-watched">{{ total_watched }}</span>
+                <p id="text-watched" class="m-0" style="font-size: 14px;">{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}</p>
+            </div>
+            <div id="watchlist" class="w-100" data-id="{{ movie.id }}">
+                <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
+                <span id="count-watchlist">{{ total_watchlist }}</span>
+                <p id="text-watchlist" class="m-0" style="font-size: 14px;">{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}</p>
+            </div>
+            <div id="rating" class="w-100" data-toggle="modal" data-target="#modalRating">
+                <i id="icon-rating" class="{% if user_rating == 0 %}fa fa-star-o{% else %}fa fa-star{% endif %}"></i>
+                <span id="user-rating">{{ user_rating }}</span>
+                <p id="text-rating" class="m-0" style="font-size: 14px;">{% if user_rating == 0 %}Give rating{% else %}Edit rating{% endif %}</p>
+            </div>
+            <div id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
+                <i class="fa fa-comment-o"></i>
+                <span id="count-comment">{{ comments.count }}</span>
+                <p class="m-0" style="font-size: 14px;">Write comment</p>
+            </div>
+            {% endif %}
         </div>
-        <div id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
-            <i id="icon-watched" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
-            <span id="count-watched">{{ total_watched }}</span>
-            <p class="m-0">Watched list</p>
+        <div class="modal fade" id="modalRating">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Give rating on movie:</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-rating d-flex justify-content-center align-items-center flex-row-reverse">
+                            <input class="form-check-input" type="radio" id="star10" name="rating" value="10" data-id="{{ movie.id }}" />
+                            <label class="form-check-label fa fa-star" for="star10" title="10 star"></label>      
+                            <input class="form-check-input" type="radio" id="star9" name="rating" value="9" data-id="{{ movie.id }}" />
+                            <label class="form-check-label fa fa-star" for="star9" title="9 star"></label>                                              
+                            <input class="form-check-input" type="radio" id="star8" name="rating" value="8" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star8" title="8 star"></label> 
+                            <input class="form-check-input" type="radio" id="star7" name="rating" value="7" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star7" title="7 star"></label> 
+                            <input class="form-check-input" type="radio" id="star6" name="rating" value="6" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star6" title="6 star"></label>
+                            <input class="form-check-input" type="radio" id="star5" name="rating" value="5" data-id="{{ movie.id }}" />
+                            <label class="form-check-label fa fa-star" for="star5" title="5 star"></label>      
+                            <input class="form-check-input" type="radio" id="star4" name="rating" value="4" data-id="{{ movie.id }}" />
+                            <label class="form-check-label fa fa-star" for="star4" title="4 star"></label>                                              
+                            <input class="form-check-input" type="radio" id="star3" name="rating" value="3" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star3" title="3 star"></label> 
+                            <input class="form-check-input" type="radio" id="star2" name="rating" value="2" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star2" title="2 star"></label> 
+                            <input class="form-check-input" type="radio" id="star1" name="rating" value="1" data-id="{{ movie.id }}"/>
+                            <label class="form-check-label fa fa-star" for="star1" title="1 star"></label>  
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
-            <i id="icon-watchlist" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
-            <span id="count-watchlist">{{ total_watchlist }}</span>
-            <p class="m-0">Watchlist</p>
-        </div>
-        <div id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
-            <i class="fa fa-star-o"></i>
-            <span id="average-rating">{{ movie.rating }}</span>
-            <p class="m-0">Rating</p>
-        </div>
-        <div id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write a comment">
-            <i class="fa fa-comment-o"></i>
-            <span id="count-comment">{{ comments.count }}</span>
-            <p class="m-0">Comment</p>
-        </div>
-        {% endif %}
     </div>
     <div id="comment_section" class="m-3 p-3 border rounded">
         <div class="row px-3 top">
-            <div class="col-4 col-md-2">                
+            <div class="col-6 col-md-2">                
                 <span id="commentscount">{{ comments.count }} comments</span>                
             </div>            
-            <div class="col-4 col-md-2">
+            <div class="col-6 col-md-2">
                 <span>{{ movie.views }} views</span>
             </div>
-            <div class="col-4 col-md-8 text-md-right">
+            <div class="col-6 col-md-4">
+                <span id="avgrating">Avg rating: {{ movie_rating|floatformat:1|intcomma }}</span>
+            </div>
+            <div class="col-6 col-md-4 text-md-right">
                 <div class="dropdown">
                     <button type="button" class="dropdown-toggle border-0 bg-transparent" data-toggle="dropdown">
                         <span>Sort By</span>
@@ -174,7 +217,7 @@
                         <a href="#" class="dropdown-item">Newest first</a>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
         <hr />        
         <div class="card mb-2">
@@ -212,10 +255,10 @@
                         </div>
                         <div class="col-md-10">
                             <div class="row mb-3">
-                                <div class="col-4 col-md-6">
+                                <div class="col-6">
                                     <strong class="comment_username text-muted">{{ comment.user.username }}</strong>
                                 </div>
-                                <div class="col-8 col-md-6 text-right">
+                                <div class="col-6 text-right">
                                     <small class="comment_datetime text-muted">
                                         {{ comment.updated_at|naturaltime }}
                                     </small>
@@ -223,15 +266,28 @@
                             </div>
                             <small class="comment_text">{{ comment.text_comment }}</small>
                             <div class="commentactions d-flex justify-content-start">
-                                <div class="like" title="Like">
-                                    <i class="fa fa-chevron-up"></i> 0
+                                <div class="commentlike" data-id="{{ comment.id }}">
+                                    <i id="iconcommentlike-{{ comment.id }}" class="fa fa-chevron-up {% if comment|is_commentliked:user == False %} text-muted {% endif %}"></i>
+                                    <span id="commentlike-{{ comment.id }}" class="{% if comment|is_commentliked:user == False %} text-muted {% endif %}">{{ comment.commentlike.count }}</span>
                                 </div>
-                                <div class="dislike" title="Dislike">
-                                    <i class="fa fa-chevron-down"></i> 0
+                                <div class="commentdislike" data-id="{{ comment.id }}">
+                                    <i id="iconcommentdislike-{{ comment.id }}" class="fa fa-chevron-down {% if comment|is_commentdisliked:user == False %} text-muted {% endif %}"></i>
+                                    <span id="commentdislike-{{ comment.id }}" class="{% if comment|is_commentdisliked:user == False %} text-muted {% endif %}">{{ comment.commentdislike.count }}</span>
                                 </div>
-                                <div class="reply" title="Reply">
-                                    <i class="fa fa-reply"></i> 0
+                                <div class="commentreply" title="Reply" data-id="{{ comment.id }}">
+                                    <i class="fa fa-reply text-muted"></i>
+                                    <span class="text-muted">0</span>
                                 </div>
+                                <!-- {% if comment.user == user %}
+                                <div class="commentedit" data-id="{{ comment.id }}">
+                                    <i class="fa fa-edit"></i>
+                                    <span class="">Edit</span>
+                                </div>
+                                <div class="commentremove" data-id="{{ comment.id }}">
+                                    <i class="fa fa-remove"></i>
+                                    <span class="">Del</span>
+                                </div>
+                                {% endif %} -->
                             </div>
                         </div>                    
                     </div>
@@ -261,16 +317,16 @@
             {
                 var text = $('#count-like').text();
                 var count = parseInt(text);
-                if (data.is_liked) {
-                    $("#like").attr('title', 'Remove from favorite list');                    
+                if (data.is_liked) {               
                     $("#icon-like").attr("class", "fa fa-thumbs-up");
                     $("#count-like").text((count + 1).toString());
+                    $("#text-like").text("Remove from favorite list");
                 }
                 else
-                {
-                    $("#like").attr('title', 'Add to favorite list');                          
+                {                         
                     $("#icon-like").attr("class", "fa fa-thumbs-o-up");
                     $("#count-like").text((count - 1).toString());
+                    $("#text-like").text("Add to favorite list");
                 }
             }
         })
@@ -288,16 +344,16 @@
             {
                 var text = $('#count-watched').text();
                 var count = parseInt(text);
-                if (data.is_watched) {
-                    $("#watched").attr('title', 'Remove from watched list');                    
+                if (data.is_watched) {                                  
                     $("#icon-watched").attr("class", "fa fa-check-circle");
                     $("#count-watched").text((count + 1).toString());
+                    $("#text-watched").text("Remove from watched list");
                 }
                 else
-                {
-                    $("#watched").attr('title', 'Add to watched list');                          
+                {                                      
                     $("#icon-watched").attr("class", "fa fa-check-circle-o");
                     $("#count-watched").text((count - 1).toString());
+                    $("#text-watched").text("Add to watched list");
                 }
             }
         })
@@ -315,34 +371,105 @@
             {
                 var text = $('#count-watchlist').text();
                 var count = parseInt(text);
-                if (data.is_added) {
-                    $("#watchlist").attr('title', 'Remove from watchlist');                    
+                if (data.is_added) {                            
                     $("#icon-watchlist").attr("class", "fa fa-plus-square");
                     $("#count-watchlist").text((count + 1).toString());
+                    $("#text-watchlist").text("Remove from watchlist");
                 }
                 else
-                {
-                    $("#watchlist").attr('title', 'Add to watchlist');                          
+                {                                       
                     $("#icon-watchlist").attr("class", "fa fa-plus-square-o");
                     $("#count-watchlist").text((count - 1).toString());
+                    $("#text-watchlist").text("Add to watchlist");
                 }
             }
         })
+    });
+
+    $("input[name='rating']").click(function () {
+        var id = $(this).attr("data-id");
+        var rating = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/ratemovie/",
+            data: {
+                movie_id: id,
+                rating: rating
+            },
+            success: function(data)
+            {
+                $("#avgrating").text("Avg rating: " + data.average.toFixed(1).toString());
+                $("#user-rating").text(rating);
+                $("#icon-rating").attr("class", "fa fa-star");
+                $("#text-rating").text("Edit rating");
+                alert("Thanks for your review.");
+            }
+        });
     });
 
     $('#comment').click(function () {
         $('#textcomment').focus();
     });
 
+    $('.commentlike').click(function () {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            type: "GET",
+            url: "/commentlike/",
+            data: {
+                comment_id: id
+            },
+            success: function(data)
+            {
+                var text = $('#commentlike-' + id).text();
+                var count = parseInt(text);                
+                if (data.is_liked) {
+                    $('#commentlike-' + id).text((count + 1).toString());
+                    $('#iconcommentlike-' + id).attr("class", "fa fa-chevron-up");
+                }
+                else
+                {
+                    $('#commentlike-' + id).text((count - 1).toString());
+                    $('#iconcommentlike-' + id).attr("class", "fa fa-chevron-up text-muted");
+                }
+            }
+        })
+    });
+
+    $('.commentdislike').click(function () {
+        var id = $(this).attr("data-id");
+        $.ajax({
+            type: "GET",
+            url: "/commentdislike/",
+            data: {
+                comment_id: id
+            },
+            success: function(data)
+            {
+                var text = $('#commentdislike-' + id).text();
+                var count = parseInt(text);                
+                if (data.is_disliked) {
+                    $('#commentdislike-' + id).text((count + 1).toString());
+                    $('#iconcommentdislike-' + id).attr("class", "fa fa-chevron-down");
+                }
+                else
+                {
+                    $('#commentdislike-' + id).text((count - 1).toString());
+                    $('#iconcommentdislike-' + id).attr("class", "fa fa-chevron-down text-muted");
+                }
+            }
+        })
+    });
+
     $('#formcomment').submit(function(e) {
         e.preventDefault();
-        var movie_id = $('#like').attr("data-id");
+        var id = $('#like').attr("data-id");
         var textcomment = $('#textcomment').val();
         $.ajax({
             type: "GET",
             url: "/postcomment/",
             data: {
-                movie_id: movie_id,
+                movie_id: id,
                 textcomment: textcomment
             },
             success: function(data)

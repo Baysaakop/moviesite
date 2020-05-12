@@ -67,11 +67,14 @@ Artists
         {% for artist in queryset %}    
                 <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
                     <div class="card">
+                        <a class="card-img" href="{% url 'artistdetail' artist.pk %}">
+                            <img class="card-img-top" src="{% if artist.image.url is not None %} {{ artist.image.url }} {% endif %}" alt="Card image cap">
+                        </a>
                         <a class="card-body text-center" href="{% url 'artistdetail' artist.pk %}" data-toggle="tooltip" data-placement="top" title="{{ artist.name }}">
                             <p class="card-title">{{ artist.name }}</p>                            
-                            {% for occ in artist.occupation.all %}
+                            <!-- {% for occ in artist.occupation.all %}
                             <p>{{ occ.name }}</p>
-                            {% endfor %}
+                            {% endfor %} -->
                         </a>                                                
                         <div class="d-flex justify-content-start p-0 text-center">
                             <div class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Like">

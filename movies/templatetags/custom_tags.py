@@ -33,4 +33,26 @@ def is_added(movie, profile):
         if result is None:
             return False
         else:
-            return True                
+            return True          
+
+@register.filter
+def is_commentliked(comment, user):
+    if user is None:
+        return False
+    else:
+        result = comment.commentlike.filter(pk=user.pk).first()    
+        if result is None:
+            return False
+        else:
+            return True     
+
+@register.filter
+def is_commentdisliked(comment, user):
+    if user is None:
+        return False
+    else:
+        result = comment.commentdislike.filter(pk=user.pk).first()    
+        if result is None:
+            return False
+        else:
+            return True                                        

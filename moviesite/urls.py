@@ -15,7 +15,10 @@ urlpatterns = [
     path('likemovie/', views.likeMovie, name='likemovie'),
     path('addtowatched/', views.addToWatched, name='addtowatched'),
     path('addtowatchlist/', views.addToWatchlist, name='addtowatchlist'),
+    path('ratemovie/', views.rateMovie, name='ratemovie'),
     path('postcomment/', views.postComment, name='postcomment'),
+    path('commentlike/', views.commentLike, name='commentlike'),
+    path('commentdislike/', views.commentDislike, name='commentdislike'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),

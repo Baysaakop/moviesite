@@ -20,7 +20,7 @@
     <div id="info" class="m-3 p-3 border rounded">
         <div class="row">
             <div class="col-md-3">
-                <img class="artist-img rounded" src="https://image.flaticon.com/icons/svg/219/219970.svg" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+                <img class="artist-img rounded" src="{% if artist.image.url is not None %} {{ artist.image.url }} {% else %} https://image.flaticon.com/icons/svg/219/219970.svg {% endif %}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
             </div>
             <div class="col-md-9">
                 <h4>{{ artist.name }}</h4>

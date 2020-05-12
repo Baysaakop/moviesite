@@ -1,52 +1,177 @@
 {% extends 'base.html' %}
+{% load static custom_tags %}
 
 {% block title %}
 Mollywood
 {% endblock %}
 
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="jumbotron text-center" style="margin-bottom:0">
+<!-- <div class="jumbotron text-center" style="margin-bottom:0">
     <h1>My First Bootstrap 4 Page</h1>
     <p>Resize this responsive page to see the effect!</p> 
-</div>
+</div> -->
 
-<div class="container" style="margin-top:30px">
-    <div class="row">
-        <div class="col-sm-4">
-            <h2>About Me</h2>
-            <h5>Photo of me:</h5>
-            <div class="fakeimg">Fake Image</div>
-            <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-            <h3>Some Links</h3>
-            <p>Lorem ipsum dolor sit ame.</p>
-            <ul class="nav nav-pills flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <hr class="d-sm-none">
+<div class="container" style="margin-top:30px">     
+    <div id="carousel" class="carousel slide m-3 p-3" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-target="#carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel" data-slide-to="1"></li>
+            <li data-target="#carousel" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a href="{% url 'moviedetail' 238 %}">
+                    <img src="{% static 'images/batman_begins_2-wallpaper-1920x1080.jpg' %}" alt="Batman Begins" style="width: 100%; height: auto;">
+                </a>
+                <div class="carousel-caption">
+                    <h3>Batman Begins</h3>
+                    <p>Directed by Christopher Nolan</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <a href="{% url 'moviedetail' 194 %}">
+                    <img src="{% static 'images/batman_the_dark_knight_3-wallpaper-1920x1080.jpg' %}" alt="Dark Knight" style="width: 100%; height: auto;">
+                </a>
+                <div class="carousel-caption">
+                    <h3>The Dark Knight</h3>
+                    <p>Directed by Christopher Nolan</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <a href="{% url 'moviedetail' 224 %}">
+                    <img src="{% static 'images/the_dark_knight_rises_2013-wallpaper-1920x1080.jpg' %}" alt="Dark Knight Rises" style="width: 100%; height: auto;">
+                </a>
+                <div class="carousel-caption">
+                    <h3>The Dark Knight Rises</h3>
+                    <p>Directed by Christopher Nolan</p>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-8">
-            <h2>TITLE HEADING</h2>
-            <h5>Title description, Dec 7, 2017</h5>
-            <div class="fakeimg">Fake Image</div>
-            <p>Some text..</p>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-            <br>
-            <h2>TITLE HEADING</h2>
-            <h5>Title description, Sep 2, 2017</h5>
-            <div class="fakeimg">Fake Image</div>
-            <p>Some text..</p>
-            <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+        <a class="carousel-control-prev" href="#carousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    <div id="newmovies" class="m-3 p-3">
+        <div class="row">
+            <div class="col-12 col-md-10">
+                <p class="listTitle">Newly added movies:</p>
+            </div>
+            <div class="col-12 col-md-2 text-md-right">
+                <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">Show more</a>
+            </div>
+        </div>        
+        <div class="row rowlist">
+            {% for movie in newmovies %}
+            <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
+                <div class="card">
+                    <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
+                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <div class="card-img-overlay">                                
+                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
+                            <p>Rating:  {{ movie.rating }}</p>
+                            <p>Views:   {{ movie.views }}</p>
+                        </div>
+                    </a>
+                    <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
+                        <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
+                    </a>                         
+                </div>
+            </div>        
+            {% endfor %}
+        </div>
+    </div>
+    <div id="topmovies" class="m-3 p-3">
+        <div class="row">
+            <div class="col-12 col-md-10">
+                <p class="listTitle">Top rated movies:</p>
+            </div>
+            <div class="col-12 col-md-2 text-md-right">
+                <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">Show more</a>
+            </div>
+        </div>
+        <div class="row rowlist">
+            {% for movie in topratedmovies %}
+            <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
+                <div class="card">
+                    <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
+                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <div class="card-img-overlay">                                
+                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
+                            <p>Rating:  {{ movie.rating }}</p>
+                            <p>Views:   {{ movie.views }}</p>
+                        </div>
+                    </a>
+                    <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
+                        <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
+                    </a>                                                                    
+                </div>
+            </div>        
+            {% endfor %}
+        </div>
+    </div>
+    <div id="mostlikedmovies" class="m-3 p-3">
+        <div class="row">
+            <div class="col-12 col-md-10">
+                <p class="listTitle">Most liked movies:</p>
+            </div>
+            <div class="col-12 col-md-2 text-md-right">
+                <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">Show more</a>
+            </div>
+        </div>
+        <div class="row rowlist">
+            {% for movie in mostlikedmovies %}
+            <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
+                <div class="card">
+                    <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
+                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <div class="card-img-overlay">                                
+                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
+                            <p>Rating:  {{ movie.rating }}</p>
+                            <p>Views:   {{ movie.views }}</p>
+                        </div>
+                    </a>
+                    <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
+                        <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
+                    </a>                                                                    
+                </div>
+            </div>        
+            {% endfor %}
+        </div>
+    </div>
+    <div id="mostlikedmovies" class="m-3 p-3">
+        <div class="row">
+            <div class="col-12 col-md-10">
+                <p class="listTitle">Most watched movies:</p>
+            </div>
+            <div class="col-12 col-md-2 text-md-right">
+                <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">Show more</a>
+            </div>
+        </div>
+        <div class="row rowlist">
+            {% for movie in mostwatchedmovies %}
+            <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
+                <div class="card">
+                    <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
+                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <div class="card-img-overlay">                                
+                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
+                            <p>Rating:  {{ movie.rating }}</p>
+                            <p>Views:   {{ movie.views }}</p>
+                        </div>
+                    </a>
+                    <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
+                        <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
+                    </a>                                                                     
+                </div>
+            </div>        
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,0 +1,151 @@
+#movielist form a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#movielist form a:hover {
+    background: #efe2ed;    
+}
+
+#movielist ul {
+    list-style-type: none;
+}
+
+#movielist .row nav {
+    background: white;
+}
+
+#movielist .list .column {
+    padding: 5px;
+}
+
+#movielist .list .card {    
+    border: 5px solid #dedede;    
+    width: 100%;
+    height: 300px;    
+    transition: all .5s;    
+}
+
+#movielist .list .card:hover {
+    border: 5px solid #000;    
+}
+
+#movielist .list .card-img {     
+    height: 70%;
+    overflow: hidden;    
+}
+
+#movielist .list .card-img .card-img-top {
+    width: 100%;
+    height: 100%;    
+    display: block;    
+}
+
+#movielist .list .card-img .card-img-overlay {         
+    background: #000;    
+    color: #fff;       
+    height: 70%; 
+    opacity: .8;
+    text-decoration: none;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+#movielist .list .card-img:hover .card-img-overlay {         
+    visibility: visible;
+}
+
+#movielist .list .card-body {
+    padding: 5px;
+    color: #000;
+    text-decoration: none;
+    overflow: hidden;     
+}
+
+#movielist .list .card-title {    
+    font-size: 11px;
+    font-weight: bold;        
+    margin-top: 0; 
+    padding: 0;    
+}
+
+#movielist .list .action {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+#movielist .list .fa {
+    font-size: 22px;
+}
+
+#movielist .list .action:hover {
+    background: #dedede;
+}
+
+@media screen and (max-width:992px) {
+    #movielist .list .card {
+        height: 400px;
+    }
+
+    #movielist .list .card-img {     
+        height: 70%;
+    }
+    
+    #movielist .list .card-title {
+        font-size: 12px;             
+    }
+}
+
+@media screen and (max-width:768px) {
+    #movielist .list .column {
+        padding: 10px;
+    }
+
+    #movielist .list .card {
+        height: 400px;
+    }
+
+    #movielist .list .card-img {     
+        height: 70%;
+    }   
+
+    #movielist .list .card-img .card-img-overlay {         
+        font-size: 15px;
+    }
+
+    #movielist .list .card-body {
+        padding: 10px; 
+    }
+
+    #movielist .list .card-title {
+        font-size: 14px;                    
+    }
+
+    #movielist .list .fa {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width:576px) {
+    #movielist .list .card {
+        height: 500px;
+    }
+
+    #movielist .list .card-img {     
+        height: 75%;
+    }
+
+    #movielist .list .card-img .card-img-overlay {         
+        font-size: 24px;
+    }
+
+    #movielist .list .card-title {
+        font-size: 16px;        
+    }
+
+    #movielist #searchbutton {
+        display: block;
+        width: 100%;
+    }
+}

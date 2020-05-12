@@ -21,6 +21,7 @@ class Staff(models.Model):
     birthplace = models.CharField(max_length=100, blank=True, null=True)
     nationality = models.CharField(max_length=100, blank=True, null=True)
     occupation = models.ManyToManyField(Occupation)
+    image = models.ImageField(upload_to='artists/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -43,6 +44,7 @@ class Movie(models.Model):
     genre = models.ManyToManyField(Genre)
     runningtime = models.IntegerField(default=90)
     release_date = models.DateField(auto_now=False, blank=True, null=True)    
+    trailer = models.URLField(max_length=200, blank=True, null=True)
     director = models.ManyToManyField(Staff, related_name='director')    
     cast = models.ManyToManyField(Staff, related_name='cast')
     views = models.IntegerField(default=0)
@@ -85,6 +87,8 @@ class MovieComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     text_comment = models.TextField()        
+    commentlike = models.ManyToManyField(User, related_name='commentlike')
+    commentdislike = models.ManyToManyField(User, related_name='commentdislike')
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

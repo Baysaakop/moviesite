@@ -4,15 +4,45 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.conf import settings
 from .models import Occupation, Staff, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply
 
-def home(request):
-    return render(request, 'home.html', {})     
+## Additional functions
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
+def getMovieRating(movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+    ratings = MovieRating.objects.filter(movie=movie)
+    count = ratings.count()
+    average = 0
+    if count > 0:
+        sum = 0
+        for r in ratings:
+            sum += r.rating
+        average = sum / count
+    return average
+
+## Main views
+
+def home(request):
+    newmovies = Movie.objects.all().order_by('-updated_at')[:6]
+    topratedmovies = Movie.objects.all().order_by('-rating')[:6]        
+    mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
+    mostwatchedmovies = Movie.objects.annotate(count_watched=Count('watchedlist')).order_by('-count_watched')[:6]
+    profile = None
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+    context = {
+        'newmovies': newmovies,
+        'topratedmovies': topratedmovies,
+        'mostlikedmovies': mostlikedmovies,
+        'mostwatchedmovies': mostwatchedmovies,
+        'profile': profile
+    }
+    return render(request, 'home.html', context)     
 
 def profile(request):
     profile = Profile.objects.get(user=request.user)  
@@ -98,7 +128,6 @@ def movielist(request):
     }
     return render(request, 'movielist.html', context)
 
-
 def moviedetail(request, pk):
     movie = Movie.objects.get(pk=pk)    
     total_likes = Profile.objects.filter(liked_movies=movie).count()
@@ -108,12 +137,20 @@ def moviedetail(request, pk):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
     comments = MovieComment.objects.filter(movie=movie).order_by('-updated_at')
+    movie_rating = getMovieRating(movie.pk)
+    user_rating = MovieRating.objects.filter(user=request.user, movie=movie).first()
+    if user_rating is None:
+        user_rating = 0
+    else:
+        user_rating = user_rating.rating
     context = {
         'movie': movie,
         'profile': profile,
         'total_likes': total_likes,
         'total_watched': total_watched,
         'total_watchlist': total_watchlist,
+        'user_rating': user_rating,
+        'movie_rating': movie_rating,
         'comments': comments
     }
     return render(request, 'moviedetail.html', context)
@@ -244,6 +281,32 @@ def addToWatchlist(request):
         return HttpResponse("Request method is not a GET")        
 
 @login_required
+def rateMovie(request):
+    if request.method == 'GET':
+        user = request.user
+        rating = request.GET.get('rating')
+        movie_id = request.GET.get('movie_id')        
+        movie = Movie.objects.get(pk=movie_id)
+        result = MovieRating.objects.filter(movie=movie, user=user).first()
+        if result is None:
+            result = MovieRating.objects.create(
+                movie = movie,
+                user = user,
+                rating = rating
+            )
+        else:
+            result.rating = rating
+            result.save()
+        average = getMovieRating(movie_id)
+        data = {
+            'average': average
+        }
+        return JsonResponse(data)
+    else:
+        return HttpResponse("Request method is not a GET")
+
+
+@login_required
 def postComment(request):
     if request.method == 'GET':
         user = request.user
@@ -267,3 +330,49 @@ def postComment(request):
 
     else:
         return HttpResponse("Request method is not a GET")
+
+@login_required
+def commentLike(request):
+    if request.method == 'GET':
+        is_liked = False
+        user = request.user
+        comment_id = request.GET.get('comment_id')
+        comment = MovieComment.objects.get(pk=comment_id)
+        result = comment.commentlike.filter(pk=user.pk).first()                
+        if result is None:
+            comment.commentlike.add(user)
+            is_liked = True
+        else:
+            comment.commentlike.remove(user)
+            is_liked = False
+            
+        data = {
+            'is_liked': is_liked
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")
+
+@login_required
+def commentDislike(request):
+    if request.method == 'GET':
+        is_disliked = False
+        user = request.user
+        comment_id = request.GET.get('comment_id')
+        comment = MovieComment.objects.get(pk=comment_id)
+        result = comment.commentdislike.filter(pk=user.pk).first()                
+        if result is None:
+            comment.commentdislike.add(user)
+            is_disliked = True
+        else:
+            comment.commentdislike.remove(user)
+            is_disliked = False
+            
+        data = {
+            'is_disliked': is_disliked
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")        

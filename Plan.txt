@@ -1,13 +1,23 @@
-- Comment reply
-- Comment like, dislike
-- Movie rating
+- Comment like, dislike -> /done/
+- Comment reply 
+- Comment edit
+- Comment delete
+- Movie rating -> /done/
 - Admin panel /Movie, Artist - CRUD/
 - Artist list page
 - Artist detail page
-- Home page
+- Home page -> /done/
+    1. Trending movies
+    2. Trending series
+    3. New movies
+    4. New series
+    5. Top actors
+    6. Top directors
+    7. Last news
 - Series page
 - Search page
 - News page
 - Language selection
 - Help page
-- Notificatio page
+- Notification page
+- Social authentication
