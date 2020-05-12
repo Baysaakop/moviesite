@@ -1,0 +1,115 @@
+.listTitle {
+    font-size: 24px;
+}
+
+.rowlist .column {
+    padding: 5px;
+}
+
+.rowlist .card {    
+    border: 5px solid #dedede;    
+    width: 100%;
+    height: 300px;    
+    transition: all .5s;    
+}
+
+.rowlist .card:hover {
+    border: 5px solid #000;    
+}
+
+.rowlist .card-img {     
+    height: 80%;
+    overflow: hidden;    
+}
+
+.rowlist .card-img .card-img-top {
+    width: 100%;
+    height: 100%;    
+    display: block;    
+}
+
+.rowlist .card-img .card-img-overlay {         
+    background: #000;    
+    color: #fff;       
+    height: 70%; 
+    opacity: .8;
+    text-decoration: none;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+.rowlist .card-img:hover .card-img-overlay {         
+    visibility: visible;
+}
+
+.rowlist .card-body {
+    padding: 5px;
+    color: #000;
+    text-decoration: none;
+    overflow: hidden;     
+}
+
+.rowlist .card-title {    
+    font-size: 12px;
+    font-weight: bold;        
+    margin-top: 0; 
+    padding: 0;    
+}
+
+@media screen and (max-width:992px) {
+    .rowlist .card {
+        height: 400px;
+    }
+
+    .rowlist .card-img {     
+        height: 70%;
+    }
+    
+    .rowlist .card-title {
+        font-size: 12px;             
+    }
+}
+
+@media screen and (max-width:768px) {
+    .rowlist .column {
+        padding: 10px;
+    }
+
+    .rowlist .card {
+        height: 400px;
+    }
+
+    .rowlist .card-img {     
+        height: 70%;
+    }   
+
+    .rowlist .card-img .card-img-overlay {         
+        font-size: 15px;
+    }
+
+    .rowlist .card-body {
+        padding: 10px; 
+    }
+
+    .rowlist .card-title {
+        font-size: 14px;                    
+    }
+}
+
+@media screen and (max-width:576px) {  
+    .rowlist .card {
+        height: 500px;
+    }
+
+    .rowlist .card-img {     
+        height: 75%;
+    }
+
+    .rowlist .card-img .card-img-overlay {         
+        font-size: 24px;
+    }
+
+    .rowlist .card-title {
+        font-size: 16px;        
+    }
+}
