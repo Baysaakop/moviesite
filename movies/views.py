@@ -133,12 +133,13 @@ def moviedetail(request, pk):
     total_likes = Profile.objects.filter(liked_movies=movie).count()
     total_watched = Profile.objects.filter(watchedlist=movie).count()
     total_watchlist = Profile.objects.filter(watchlist=movie).count()
+    user_rating = None
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
+        user_rating = MovieRating.objects.filter(user=request.user, movie=movie).first()
     comments = MovieComment.objects.filter(movie=movie).order_by('-updated_at')
-    movie_rating = getMovieRating(movie.pk)
-    user_rating = MovieRating.objects.filter(user=request.user, movie=movie).first()
+    movie_rating = getMovieRating(movie.pk)    
     if user_rating is None:
         user_rating = 0
     else:
