@@ -89,61 +89,44 @@
     <div id="filmography" class="m-3 p-3 border rounded">
         <h4>Filmography</h4>
         <hr />
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Release Date</th>
-                    <th>Film name</th>
-                    <th>IMDB Rating</th>
-                    <th>Actor</th>
-                    <th>Director</th>
-                    <th>Writer</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for movie in movies %}
-                <tr>
-                    <td>{{ movie.release_date|date:"Y" }}</td>
-                    <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                    <td>{{ movie.rating }}</td>     
-                    <td>
-                        {% if artist in movie.cast.all %}
-                            Yes
-                        {% else %}
-                            No
-                        {% endif %}
-                    </td>           
-                    <td>
-                        {% if artist in movie.director.all %}
-                            Yes
-                        {% else %}
-                            No
-                        {% endif %}
-                    </td>   
-                    <td>No</td>        
-                </tr>
-                {% endfor %}
-            </tbody>            
-        </table>
-        <!-- <h5>Career as director</h5>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Release Date</th>
-                    <th>Film name</th>
-                    <th>IMDB Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for movie in movies_as_director %}
-                <tr>
-                    <td>{{ movie.release_date|date:"Y" }}</td>
-                    <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                    <td>{{ movie.rating }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>            
-        </table>    -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Release Date</th>
+                        <th>Film name</th>
+                        <th>IMDB Rating</th>
+                        <th>Actor</th>
+                        <th>Director</th>
+                        <th>Writer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for movie in movies %}
+                    <tr>
+                        <td>{{ movie.release_date|date:"Y" }}</td>
+                        <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
+                        <td>{{ movie.rating }}</td>     
+                        <td>
+                            {% if artist in movie.cast.all %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>           
+                        <td>
+                            {% if artist in movie.director.all %}
+                                Yes
+                            {% else %}
+                                No
+                            {% endif %}
+                        </td>   
+                        <td>No</td>        
+                    </tr>
+                    {% endfor %}
+                </tbody>            
+            </table>
+        </div>
     </div>                 
 </div>
 {% endblock %}

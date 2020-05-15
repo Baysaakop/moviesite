@@ -1,6 +1,12 @@
 from django import template
+from ..models import Profile
 
 register = template.Library()
+
+@register.filter
+def isAdmin(user):
+    profile = Profile.objects.get(user=user)
+    return profile.is_admin
 
 @register.filter
 def is_liked(movie, profile):

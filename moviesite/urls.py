@@ -19,6 +19,17 @@ urlpatterns = [
     path('postcomment/', views.postComment, name='postcomment'),
     path('commentlike/', views.commentLike, name='commentlike'),
     path('commentdislike/', views.commentDislike, name='commentdislike'),
+    ## ADMIN ACTION
+    path('movieadd/', views.movieadd, name='movieadd'),
+    path('movieedit/', views.movieedit, name='movieedit'),
+    path('searchmovie/', views.searchmovie, name='searchmovie'),
+    path('searchartist/', views.searchartist, name='searchartist'),
+    path('getmoviebyid/', views.getmoviebyid, name='getmoviebyid'),
+    path('getartistbyid/', views.getartistbyid, name='getartistbyid'),
+    path('searchdirector/', views.searchdirector, name='searchdirector'),
+    path('searchactor/', views.searchactor, name='searchactor'),
+    path('artistadd/', views.artistadd, name='artistadd'),
+    path('artistedit/', views.artistedit, name='artistedit'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),

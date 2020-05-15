@@ -1,4 +1,4 @@
-{% load static %}
+{% load static custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,16 +71,6 @@
                     </li>                                   
                 </ul>    
                 <ul class="navbar-nav right text-left text-md-center">
-                    <!-- <form class="form-inline mr-3" action="." >         
-                        <div class="input-group" id="searchbyname">                       
-                            <input class="form-control py-1 border-right-0 border" id="search" type="search" name="search" placeholder="Search..." />
-                            <a href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
-                                <div class="input-group-text bg-transparent">
-                                    <i class="fa fa-search" style="font-size: 20px;"></i>
-                                </div>
-                            </a>
-                        </div>
-                    </form> -->
                     <li class="nav-item">                                        
                         <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="search" href="#" title="Search">
                             <i class="fa fa-search" style="font-size: 22px;"></i>
@@ -127,6 +117,12 @@
                         </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            {% if user|isAdmin %}
+                            <a class="dropdown-item" href="{% url 'movieadd' %}">Add movie</a>
+                            <a class="dropdown-item" href="{% url 'movieedit' %}">Edit movie</a>
+                            <a class="dropdown-item" href="{% url 'artistadd' %}">Add artist</a>
+                            <a class="dropdown-item" href="{% url 'artistedit' %}">Edit artist</a>
+                            {% endif %}
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
                         </div>
                     </li>
