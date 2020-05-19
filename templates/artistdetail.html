@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_tags %}
 {% block title %}
 {{ artist.name }}
 {% endblock %}
@@ -19,118 +19,190 @@
     </nav> 
     <div id="info" class="m-3 p-3 border rounded">
         <div class="row">
-            <div class="col-md-3">
-                <img class="artist-img rounded" src="{% if artist.image.url is not None %} {{ artist.image.url }} {% else %} https://image.flaticon.com/icons/svg/219/219970.svg {% endif %}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+            <div class="col-md-4">
+                <div class="d-flex justify-content-center align-items-center border p-3">
+                    <img class="artist-img rounded" src="{% if artist.image.url is not None %} {{ artist.image.url }} {% else %} https://image.flaticon.com/icons/svg/219/219970.svg {% endif %}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+                </div>                 
+                <table class="table table-striped" style="font-size: 14px;">                
+                    <tr>
+                        <th>Occupation</th>
+                        <td>
+                            {% for occ in artist.occupation.all %}
+                                <span>{{ occ.name }} </span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Date of birth</th>
+                        <td>25 September 1951</td>
+                    </tr>
+                    <tr>
+                        <th>Place of birth</th>
+                        <td>Oakland, California, U.S.</td>
+                    </tr>
+                    <tr>
+                        <th>Nationality</th>
+                        <td>American</td>
+                    </tr>         
+                    <tr>
+                        <th>Awards</th>
+                        <td>
+                            <a href="#">Awards list</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Likes</th>
+                        <td>{{ total_likes }} </td>
+                    </tr>
+                    <tr>
+                        <th>Followers</th>
+                        <td>{{ total_followers }} </td>
+                    </tr>           
+                    <tr>
+                        <th>Views</th>
+                        <td>{{ artist.views }} </td>
+                    </tr>                                                                      
+                </table> 
             </div>
-            <div class="col-md-9">
-                <h4>{{ artist.name }}</h4>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <table class="table table-striped" style="font-size: 14px;">                
+            <div class="col-md-8">
+                <h4 class="mt-2">{{ artist.name }}</h4>
+                <hr />
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non fermentum tortor. Maecenas sit amet leo dolor. Ut vel tempus tellus. Sed a magna sagittis, blandit massa nec, dictum massa. Maecenas ac diam vel est tincidunt fringilla ut ut mi. Aliquam leo velit, aliquam at pretium a, consequat in ipsum. Ut porta euismod odio id eleifend. Aliquam erat volutpat. Aliquam purus mauris, tempor quis nisi vitae, tempus interdum mauris. Vestibulum a nisi venenatis, consectetur ex sed, accumsan dui.</p>
+                <h4>Filmography</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th>Occupation</th>
+                                <th>Release Date</th>
+                                <th>Film name</th>
+                                <th>IMDB Rating</th>
+                                <th>Actor</th>
+                                <th>Director</th>
+                                <th>Writer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for movie in movies %}
+                            <tr>
+                                <td>{{ movie.release_date|date:"Y" }}</td>
+                                <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
+                                <td>{{ movie.rating }}</td>     
                                 <td>
-                                    {% for occ in artist.occupation.all %}
-                                        <span>{{ occ.name }} </span>
-                                    {% endfor %}
-                                </td>
+                                    {% if artist in movie.cast.all %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>           
+                                <td>
+                                    {% if artist in movie.director.all %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>   
+                                <td>No</td>        
                             </tr>
-                            <tr>
-                                <th>Date of birth</th>
-                                <td>25 September 1951</td>
-                            </tr>
-                            <tr>
-                                <th>Place of birth</th>
-                                <td>Oakland, California, U.S.</td>
-                            </tr>
-                            <tr>
-                                <th>Nationality</th>
-                                <td>American</td>
-                            </tr>                                                       
-                        </table> 
+                            {% endfor %}
+                        </tbody>            
+                    </table>
+                </div>
+                <div id="action_section" class="d-flex flex-column flex-md-row justify-content-around text-center border rounded">
+                    {% if profile is None %}
+                    <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite List">
+                        <i class="fa fa-thumbs-o-up fa-fw"></i> 
+                        <span id="count-favorite">315</span>
+                        <p class="m-0">Add to favorite list</p>
+                    </a>
+                    <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Follow the artist">
+                        <i class="fa fa-user-plus fa-fw"></i> 
+                        <span id="count-followers">226</span>
+                        <p class="m-0">Follow the artist</p>
+                    </a>
+                    <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
+                        <i class="fa fa-star-o fa-fw"></i> 
+                        <span id="average-rating">7.6</span>
+                        <p class="m-0">Give a rating</p>
+                    </a>
+                    {% else %} 
+                    <div id="like" class="w-100" data-id="{{ artist.id }}">
+                        <i id="icon-like" class="{% if artist|is_artistliked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i> 
+                        <span id="count-like">{{ total_likes }}</span>
+                        <p id="text-like" class="m-0">{% if artist|is_artistliked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}</p>
                     </div>
-                    <div class="col-md-6">
-                        <table class="table table-striped" style="font-size: 14px;">      
-                            <tr>
-                                <th>Production</th>
-                                <td>
-                                    Lucas films
-                                </td>
-                            </tr>          
-                            <tr>
-                                <th>Awards</th>
-                                <td>
-                                    <a href="#">Awards list</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Followers</th>
-                                <td>72.8K</td>
-                            </tr>                          
-                        </table> 
-                        <div id="action" class="d-flex justify-content-start p-0 text-center">
-                            <a href="#" class="border" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Follow">
-                                <i class="fa fa-user-plus fa-fw"></i> Follow
-                            </a>
-                            <a href="#" class="border" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Give a rating">
-                                <i class="fa fa-star-o fa-fw"></i> Give rating
-                            </a>
-                        </div> 
+                    <div id="follow" class="w-100" data-id="{{ artist.id }}">
+                        <i id="icon-follow" class="{% if artist|is_artistfollowed:profile %}fa fa-user-times{% else %}fa fa-user-plus{% endif %}"></i> 
+                        <span id="count-follow">{{ total_followers }}</span>
+                        <p id="text-follow" class="m-0">{% if artist|is_artistfollowed:profile %}Unfollow the artist{% else %}Follow the artist{% endif %}</p>
                     </div>
-                </div>  
+                    <div id="rating" class="w-100" data-id="{{ artist.id }}">
+                        <i class="fa fa-star-o fa-fw"></i> 
+                        <span id="average-rating">7.6</span>
+                        <p class="m-0">Give a rating</p>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
         </div>   
-    </div>     
-    <div id="about" class="m-3 p-3 border rounded">     
-        <h4>Biography</h4>
-        <hr />
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non fermentum tortor. Maecenas sit amet leo dolor. Ut vel tempus tellus. Sed a magna sagittis, blandit massa nec, dictum massa. Maecenas ac diam vel est tincidunt fringilla ut ut mi. Aliquam leo velit, aliquam at pretium a, consequat in ipsum. Ut porta euismod odio id eleifend. Aliquam erat volutpat. Aliquam purus mauris, tempor quis nisi vitae, tempus interdum mauris. Vestibulum a nisi venenatis, consectetur ex sed, accumsan dui.</p>
-    </div> 
-    <div id="filmography" class="m-3 p-3 border rounded">
-        <h4>Filmography</h4>
-        <hr />
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Release Date</th>
-                        <th>Film name</th>
-                        <th>IMDB Rating</th>
-                        <th>Actor</th>
-                        <th>Director</th>
-                        <th>Writer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for movie in movies %}
-                    <tr>
-                        <td>{{ movie.release_date|date:"Y" }}</td>
-                        <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                        <td>{{ movie.rating }}</td>     
-                        <td>
-                            {% if artist in movie.cast.all %}
-                                Yes
-                            {% else %}
-                                No
-                            {% endif %}
-                        </td>           
-                        <td>
-                            {% if artist in movie.director.all %}
-                                Yes
-                            {% else %}
-                                No
-                            {% endif %}
-                        </td>   
-                        <td>No</td>        
-                    </tr>
-                    {% endfor %}
-                </tbody>            
-            </table>
-        </div>
-    </div>                 
+    </div>                   
 </div>
 {% endblock %}
 
 
 {% block javascript %}
+<script>
+    $('#like').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/likeartist/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                var text = $('#count-like').text();
+                var count = parseInt(text);
+                if (data.is_liked) {               
+                    $("#icon-like").attr("class", "fa fa-thumbs-up");
+                    $("#count-like").text((count + 1).toString());
+                    $("#text-like").text("Remove from favorite list");
+                }
+                else
+                {                         
+                    $("#icon-like").attr("class", "fa fa-thumbs-o-up");
+                    $("#count-like").text((count - 1).toString());
+                    $("#text-like").text("Add to favorite list");
+                }
+            }
+        })
+    });
+
+    $('#follow').click(function () {                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/followartist/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                var text = $('#count-follow').text();
+                var count = parseInt(text);
+                if (data.is_followed) {               
+                    $("#icon-follow").attr("class", "fa fa-user-times");
+                    $("#count-follow").text((count + 1).toString());
+                    $("#text-follow").text("Unfollow the artist");
+                }
+                else
+                {                         
+                    $("#icon-follow").attr("class", "fa fa-user-plus");
+                    $("#count-follow").text((count - 1).toString());
+                    $("#text-follow").text("Follow the artist");
+                }
+            }
+        })
+    });
+</script>
 {% endblock %}

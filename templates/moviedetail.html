@@ -19,90 +19,122 @@
     </nav> 
     <div id="info_section" class="m-3 p-3 border rounded">    
         <div class="row">
-            <div class="col-md-3">
-                <img class="movie-img rounded" src="{{ movie.image.url }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+            <div class="col-md-4">
+                <div class="d-flex justify-content-center align-items-center border p-3">
+                    <img class="movie-img rounded" src="{{ movie.image.url }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+                </div>                
+                <table class="table table-striped" style="font-size: 13px;">      
+                    <tr>
+                        <th>Production</th>
+                        <td>
+                            <a href="#">
+                                Marvel Studios
+                            </a>
+                        </td>
+                    </tr>          
+                    <tr>
+                        <th>Director</th>
+                        <td>
+                            {% for director in movie.director.all %}
+                            <a href="{% url 'artistdetail' director.pk %}">
+                                {{ director.name }}
+                            </a>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Writer</th>
+                        <td>
+                            <a href="#">
+                                Christopher Markus
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Cast</th>
+                        <td>
+                            {% for actor in movie.cast.all %}
+                            <p class="m-0">
+                                <a href="{% url 'artistdetail' actor.pk %}">
+                                    {{ actor.name }} 
+                                </a>  
+                            </p>                                                                      
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Genres</th>
+                        <td>
+                            {% for genre in movie.genre.all %}
+                            {{ genre.name }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Release Date</th>
+                        <td>{{ movie.release_date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Running Time</th>
+                        <td>{{ movie.runningtime }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <th>IMDB Rating</th>
+                        <td>{{ movie.rating }}</td>
+                    </tr>  -->
+                    <tr>
+                        <th>Rating</th>
+                        <td>{{ movie.mpa_rating }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Score</th>
+                        <td>{{ movie.score }}</td>
+                    </tr>
+                    <tr>
+                        <th>Likes</th>
+                        <td>
+                            <span id="count-like">
+                                {{ movie.likes }}
+                            </span>                            
+                        </td>
+                    </tr> 
+                    <tr>
+                        <th>Watched</th>
+                        <td>{{ movie.watched }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Watchlisted</th>
+                        <td>{{ movie.watchlisted }}</td>
+                    </tr> 
+                    <!-- <tr>
+                        <th>Views</th>
+                        <td>{{ movie.views }}</td>
+                    </tr>                           -->
+                </table> 
             </div>
-            <div class="col-md-9">
-                <h4 class="mt-3">{{ movie.name }}</h4>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <table class="table table-striped" style="font-size: 13px;">                
-                            <tr>
-                                <th>Genres</th>
-                                <td>
-                                    {% for genre in movie.genre.all %}
-                                    {{ genre.name }} |
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Release</th>
-                                <td>{{ movie.release_date }}</td>
-                            </tr>
-                            <tr>
-                                <th>Running time</th>
-                                <td>{{ movie.runningtime }}</td>
-                            </tr>
-                            <tr>
-                                <th>IMDB Rating</th>
-                                <td>{{ movie.rating }}</td>
-                            </tr>                                                       
-                        </table> 
-                    </div>
-                    <div class="col-md-6">
-                        <table class="table table-striped" style="font-size: 13px;">      
-                            <tr>
-                                <th>Production</th>
-                                <td>
-                                    
-                                </td>
-                            </tr>          
-                            <tr>
-                                <th>Director</th>
-                                <td>
-                                    {% for director in movie.director.all %}
-                                    <a href="{% url 'artistdetail' director.pk %}">
-                                        {{ director.name }}  
-                                    </a>
-                                    {% endfor %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Writer</th>
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Cast crew</th>
-                                <td>
-                                    {% for actor in movie.cast.all %}
-                                    <a href="{% url 'artistdetail' actor.pk %}">
-                                        {{ actor.name }}  
-                                    </a>
-                                    {% endfor %}
-                                </td>
-                            </tr>                          
-                        </table> 
-                    </div>
-                </div>                       
+            <div class="col-md-8">
+                <h4 class="mt-2">{{ movie.name }}</h4>
+                <p>Once Upon a Time in Hollywood is a 2019 comedy-drama film written and directed by Quentin Tarantino. Produced by Columbia Pictures, Bona Film Group, Heyday Films, and Visiona Romantica and distributed by Sony Pictures Releasing, it is a co-production between the United States, United Kingdom, and China. It features a large ensemble cast led by Leonardo DiCaprio, Brad Pitt, and Margot Robbie. Set in 1969 Los Angeles, the film follows an actor and his stunt double, as they navigate the changing film industry, and features "multiple storylines in a modern fairy tale tribute to the final moments of Hollywood's golden age.</p>                
+                <h4>Plot</h4>    
+                <p>{{ movie.plot }}</p>   
+                <h4>Cast</h4>           
+                <ul>
+                    {% for actor in movie.cast.all %}
+                        <li>
+                            <a href="{% url 'artistdetail' actor.pk %}">
+                                {{ actor.name }} 
+                            </a>  
+                            as {{ actor.name }} 
+                        </li>                                                                     
+                    {% endfor %}                    
+                </ul>
+                <h4>Trailer</h4>    
+                <iframe width="100%" height="300" src="https://www.youtube.com/embed/LoebZZ8K5N0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
             </div>
         </div>
     </div>
-    <div id="about_section" class="m-3 p-3 border rounded">     
-        <div class="row">
-            <div class="col-md-6">
-                <h5>Plot:</h5>        
-                <p>{{ movie.plot }}</p>
-            </div>
-            <div class="col-md-6">
-                <h5>Trailer:</h5>        
-                <iframe width="100%" height="240" src="https://www.youtube.com/embed/LoebZZ8K5N0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>       
-    </div>    
     <div class="m-3 p-3 border rounded">      
-        <h5>Your actions:</h5>
+        <h4>Your actions:</h4>
         <div id="action_section" class="d-flex flex-column flex-md-row justify-content-around text-center">
             {% if profile is None %}
             <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
@@ -346,7 +378,7 @@
                 var count = parseInt(text);
                 if (data.is_watched) {                                  
                     $("#icon-watched").attr("class", "fa fa-check-circle");
-                    $("#count-watched").text((count + 1).toString());
+                    $("count-watched").text((count + 1).toString());
                     $("#text-watched").text("Remove from watched list");
                 }
                 else

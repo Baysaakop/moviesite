@@ -3,7 +3,7 @@
 - Comment edit
 - Comment delete
 - Movie rating -> /done/
-- Admin panel /Movie, Artist - CRUD/
+- Admin panel /Movie, Artist - CRUD/ -> /done/
 - Artist list page
 - Artist detail page
 - Home page -> /done/

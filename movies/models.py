@@ -12,7 +12,16 @@ class Occupation(models.Model):
     def __str__(self):
         return self.name
 
-class Staff(models.Model):
+class Production(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Artist(models.Model):
     name = models.CharField(max_length=50)
     firstname = models.CharField(max_length=50, blank=True, null=True)
     lastname = models.CharField(max_length=50, blank=True, null=True)
@@ -21,6 +30,10 @@ class Staff(models.Model):
     birthplace = models.CharField(max_length=100, blank=True, null=True)
     nationality = models.CharField(max_length=100, blank=True, null=True)
     occupation = models.ManyToManyField(Occupation)
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    followers = models.IntegerField(default=0)    
+    rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
     image = models.ImageField(upload_to='artists/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -37,19 +50,33 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+class MPA_Rating(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.TextField(blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class Movie(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
     plot = models.TextField(blank=True, null=True)
     genre = models.ManyToManyField(Genre)
     runningtime = models.IntegerField(default=90)
-    release_date = models.DateField(auto_now=False, blank=True, null=True)    
+    release_date = models.DateField(auto_now=False, blank=True, null=True)
+    mpa_rating = models.ForeignKey(MPA_Rating, on_delete=models.CASCADE, blank=True, null=True)
     trailer = models.URLField(max_length=200, blank=True, null=True)
-    director = models.ManyToManyField(Staff, related_name='director')    
-    cast = models.ManyToManyField(Staff, related_name='cast')
+    production = models.ManyToManyField(Production)
+    director = models.ManyToManyField(Artist, related_name='director')    
+    cast = models.ManyToManyField(Artist, related_name='cast')
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)    
+    watched = models.IntegerField(default=0)    
+    watchlisted = models.IntegerField(default=0)    
     rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
+    score = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
     image = models.ImageField(upload_to='movies/images/', blank=True, null=True)
     poster = models.ImageField(upload_to='movies/posters/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -64,7 +91,8 @@ class Profile(models.Model):
     watchlist = models.ManyToManyField(Movie, related_name='watchlist')
     watchedlist = models.ManyToManyField(Movie, related_name='watchedlist')
     liked_movies = models.ManyToManyField(Movie, related_name='liked_movies')
-    followed_artists = models.ManyToManyField(Staff)
+    liked_artists = models.ManyToManyField(Artist, related_name='liked_artists')
+    followed_artists = models.ManyToManyField(Artist, related_name='followed_artists')
 
     def __str__(self):
         return self.user.username

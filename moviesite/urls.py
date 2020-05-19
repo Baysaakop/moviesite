@@ -3,6 +3,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from movies import views
+from movies import movieactionviews
+from movies import adminviews
+from movies import searchviews
+from movies import artistactionviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,25 +15,31 @@ urlpatterns = [
     path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
     path('artistlist/', views.artistlist, name='artistlist'),
     path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
-    ## ACTION
-    path('likemovie/', views.likeMovie, name='likemovie'),
-    path('addtowatched/', views.addToWatched, name='addtowatched'),
-    path('addtowatchlist/', views.addToWatchlist, name='addtowatchlist'),
-    path('ratemovie/', views.rateMovie, name='ratemovie'),
-    path('postcomment/', views.postComment, name='postcomment'),
-    path('commentlike/', views.commentLike, name='commentlike'),
-    path('commentdislike/', views.commentDislike, name='commentdislike'),
-    ## ADMIN ACTION
-    path('movieadd/', views.movieadd, name='movieadd'),
-    path('movieedit/', views.movieedit, name='movieedit'),
-    path('searchmovie/', views.searchmovie, name='searchmovie'),
-    path('searchartist/', views.searchartist, name='searchartist'),
-    path('getmoviebyid/', views.getmoviebyid, name='getmoviebyid'),
-    path('getartistbyid/', views.getartistbyid, name='getartistbyid'),
-    path('searchdirector/', views.searchdirector, name='searchdirector'),
-    path('searchactor/', views.searchactor, name='searchactor'),
-    path('artistadd/', views.artistadd, name='artistadd'),
-    path('artistedit/', views.artistedit, name='artistedit'),
+    ## MOVIE ACTIONS
+    path('likemovie/', movieactionviews.likeMovie, name='likemovie'),
+    path('addtowatched/', movieactionviews.addToWatched, name='addtowatched'),
+    path('addtowatchlist/', movieactionviews.addToWatchlist, name='addtowatchlist'),
+    path('ratemovie/', movieactionviews.rateMovie, name='ratemovie'),
+    path('postcomment/', movieactionviews.postComment, name='postcomment'),
+    path('commentlike/', movieactionviews.commentLike, name='commentlike'),
+    path('commentdislike/', movieactionviews.commentDislike, name='commentdislike'),
+    ## ARTIST ACTIONS
+    path('likeartist/', artistactionviews.likeArtist, name='likeartist'),
+    path('followartist/', artistactionviews.followArtist, name='followartist'),
+    ## ADMIN ACTIONS
+    path('movieadd/', adminviews.movieadd, name='movieadd'),
+    path('movieedit/', adminviews.movieedit, name='movieedit'),    
+    path('moviedelete/', adminviews.moviedelete, name='moviedelete'),   
+    path('artistadd/', adminviews.artistadd, name='artistadd'),
+    path('artistedit/', adminviews.artistedit, name='artistedit'),
+    path('artistdelete/', adminviews.artistdelete, name='artistdelete'), 
+    ## SEARCH ACTIONS
+    path('searchmovie/', searchviews.searchmovie, name='searchmovie'),
+    path('searchartist/', searchviews.searchartist, name='searchartist'),    
+    path('searchdirector/', searchviews.searchdirector, name='searchdirector'),
+    path('searchactor/', searchviews.searchactor, name='searchactor'),
+    path('getmoviebyid/', searchviews.getmoviebyid, name='getmoviebyid'),
+    path('getartistbyid/', searchviews.getartistbyid, name='getartistbyid'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),

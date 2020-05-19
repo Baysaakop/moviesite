@@ -1,4 +1,4 @@
-#action .fa {
+#action_section .fa {
     padding: 10px;
     font-size: 20px;
     width: 40px;
@@ -6,31 +6,50 @@
     text-decoration: none;    
 }
 
-#action a,
-#action div {
+#action_section a,
+#action_section div {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-#action a:hover,
-#action div:hover {
+#action_section a:hover,
+#action_section div:hover {
     background: #dedede;   
 }
 
-@media screen and (max-width:576px) {
-    #action a {
-        height: 50px;
-    }
+/* .modal-rating {
+    padding: 10px;
+} */
 
-    #action a p {
-        visibility: hidden;
-    }
+.modal-rating input {
+    display: none;       
+}
 
-    #action .fa {
-        font-size: 26px;
-        padding: 12px;    
-        width: 50px;
-        height: 50px;    
-    }
+.modal-rating label {
+    font-size: 24px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;     
+    color: #ddd;
+}
+
+.modal-rating .checked {
+    color: #FFD700;
+}
+
+.modal-rating input:checked ~ label {
+    color: #FFD700;
+}
+
+.modal-rating input:checked + label:hover,
+.modal-rating input:checked ~ label:hover,
+.modal-rating label:hover ~ input:checked ~ label,
+.modal-rating input:checked ~ label:hover ~ label {
+    color: #FFED85;
+}
+
+.modal-rating:not(:checked) label:hover,
+.modal-rating:not(:checked) label:hover ~ label {
+    color: #FFD700;
 }

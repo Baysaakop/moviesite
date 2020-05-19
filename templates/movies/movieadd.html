@@ -29,26 +29,34 @@
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Movie name" >
+                <input type="text" class="form-control" id="name" name="name" placeholder="Movie name" required>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="description">Description</label>
-                    <textarea class="form-control" rows="4" id="description" name="description" placeholder="Movie description" ></textarea>
+                    <textarea class="form-control" rows="4" id="description" name="description" placeholder="Movie description"></textarea>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="plot">Plot</label>
-                    <textarea class="form-control" rows="4" id="plot" name="plot" placeholder="Movie plot" ></textarea>
+                    <textarea class="form-control" rows="4" id="plot" name="plot" placeholder="Movie plot"></textarea>
                 </div>
             </div>            
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="runningtime">Running time</label>
                     <input type="number" min="0" class="form-control" name="runningtime" id="runningtime" value="90">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     <label for="release_date">Release date</label>
                     <input type="date" class="form-control" name="release_date" id="release_date">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="mpa_rating">MPA Rating</label>
+                    <select class="custom-select" id="mpa_rating" name="mpa_rating">
+                        {% for mpa_rating in mpa_ratings %}
+                        <option value="{{ mpa_rating.id }}">{{ mpa_rating.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <label>Genre</label>
@@ -74,7 +82,7 @@
                         <img id="imagefield" src="" style="height: 100%; width: auto;">
                     </div>                    
                     <div class="custom-file" id="custom-file-image">
-                        <input type="file" class="custom-file-input" name="image" id="image">
+                        <input type="file" class="custom-file-input" name="image" id="image" required>
                         <label class="custom-file-label" for="image">Choose file</label>
                     </div>                    
                 </div>
@@ -84,7 +92,7 @@
                         <img id="posterfield" src="" style="height: 100%; width: auto;">
                     </div>                    
                     <div class="custom-file" id="custom-file-poster">
-                        <input type="file" class="custom-file-input" name="poster" id="poster">
+                        <input type="file" class="custom-file-input" name="poster" id="poster" required>
                         <label class="custom-file-label" for="poster">Choose file</label>
                     </div>                       
                 </div>

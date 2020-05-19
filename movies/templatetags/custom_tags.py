@@ -61,4 +61,26 @@ def is_commentdisliked(comment, user):
         if result is None:
             return False
         else:
-            return True                                        
+            return True                  
+
+@register.filter
+def is_artistliked(artist, profile):
+    if profile is None:
+        return False
+    else:
+        result = profile.liked_artists.filter(pk=artist.pk).first()    
+        if result is None:
+            return False
+        else:
+            return True 
+
+@register.filter
+def is_artistfollowed(artist, profile):
+    if profile is None:
+        return False
+    else:
+        result = profile.followed_artists.filter(pk=artist.pk).first()    
+        if result is None:
+            return False
+        else:
+            return True                                              
