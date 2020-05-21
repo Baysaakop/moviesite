@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from movies import views
-from movies import movieactionviews
-from movies import adminviews
-from movies import searchviews
-from movies import artistactionviews
+from movies.views import views
+from movies.views import movieactionviews
+from movies.views import adminviews
+from movies.views import searchviews
+from movies.views import artistactionviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),

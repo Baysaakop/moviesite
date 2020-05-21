@@ -5,7 +5,8 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.conf import settings
-from .models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply
+from ..models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply
+from datetime import date
 
 ## Additional functions
 
@@ -23,6 +24,16 @@ def getMovieRating(movie_id):
             sum += r.rating
         average = sum / count
     return average
+
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+def getBirthdate(age):
+    today = date.today()
+    year = today.year - age
+    return date(year, today.month, today.day)
+
 
 ## Main views
 
@@ -61,19 +72,23 @@ def movielist(request):
     qs = Movie.objects.all().order_by('-updated_at')
     genres = Genre.objects.all().order_by('name')
     name = request.GET.get('name')
-    rating = request.GET.get('rating')
-    release_date = request.GET.get('release_date')
+    releaseYearFrom = request.GET.get('releaseYearFrom')
+    releaseYearTo = request.GET.get('releaseYearTo')
     genrename = request.GET.get('genrename')
     sortby = request.GET.get('sortby')
 
     if is_valid_queryparam(name):
         qs = qs.filter(name__icontains=name)
 
-    if is_valid_queryparam(rating):        
-        qs = qs.filter(rating__gte=rating)
+    if is_valid_queryparam(releaseYearFrom):        
+        today = date.today()
+        releasedate = date(int(releaseYearFrom), today.month, today.day)
+        qs = qs.filter(release_date__gte=releasedate)
 
-    if is_valid_queryparam(release_date):        
-        qs = qs.filter(release_date__gte=release_date)
+    if is_valid_queryparam(releaseYearTo):     
+        today = date.today()
+        releasedate = date(int(releaseYearTo), today.month, today.day)   
+        qs = qs.filter(release_date__lt=releasedate)
 
     if is_valid_queryparam(genrename) and genrename != 'Choose...':
         qs = qs.filter(genre__name=genrename)
@@ -119,20 +134,17 @@ def movielist(request):
         'queryset': qs,
         'genres': genres,
         'name': name,         
-        'rating': rating,
-        'release_date': release_date,
+        'releaseYearFrom': releaseYearFrom,
+        'releaseYearTo': releaseYearTo,
         'genrename': genrename,
         'sortby': sortby,
         'count': count,
         'profile': profile
     }
-    return render(request, 'movielist.html', context)
+    return render(request, 'movies/movielist.html', context)
 
 def moviedetail(request, pk):
     movie = Movie.objects.get(pk=pk)    
-    total_likes = Profile.objects.filter(liked_movies=movie).count()
-    total_watched = Profile.objects.filter(watchedlist=movie).count()
-    total_watchlist = Profile.objects.filter(watchlist=movie).count()
     user_rating = None
     profile = None
     if request.user.is_authenticated:
@@ -147,29 +159,46 @@ def moviedetail(request, pk):
     context = {
         'movie': movie,
         'profile': profile,
-        'total_likes': total_likes,
-        'total_watched': total_watched,
-        'total_watchlist': total_watchlist,
         'user_rating': user_rating,
         'movie_rating': movie_rating,
         'comments': comments
     }
-    return render(request, 'moviedetail.html', context)
+    return render(request, 'movies/moviedetail.html', context)
 
 def artistlist(request):
-    qs = Artist.objects.all().order_by('name')
+    qs = Artist.objects.all().order_by('-updated_at')
     occupations = Occupation.objects.all().order_by('name')
     name = request.GET.get('name')
     occupationname = request.GET.get('occupationname')
-    sortby = request.GET.get('sortby')
-
+    inputAgeMin = request.GET.get('inputAgeMin')
+    inputAgeMax = request.GET.get('inputAgeMax')
+    sortby = request.GET.get('sortby')    
+    
     if is_valid_queryparam(name):
         qs = qs.filter(name__icontains=name)
     if is_valid_queryparam(occupationname) and occupationname != 'Choose...':
         qs = qs.filter(occupation__name=occupationname)
+    if is_valid_queryparam(inputAgeMin):      
+        datemax = getBirthdate(int(inputAgeMin))  
+        qs = qs.filter(birthdate__lt=datemax)
+    if is_valid_queryparam(inputAgeMax):        
+        datemin = getBirthdate(int(inputAgeMax))
+        qs = qs.filter(birthdate__gte=datemin)        
 
     if is_valid_queryparam(sortby):
-        if sortby == 'Alphabetically (A-Z)':
+        if sortby == 'Latest first':
+            qs = qs.order_by('-updated_at')
+        elif sortby == 'Latest last':
+            qs = qs.order_by('updated_at')
+        elif sortby == 'Likes (DESC)':
+            qs = qs.order_by('-likes')   
+        elif sortby == 'Likes (ASC)':
+            qs = qs.order_by('likes')   
+        elif sortby == 'Followers (DESC)':
+            qs = qs.order_by('-followers')   
+        elif sortby == 'Followers (ASC)':
+            qs = qs.order_by('followers')   
+        elif sortby == 'Alphabetically (A-Z)':
             qs = qs.order_by('name')
         elif sortby == 'Alphabetically (Z-A)':
             qs = qs.order_by('-name')
@@ -185,23 +214,28 @@ def artistlist(request):
     except EmptyPage:
         qs = paginator.page(paginator.num_pages)
 
+    profile = None
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+
     context = {
         'queryset': qs,
         'occupations': occupations,
         'name': name,
-        'occupationname': occupationname,
+        'occupationname': occupationname,        
+        'inputAgeMin': inputAgeMin,
+        'inputAgeMax': inputAgeMax,
         'sortby': sortby,
-        'count': count
+        'count': count,
+        'profile': profile
     }
-    return render(request, 'artistlist.html', context)
+    return render(request, 'artists/artistlist.html', context)
 
 def artistdetail(request, pk):
     artist = Artist.objects.get(pk=pk)
     movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist)).order_by('release_date').distinct()
     movies_as_actor = Movie.objects.filter(cast=artist).order_by('release_date')
-    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')
-    total_likes = Profile.objects.filter(liked_artists=artist).count()
-    total_followers = Profile.objects.filter(followed_artists=artist).count()    
+    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')      
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
@@ -210,9 +244,7 @@ def artistdetail(request, pk):
         'movies': movies,
         'movies_as_actor': movies_as_actor,
         'movies_as_director': movies_as_director,
-        'total_likes': total_likes,
-        'total_followers': total_followers,
         'profile': profile
     }
-    return render(request, 'artistdetail.html', context)    
+    return render(request, 'artists/artistdetail.html', context)    
 

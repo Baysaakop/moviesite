@@ -4,13 +4,16 @@
 - Comment delete
 - Movie rating -> /done/
 - Admin panel /Movie, Artist - CRUD/ -> /done/
-- Artist list page
-- Artist detail page
+- Movie list page -> /done/
+- Movie detail page -> /done/
+- Artist list page -> /done/
+- Artist detail page -> /done/
 - Home page -> /done/
+- Language selection
+- Notification page
+- Social authentication
+- Pagination
 - Series page
 - Search page
 - News page
-- Language selection
 - Help page
-- Notification page
-- Social authentication

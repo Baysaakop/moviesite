@@ -52,16 +52,20 @@
                     </tr>
                     <tr>
                         <th>Likes</th>
-                        <td>{{ total_likes }} </td>
+                        <td>
+                            <span class="count-like">{{ artist.likes }}</span>                            
+                        </td>
                     </tr>
                     <tr>
                         <th>Followers</th>
-                        <td>{{ total_followers }} </td>
-                    </tr>           
+                        <td>
+                            <span class="count-follow">{{ artist.followers }}</span>
+                        </td>
+                    </tr>
                     <tr>
-                        <th>Views</th>
-                        <td>{{ artist.views }} </td>
-                    </tr>                                                                      
+                        <th>Movies</th>
+                        <td>{{ movies.count }} </td>
+                    </tr>                                                                               
                 </table> 
             </div>
             <div class="col-md-8">
@@ -111,34 +115,24 @@
                     {% if profile is None %}
                     <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite List">
                         <i class="fa fa-thumbs-o-up fa-fw"></i> 
-                        <span id="count-favorite">315</span>
+                        <span class="count-like">{{ artist.likes }}</span>
                         <p class="m-0">Add to favorite list</p>
                     </a>
                     <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Follow the artist">
                         <i class="fa fa-user-plus fa-fw"></i> 
-                        <span id="count-followers">226</span>
+                        <span class="count-follow">{{ artist.followers }}</span>
                         <p class="m-0">Follow the artist</p>
-                    </a>
-                    <a href="{% url 'account_login' %}" class="w-100" data-toggle="tooltip" data-placement="top" title="Give a rating">
-                        <i class="fa fa-star-o fa-fw"></i> 
-                        <span id="average-rating">7.6</span>
-                        <p class="m-0">Give a rating</p>
                     </a>
                     {% else %} 
                     <div id="like" class="w-100" data-id="{{ artist.id }}">
                         <i id="icon-like" class="{% if artist|is_artistliked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i> 
-                        <span id="count-like">{{ total_likes }}</span>
+                        <span class="count-like">{{ artist.likes }}</span>
                         <p id="text-like" class="m-0">{% if artist|is_artistliked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}</p>
                     </div>
                     <div id="follow" class="w-100" data-id="{{ artist.id }}">
                         <i id="icon-follow" class="{% if artist|is_artistfollowed:profile %}fa fa-user-times{% else %}fa fa-user-plus{% endif %}"></i> 
-                        <span id="count-follow">{{ total_followers }}</span>
+                        <span class="count-follow">{{ artist.followers }}</span>
                         <p id="text-follow" class="m-0">{% if artist|is_artistfollowed:profile %}Unfollow the artist{% else %}Follow the artist{% endif %}</p>
-                    </div>
-                    <div id="rating" class="w-100" data-id="{{ artist.id }}">
-                        <i class="fa fa-star-o fa-fw"></i> 
-                        <span id="average-rating">7.6</span>
-                        <p class="m-0">Give a rating</p>
                     </div>
                     {% endif %}
                 </div>
@@ -161,17 +155,17 @@
             },
             success: function(data)
             {
-                var text = $('#count-like').text();
+                var text = $('.count-like').first().text();
                 var count = parseInt(text);
                 if (data.is_liked) {               
                     $("#icon-like").attr("class", "fa fa-thumbs-up");
-                    $("#count-like").text((count + 1).toString());
+                    $(".count-like").text((count + 1).toString());
                     $("#text-like").text("Remove from favorite list");
                 }
                 else
                 {                         
                     $("#icon-like").attr("class", "fa fa-thumbs-o-up");
-                    $("#count-like").text((count - 1).toString());
+                    $(".count-like").text((count - 1).toString());
                     $("#text-like").text("Add to favorite list");
                 }
             }
@@ -188,17 +182,17 @@
             },
             success: function(data)
             {
-                var text = $('#count-follow').text();
+                var text = $('.count-follow').first().text();
                 var count = parseInt(text);
                 if (data.is_followed) {               
                     $("#icon-follow").attr("class", "fa fa-user-times");
-                    $("#count-follow").text((count + 1).toString());
+                    $(".count-follow").text((count + 1).toString());
                     $("#text-follow").text("Unfollow the artist");
                 }
                 else
                 {                         
                     $("#icon-follow").attr("class", "fa fa-user-plus");
-                    $("#count-follow").text((count - 1).toString());
+                    $(".count-follow").text((count - 1).toString());
                     $("#text-follow").text("Follow the artist");
                 }
             }

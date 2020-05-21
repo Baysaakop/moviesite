@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from datetime import datetime
 from django.contrib.auth.models import User
-from .models import Movie, Profile, MovieRating, MovieComment, MovieCommentReply
+from ..models import Movie, Profile, MovieRating, MovieComment, MovieCommentReply
 
 def is_valid_queryparam(param):
     return param != '' and param is not None

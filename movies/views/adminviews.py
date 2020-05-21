@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
-from .models import Occupation, Artist, Genre, Movie, MPA_Rating
+from ..models import Occupation, Artist, Genre, Movie, MPA_Rating
 import json
 
 ## ADMIN VIEWS
