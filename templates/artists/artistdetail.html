@@ -90,7 +90,7 @@
                             <tr>
                                 <td>{{ movie.release_date|date:"Y" }}</td>
                                 <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                                <td>{{ movie.rating }}</td>     
+                                <td>{{ movie.imdb_rating }}</td>     
                                 <td>
                                     {% if artist in movie.cast.all %}
                                         Yes
@@ -105,7 +105,13 @@
                                         No
                                     {% endif %}
                                 </td>   
-                                <td>No</td>        
+                                <td>
+                                    {% if artist in movie.writer.all %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>        
                             </tr>
                             {% endfor %}
                         </tbody>            

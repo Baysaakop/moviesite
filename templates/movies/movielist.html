@@ -51,12 +51,10 @@ Movies
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="sort">Sort by</label>
                 <select id="sort" class="form-control" name="sortby">
-                    <option {% if sortby == "Latest first" %} selected {% endif %} >Latest first</option>   
-                    <option {% if sortby == "Latest last" %} selected {% endif %} >Latest last</option>       
-                    <option {% if sortby == "Rating (DESC)" %} selected {% endif %} >Rating (DESC)</option>       
-                    <option {% if sortby == "Rating (ASC)" %} selected {% endif %} >Rating (ASC)</option>                    
-                    <option {% if sortby == "Views (DESC)" %} selected {% endif %} >Views (DESC)</option>                    
-                    <option {% if sortby == "Views (ASC)" %} selected {% endif %} >Views (ASC)</option>                    
+                    <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
+                    <option {% if sortby == "IMDB Rating" %} selected {% endif %} >IMDB Rating</option>   
+                    <option {% if sortby == "Metascore" %} selected {% endif %} >Metascore</option>                                                        
+                    <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                                                         
                     <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
                     <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
                     <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
@@ -90,11 +88,11 @@ Movies
             <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
                 <div class="card">
                     <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
                         <div class="card-img-overlay">                                
                             <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                            <p>Rating:  {{ movie.rating }}</p>
-                            <p>Views:   {{ movie.views }}</p>
+                            <p>IMDB:  {{ movie.imdb_rating }}</p>
+                            <p>Metascore:  {{ movie.metascore }}</p>
                         </div>
                     </a>
                     <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">

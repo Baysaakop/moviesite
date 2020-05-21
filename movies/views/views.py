@@ -39,7 +39,7 @@ def getBirthdate(age):
 
 def home(request):
     newmovies = Movie.objects.all().order_by('-updated_at')[:6]
-    topratedmovies = Movie.objects.all().order_by('-rating')[:6]        
+    topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:6]        
     mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
     mostwatchedmovies = Movie.objects.annotate(count_watched=Count('watchedlist')).order_by('-count_watched')[:6]
     profile = None
@@ -94,18 +94,14 @@ def movielist(request):
         qs = qs.filter(genre__name=genrename)
 
     if is_valid_queryparam(sortby):
-        if sortby == 'Latest first':
+        if sortby == 'Latest':
             qs = qs.order_by('-updated_at')
-        elif sortby == 'Latest last':
-            qs = qs.order_by('updated_at')
-        elif sortby == 'Rating (DESC)':
-            qs = qs.order_by('-rating')
-        elif sortby == 'Rating (ASC)':
-            qs = qs.order_by('rating')
-        elif sortby == 'Views (DESC)':
-            qs = qs.order_by('-views')   
-        elif sortby == 'Views (ASC)':
-            qs = qs.order_by('views')        
+        elif sortby == 'IMDB Rating':
+            qs = qs.order_by('-imdb_rating')
+        elif sortby == 'Metascore':
+            qs = qs.order_by('-metascore')
+        elif sortby == 'Views':
+            qs = qs.order_by('-views')          
         elif sortby == 'Release date (Newest first)':
             qs = qs.order_by('-release_date')
         elif sortby == 'Release date (Oldest first)':
@@ -233,9 +229,10 @@ def artistlist(request):
 
 def artistdetail(request, pk):
     artist = Artist.objects.get(pk=pk)
-    movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist)).order_by('release_date').distinct()
+    movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist) | Q(writer=artist)).order_by('release_date').distinct()
     movies_as_actor = Movie.objects.filter(cast=artist).order_by('release_date')
-    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')      
+    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date') 
+    movies_as_writer = Movie.objects.filter(writer=artist).order_by('release_date') 
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
@@ -244,6 +241,7 @@ def artistdetail(request, pk):
         'movies': movies,
         'movies_as_actor': movies_as_actor,
         'movies_as_director': movies_as_director,
+        'movies_as_writer': movies_as_writer,
         'profile': profile
     }
     return render(request, 'artists/artistdetail.html', context)    

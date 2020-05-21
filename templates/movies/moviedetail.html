@@ -21,15 +21,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="d-flex justify-content-center align-items-center border p-3">
-                    <img class="movie-img rounded" src="{{ movie.image.url }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+                    <img class="movie-img rounded" src="{{ movie.poster }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
                 </div>                
                 <table class="table table-striped" style="font-size: 13px;">      
                     <tr>
                         <th>Production</th>
                         <td>
+                            {% for production in movie.production.all %}
                             <a href="#">
-                                Marvel Studios
+                                {{ production.name }}
                             </a>
+                            {% endfor %}
                         </td>
                     </tr>          
                     <tr>
@@ -45,9 +47,11 @@
                     <tr>
                         <th>Writer</th>
                         <td>
-                            <a href="#">
-                                Christopher Markus
+                            {% for writer in movie.writer.all %}
+                            <a href="{% url 'artistdetail' writer.pk %}">
+                                {{ writer.name }}
                             </a>
+                            {% endfor %}
                         </td>
                     </tr>
                     <tr>
@@ -85,6 +89,14 @@
                     <tr>
                         <th>Rating</th>
                         <td>{{ movie.mpa_rating }}</td>
+                    </tr> 
+                    <tr>
+                        <th>IMDB</th>
+                        <td>{{ movie.imdb_rating }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Metascore</th>
+                        <td>{{ movie.metascore }}</td>
                     </tr> 
                     <tr>
                         <th>Score</th>
