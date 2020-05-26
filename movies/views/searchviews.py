@@ -70,8 +70,8 @@ def getmoviebyid(request):
             'release_date': movie.release_date,
             'mpa_rating': movie.mpa_rating.id,
             'trailer': movie.trailer, 
-            'image': movie.image.url,
-            'poster': movie.poster.url,
+            # 'image': movie.image.url,
+            # 'poster': movie.poster.url,
             'genres': genres,
             'directors': directors,
             'actors': actors
@@ -92,7 +92,7 @@ def getartistbyid(request):
             'birthplace': artist.birthplace,
             'birthdate': artist.birthdate,
             'nationality': artist.nationality, 
-            'image': artist.image.url,
+            # 'image': artist.image.url,
             'occupations': occupations
         }
         return JsonResponse(data, safe=False)

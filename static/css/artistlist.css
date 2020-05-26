@@ -143,9 +143,4 @@
     #artistlist .list .card-title {
         font-size: 16px;        
     }
-
-    #artistlist #searchbutton {
-        display: block;
-        width: 100%;
-    }
 }

@@ -178,6 +178,7 @@
 {% endblock %}
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $("#moviesearchbutton").click(function (e) {
         e.preventDefault();
@@ -228,8 +229,8 @@
                 }
                 // $("#trailerfield").attr("src", data.trailer);
                 // $("#trailer").val(data.trailer);
-                $("#imagefield").attr("src", data.image);
-                $("#posterfield").attr("src", data.poster);
+                // $("#imagefield").attr("src", data.image);
+                // $("#posterfield").attr("src", data.poster);
                 $("#directorlist").empty();
                 var directors = JSON.parse(data.directors);
                 for (var i = 0; i < directors.length; i++) {                    

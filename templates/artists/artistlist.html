@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags %}
+{% load static custom_tags i18n %}
 {% block title %}
 Artists
 {% endblock %}
@@ -12,14 +12,14 @@ Artists
 <div id="artistlist" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Artist List</li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Artists' %}</li>
         </ol>
     </nav>
     <form action="." class="p-3" id="filterform">
         <div class="form-row">
             <div class="form-group col-12">
-                <label for="searchbyname">Search by name</label>
+                <label for="searchbyname">{% trans 'Search by name' %}</label>
                 <div class="input-group" id="searchbyname">                                        
                     <input class="form-control py-2 border-right-0 border" id="name" type="search" name="name" placeholder="Name..." {% if name is not None %} value="{{ name }}" {% endif %} />
                     <a href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
@@ -32,24 +32,24 @@ Artists
         </div>    
         <div class="form-row">            
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="inputOccupation">Occupation</label>
+                <label for="inputOccupation">{% trans 'Occupation' %}</label>
                 <select id="inputOccupation" class="form-control" name="occupationname" id="occupation">
-                    <option {% if occupationname is None %} selected {% endif %}>Choose...</option>
+                    <option {% if occupationname is None %} selected {% endif %}>{% trans 'Choose...' %}</option>
                     {% for occupation in occupations %}
                     <option value="{{ occupation }}" {% if occupationname == occupation.name %} selected {% endif %}>{{ occupation }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="inputAgeMin">Age /Min/</label>
+                <label for="inputAgeMin">{% trans 'Age /Min/' %}</label>
                 <input type="number" min="0" max="99" class="form-control" name="inputAgeMin" id="inputAgeMin" {% if inputAgeMin is None %} value="0" {% else %} value="{{ inputAgeMin }}" {% endif %}>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="inputAgeMax">Age /Max/</label>
+                <label for="inputAgeMax">{% trans 'Age /Max/' %}</label>
                 <input type="number" min="0" max="99" class="form-control" name="inputAgeMax" id="inputAgeMax" {% if inputAgeMax is None %} value="99" {% else %} value="{{ inputAgeMax }}" {% endif %}>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="sort">Sort by</label>
+                <label for="sort">{% trans 'Sort By' %}</label>
                 <select id="sort" class="form-control" name="sortby">
                     <option {% if sortby == "Latest first" %} selected {% endif %} >Latest first</option>   
                     <option {% if sortby == "Latest last" %} selected {% endif %} >Latest last</option>
@@ -63,13 +63,15 @@ Artists
             </div>
         </div>   
         <div class="form-row">
-            <div class="form-group col-12">
-                <button class="btn btn-dark" type="submit">Search</button>          
+            <div class="form-group col-md-4"></div>
+            <div class="form-group col-md-4 px-md-5">
+                <button id="searchbutton" class="btn btn-dark btn-block" type="submit">{% trans 'Search' %}</button>          
             </div>            
+            <div class="form-group col-md-4"></div>            
         </div>           
         <div class="form-row">                     
             <div class="form-group col-12 text-center">                                   
-                <label for="pagination">Total: {{ count }} artists</label>
+                <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'artists' %}</label>
                 <div id="pagination" class="d-flex justify-content-center">           
                     {% include 'includes/paginationArtists.html' %}  
                 </div>
@@ -92,17 +94,17 @@ Artists
                         </a>                                                
                         <div class="d-flex justify-content-start p-0 text-center">
                             {% if profile is None %}
-                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Like">
+                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to favorite list' %}">
                                 <i class="fa fa-thumbs-o-up"></i>
                             </a>
-                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="Follow">
+                            <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 50%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Follow the artist' %}">
                                 <i class="fa fa-user-plus"></i>
                             </a>
                             {% else %}
-                            <div id="like-{{ artist.id }}" class="action like border-top border-right p-2" style="width: 50%;" data-id="{{ artist.id }}" data-toggle="tooltip" data-placement="top" title="{% if artist|is_artistliked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}">
+                            <div id="like-{{ artist.id }}" class="action like border-top border-right p-2" style="width: 50%;" data-id="{{ artist.id }}" data-toggle="tooltip" data-placement="top" title="{% if artist|is_artistliked:profile %}{% trans 'Remove from favorite list' %}{% else %}{% trans 'Add to favorite list' %}{% endif %}">
                                 <i id="icon-like-{{ artist.id }}" class="{% if artist|is_artistliked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
                             </div>
-                            <div id="follow-{{ artist.id }}" class="action follow border-top border-right p-2" style="width: 50%;" data-id="{{ artist.id }}" data-toggle="tooltip" data-placement="top" title="{% if artist|is_artistfollowed:profile %}Unfollow the artist{% else %}Follow the artist{% endif %}">
+                            <div id="follow-{{ artist.id }}" class="action follow border-top border-right p-2" style="width: 50%;" data-id="{{ artist.id }}" data-toggle="tooltip" data-placement="top" title="{% if artist|is_artistfollowed:profile %}{% trans 'Unfollow the artist' %}{% else %}{% trans 'Follow the artist' %}{% endif %}">
                                 <i id="icon-follow-{{ artist.id }}" class="{% if artist|is_artistfollowed:profile %}fa fa-user-times{% else %}fa fa-user-plus{% endif %}"></i>
                             </div>
                             {% endif %}
@@ -117,6 +119,7 @@ Artists
 
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   

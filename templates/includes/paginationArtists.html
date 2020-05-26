@@ -38,13 +38,21 @@
     <ul class="pagination">
         {% if queryset.has_previous %}
         <li class="page-item">
+            <a class="page-link" href="?{% if name %}name={{name}}&{% endif %}{% if occupationname %}occupationname={{occupationname}}&{% endif %}{% if sortby %}sortby={{sortby}}&{% endif %}page=1">
+                <<
+            </a>
+        </li>
+        <li class="page-item">
             <a class="page-link" href="?{% if name %}name={{name}}&{% endif %}{% if occupationname %}occupationname={{occupationname}}&{% endif %}{% if sortby %}sortby={{sortby}}&{% endif %}page={{ queryset.previous_page_number }}">
-                Previous
+                <
             </a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <span class="page-link">Previous</span>
+            <span class="page-link"><<</span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link"><</span>
         </li>
         {% endif %}
         
@@ -56,7 +64,7 @@
                     <span class="sr-only">(current)</span>
                 </span>
             </li>
-            {% else %}
+            {% elif page_num > queryset.number|add:'-3' and page_num < queryset.number|add:'3' %}
             <li class="page-item">
                 <a class="page-link" href="?{% if name %}name={{name}}&{% endif %}{% if occupationname %}occupationname={{occupationname}}&{% endif %}{% if sortby %}sortby={{sortby}}&{% endif %}page={{ page_num }}">
                     {{ page_num }}
@@ -68,12 +76,20 @@
         {% if queryset.has_next %}
         <li class="page-item">
             <a class="page-link" href="?{% if name %}name={{name}}&{% endif %}{% if occupationname %}occupationname={{occupationname}}&{% endif %}{% if sortby %}sortby={{sortby}}&{% endif %}page={{ queryset.next_page_number }}">
-                Next
+                >
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?{% if name %}name={{name}}&{% endif %}{% if occupationname %}occupationname={{occupationname}}&{% endif %}{% if sortby %}sortby={{sortby}}&{% endif %}page={{ queryset.paginator.num_pages }}">
+                >>
             </a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <span class="page-link">Next</span>
+            <span class="page-link">></span>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">>></span>
         </li>
         {% endif %}
     </ul>

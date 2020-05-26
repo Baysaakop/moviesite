@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags %}
+{% load static custom_tags i18n %}
 {% block title %}
 {{ artist.name }}
 {% endblock %}
@@ -12,8 +12,8 @@
 <div id="moviedetail" class="container">   
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'artistlist' %}">Artist List</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'artistlist' %}">{% trans 'Artists' %}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ artist.name }}</li>
         </ol>
     </nav> 
@@ -25,7 +25,7 @@
                 </div>                 
                 <table class="table table-striped" style="font-size: 14px;">                
                     <tr>
-                        <th>Occupation</th>
+                        <th>{% trans 'Occupation' %}</th>
                         <td>
                             {% for occ in artist.occupation.all %}
                                 <span>{{ occ.name }} </span>
@@ -90,7 +90,7 @@
                             <tr>
                                 <td>{{ movie.release_date|date:"Y" }}</td>
                                 <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                                <td>{{ movie.rating }}</td>     
+                                <td>{{ movie.imdb_rating }}</td>     
                                 <td>
                                     {% if artist in movie.cast.all %}
                                         Yes
@@ -105,7 +105,13 @@
                                         No
                                     {% endif %}
                                 </td>   
-                                <td>No</td>        
+                                <td>
+                                    {% if artist in movie.writer.all %}
+                                        Yes
+                                    {% else %}
+                                        No
+                                    {% endif %}
+                                </td>        
                             </tr>
                             {% endfor %}
                         </tbody>            
@@ -144,6 +150,7 @@
 
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $('#like').click(function () {                
         var id = $(this).attr("data-id");       

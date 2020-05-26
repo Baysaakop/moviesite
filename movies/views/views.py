@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.conf import settings
+from django.utils import translation
 from ..models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply
 from datetime import date
 
@@ -38,8 +39,11 @@ def getBirthdate(age):
 ## Main views
 
 def home(request):
+    # user_language = 'mn'
+    # translation.activate(user_language)
+    # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
     newmovies = Movie.objects.all().order_by('-updated_at')[:6]
-    topratedmovies = Movie.objects.all().order_by('-rating')[:6]        
+    topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:6]        
     mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
     mostwatchedmovies = Movie.objects.annotate(count_watched=Count('watchedlist')).order_by('-count_watched')[:6]
     profile = None
@@ -81,31 +85,25 @@ def movielist(request):
         qs = qs.filter(name__icontains=name)
 
     if is_valid_queryparam(releaseYearFrom):        
-        today = date.today()
-        releasedate = date(int(releaseYearFrom), today.month, today.day)
+        releasedate = date(int(releaseYearFrom), 1, 1)
         qs = qs.filter(release_date__gte=releasedate)
 
     if is_valid_queryparam(releaseYearTo):     
-        today = date.today()
-        releasedate = date(int(releaseYearTo), today.month, today.day)   
+        releasedate = date(int(releaseYearTo), 12, 31)   
         qs = qs.filter(release_date__lt=releasedate)
 
-    if is_valid_queryparam(genrename) and genrename != 'Choose...':
+    if is_valid_queryparam(genrename) and genrename != 'Choose...' and genrename != 'Сонгох...':
         qs = qs.filter(genre__name=genrename)
 
     if is_valid_queryparam(sortby):
-        if sortby == 'Latest first':
+        if sortby == 'Latest':
             qs = qs.order_by('-updated_at')
-        elif sortby == 'Latest last':
-            qs = qs.order_by('updated_at')
-        elif sortby == 'Rating (DESC)':
-            qs = qs.order_by('-rating')
-        elif sortby == 'Rating (ASC)':
-            qs = qs.order_by('rating')
-        elif sortby == 'Views (DESC)':
-            qs = qs.order_by('-views')   
-        elif sortby == 'Views (ASC)':
-            qs = qs.order_by('views')        
+        elif sortby == 'IMDB Rating':
+            qs = qs.order_by('-imdb_rating')
+        elif sortby == 'Metascore':
+            qs = qs.order_by('-metascore')
+        elif sortby == 'Views':
+            qs = qs.order_by('-views')          
         elif sortby == 'Release date (Newest first)':
             qs = qs.order_by('-release_date')
         elif sortby == 'Release date (Oldest first)':
@@ -233,9 +231,10 @@ def artistlist(request):
 
 def artistdetail(request, pk):
     artist = Artist.objects.get(pk=pk)
-    movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist)).order_by('release_date').distinct()
+    movies = Movie.objects.filter(Q(director=artist) | Q(cast=artist) | Q(writer=artist)).order_by('release_date').distinct()
     movies_as_actor = Movie.objects.filter(cast=artist).order_by('release_date')
-    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date')      
+    movies_as_director = Movie.objects.filter(director=artist).order_by('release_date') 
+    movies_as_writer = Movie.objects.filter(writer=artist).order_by('release_date') 
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
@@ -244,6 +243,7 @@ def artistdetail(request, pk):
         'movies': movies,
         'movies_as_actor': movies_as_actor,
         'movies_as_director': movies_as_director,
+        'movies_as_writer': movies_as_writer,
         'profile': profile
     }
     return render(request, 'artists/artistdetail.html', context)    

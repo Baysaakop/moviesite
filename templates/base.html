@@ -1,4 +1,4 @@
-{% load static custom_tags %}
+{% load static custom_tags i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,128 +12,154 @@
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">        
 </head>
 <body>
-    <div id="top">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 d-flex justify-content-center justify-content-sm-start align-items-center" style="min-height: 80px;">
-                    <h3>Mollywood</h3>
-                    <div id="logo">
-                        <div class="body"></div>                        
-                        <div class="roll small">
-                            <div class="hole hole1"></div>
-                            <div class="hole hole2"></div>
-                            <div class="hole hole3"></div>
-                            <div class="hole hole4"></div>
-                            <div class="hole hole5"></div>
-                        </div>
-                        <div class="roll big">
-                            <div class="hole hole1"></div>
-                            <div class="hole hole2"></div>
-                            <div class="hole hole3"></div>
-                            <div class="hole hole4"></div>
-                            <div class="hole hole5"></div>
-                        </div>                        
-                        <div class="thing"></div>
+    <div id="top">        
+        <div class="row px-3">
+            <div class="col-sm-6 d-flex justify-content-center justify-content-sm-start align-items-center" style="min-height: 80px;">
+                <h3>{% trans 'Mollywood' %}</h3>
+                <div id="logo">
+                    <div class="body"></div>                        
+                    <div class="roll small">
+                        <div class="hole hole1"></div>
+                        <div class="hole hole2"></div>
+                        <div class="hole hole3"></div>
+                        <div class="hole hole4"></div>
+                        <div class="hole hole5"></div>
                     </div>
-                    <!-- <div id="name" class="mt-3">
-                        <h3>Mollywood</h3>
-                    </div> -->
-                </div>
-                <div class="col-sm-6 d-flex justify-content-around justify-content-sm-end align-items-center" style="min-height: 80px;">
-                    <a href="#" class="fa fa-facebook"></a>
-                    <a href="#" class="fa fa-twitter"></a>
-                    <a href="#" class="fa fa-google"></a>                    
-                    <a href="#" class="fa fa-youtube"></a>
-                    <a href="#" class="fa fa-instagram"></a>
+                    <div class="roll big">
+                        <div class="hole hole1"></div>
+                        <div class="hole hole2"></div>
+                        <div class="hole hole3"></div>
+                        <div class="hole hole4"></div>
+                        <div class="hole hole5"></div>
+                    </div>                        
+                    <div class="thing"></div>
                 </div>
             </div>
-        </div>
+            <div class="col-sm-6 d-flex justify-content-around justify-content-sm-end align-items-center" style="min-height: 80px;">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-twitter"></a>
+                <a href="#" class="fa fa-google"></a>                    
+                <a href="#" class="fa fa-youtube"></a>
+                <a href="#" class="fa fa-instagram"></a>
+            </div>
+        </div>        
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">        
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav left mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>  
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'movielist' %}">Films</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Series</a>
-                    </li>  
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'artistlist' %}">Artists</a>
-                    </li>                                   
-                </ul>    
-                <ul class="navbar-nav right text-left text-md-center">
-                    <li class="nav-item">                                        
-                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="search" href="#" title="Search">
-                            <i class="fa fa-search" style="font-size: 22px;"></i>
-                            <span class="icontext">Search</span>                            
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="Notification">
-                            <span class="icontext">Notification</span>
-                            <i class="fa fa-bell" style="font-size: 20px;"></i>
-                        </a>
-                        <div class="dropdown-menu py-2">
-                            <a class="dropdown-item" href="#">News 1</a>
-                            <a class="dropdown-item" href="#">News 2</a>
-                            <a class="dropdown-item" href="#">News 3</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="help" data-toggle="dropdown" href="#" title="Help"> 
-                            <span class="icontext">Help</span>
-                            <i class="fa fa-question-circle" style="font-size: 24px;"></i>
-                        </a>
-                        <div class="dropdown-menu py-2">
-                            <a class="dropdown-item" href="#">Help</a>
-                            <a class="dropdown-item" href="#">About us</a>
-                            <a class="dropdown-item" href="#">Q&A</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="language" data-toggle="dropdown" href="#" title="Language">
-                            <span class="icontext">Language</span>
-                            <i class="fa fa-globe" style="font-size: 22px;"></i>
-                        </a>
-                        <div class="dropdown-menu py-2">
-                            <a class="dropdown-item" href="#">English</a>
-                            <a class="dropdown-item" href="#">Mongolian</a>                            
-                        </div>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="account" data-toggle="dropdown" href="#" title="Account">
-                            <span class="icontext">Account</span>
-                            <i class="fa fa-user-circle" style="font-size: 22px;"></i>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                            {% if user|isAdmin %}
-                            <a class="dropdown-item" href="{% url 'movieadd' %}">Add movie</a>
-                            <a class="dropdown-item" href="{% url 'movieedit' %}">Edit movie</a>
-                            <a class="dropdown-item" href="{% url 'artistadd' %}">Add artist</a>
-                            <a class="dropdown-item" href="{% url 'artistedit' %}">Edit artist</a>
-                            {% endif %}
-                            <a class="dropdown-item" href="{% url 'account_logout' %}">Sign out</a>
-                        </div>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Sign in</a>
-                    </li>                                 
-                    {% endif %}                    
-                </ul>
-            </div>  
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top px-3">       
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav left mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'movielist' %}">{% trans 'Films' %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{% trans 'Series' %}</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'artistlist' %}">{% trans 'Artists' %}</a>
+                </li>                                   
+            </ul>    
+            <ul class="navbar-nav right text-left text-md-center">
+                <li class="nav-item">                                        
+                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="search" href="#" title="{% trans 'Search' %}">
+                        <i class="fa fa-search" style="font-size: 22px;"></i>
+                        <span class="icontext">{% trans 'Search' %}</span>                            
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="{% trans 'Notification' %}">
+                        <span class="icontext">{% trans 'Notification' %}</span>
+                        <i class="fa fa-bell" style="font-size: 20px;"></i>
+                    </a>
+                    <div class="dropdown-menu py-2">
+                        <a class="dropdown-item" href="#">News 1</a>
+                        <a class="dropdown-item" href="#">News 2</a>
+                        <a class="dropdown-item" href="#">News 3</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="help" data-toggle="dropdown" href="#" title="{% trans 'Help' %}"> 
+                        <span class="icontext">{% trans 'Help' %}</span>
+                        <i class="fa fa-question-circle" style="font-size: 24px;"></i>
+                    </a>
+                    <div class="dropdown-menu py-2">
+                        <a class="dropdown-item" href="#">Help</a>
+                        <a class="dropdown-item" href="#">About us</a>
+                        <a class="dropdown-item" href="#">Q&A</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="language" data-toggle="dropdown" href="#" title="{% trans 'Language' %}">
+                        <span class="icontext">{% trans 'Language' %}</span>
+                        <i class="fa fa-globe" style="font-size: 22px;"></i>
+                    </a>                        
+                    <div class="dropdown-menu py-2">
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <button class="dropdown-item language" data-value="{{ language.code }}">
+                                {{ language.name_local }} ({{ language.code }})
+                            </button>
+                        {% endfor %}                                                     
+                        <form id="langform" action="{% url 'set_language' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ redirect_to }}">    
+                            <select name="language" class="custom-select">                                    
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+                            </select>                                                          
+                        </form>                      
+                    </div>               
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="account" data-toggle="dropdown" href="#" title="{% trans 'Account' %}">
+                        <span class="icontext">{% trans 'Account' %}</span>
+                        <i class="fa fa-user-circle" style="font-size: 22px;"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Profile' %}</a>
+                        {% if user|isAdmin %}
+                        <a class="dropdown-item" href="{% url 'movieadd' %}">{% trans 'Add movie' %}</a>
+                        <a class="dropdown-item" href="{% url 'movieedit' %}">{% trans 'Edit movie' %}</a>
+                        <a class="dropdown-item" href="{% url 'artistadd' %}">{% trans 'Add artist' %}</a>
+                        <a class="dropdown-item" href="{% url 'artistedit' %}">{% trans 'Edit artist' %}</a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_login' %}">{% trans 'Sign in' %}</a>
+                </li>                                 
+                {% endif %}                    
+                <!-- <li class="nav-item">
+                    <form action="{% url 'set_language' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ redirect_to }}">    
+                        <select name="language" class="custom-select" onchange="this.form.submit()">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                    {{ language.name_local }} ({{ language.code }})
+                                </option>
+                            {% endfor %}
+                        </select>                                                          
+                    </form>
+                </li> -->
+            </ul>                
+        </div>          
     </nav>
     
     {% block content %}
@@ -146,6 +172,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     {% block javascript %}
+    <script>    
+        $(".language").click(function () {       
+            var lang = $(this).attr("data-value");       
+            console.log(lang);
+            $("#langform select").val(lang);
+            $("#langform").submit();            
+        });
+    </script>
     {% endblock %}
 </body>
 <!-- <script src="https://kit.fontawesome.com/771227ba48.js" crossorigin="anonymous"></script> -->

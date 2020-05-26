@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags humanize %}
+{% load static custom_tags humanize i18n %}
 {% block title %}
 {{ movie.name }}
 {% endblock %}
@@ -12,8 +12,8 @@
 <div id="moviedetail" class="container h-100">   
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">Films</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">{% trans 'Films' %}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ movie.name }}</li>
         </ol>
     </nav> 
@@ -21,37 +21,47 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="d-flex justify-content-center align-items-center border p-3">
-                    <img class="movie-img rounded" src="{{ movie.image.url }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
+                    <img class="movie-img rounded" src="{{ movie.poster }}" alt="Movie image cap" style="border: 2px solid #263238; width: 100%; height: auto;">
                 </div>                
                 <table class="table table-striped" style="font-size: 13px;">      
                     <tr>
-                        <th>Production</th>
+                        <th>{% trans 'Production' %}</th>
                         <td>
-                            <a href="#">
-                                Marvel Studios
-                            </a>
+                            {% for production in movie.production.all %}
+                            <p class="m-0">
+                                <a href="#">
+                                    {{ production.name }}
+                                </a>
+                            </p>
+                            {% endfor %}
                         </td>
                     </tr>          
                     <tr>
-                        <th>Director</th>
+                        <th>{% trans 'Director' %}</th>
                         <td>
                             {% for director in movie.director.all %}
-                            <a href="{% url 'artistdetail' director.pk %}">
-                                {{ director.name }}
-                            </a>
+                            <p class="m-0">
+                                <a href="{% url 'artistdetail' director.pk %}">
+                                    {{ director.name }}
+                                </a>
+                            </p>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <th>Writer</th>
+                        <th>{% trans 'Writer' %}</th>
                         <td>
-                            <a href="#">
-                                Christopher Markus
-                            </a>
+                            {% for writer in movie.writer.all %}
+                            <p class="m-0">
+                                <a href="{% url 'artistdetail' writer.pk %}">
+                                    {{ writer.name }}
+                                </a>
+                            </p>
+                            {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <th>Cast</th>
+                        <th>{% trans 'Cast' %}</th>
                         <td>
                             {% for actor in movie.cast.all %}
                             <p class="m-0">
@@ -63,31 +73,37 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Genres</th>
+                        <th>{% trans 'Genres' %}</th>
                         <td>
                             {% for genre in movie.genre.all %}
-                            {{ genre.name }}
+                            <p class="m-0">
+                                {{ genre.name }}
+                            </p>
                             {% endfor %}
                         </td>
                     </tr>
                     <tr>
-                        <th>Release Date</th>
+                        <th>{% trans 'Release Date' %}</th>
                         <td>{{ movie.release_date }}</td>
                     </tr>
                     <tr>
-                        <th>Running Time</th>
+                        <th>{% trans 'Running Time' %}</th>
                         <td>{{ movie.runningtime }}</td>
                     </tr>
-                    <!-- <tr>
-                        <th>IMDB Rating</th>
-                        <td>{{ movie.rating }}</td>
-                    </tr>  -->
                     <tr>
-                        <th>Rating</th>
+                        <th>{% trans 'Rating' %}</th>
                         <td>{{ movie.mpa_rating }}</td>
                     </tr> 
                     <tr>
-                        <th>Score</th>
+                        <th>IMDB</th>
+                        <td>{{ movie.imdb_rating }}</td>
+                    </tr> 
+                    <tr>
+                        <th>Metascore</th>
+                        <td>{{ movie.metascore }}</td>
+                    </tr> 
+                    <tr>
+                        <th>{% trans 'Score' %}</th>
                         <td>
                             <span class="avgrating">
                                 {{ movie.score|floatformat:1|intcomma }}
@@ -95,7 +111,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Likes</th>
+                        <th>{% trans 'Likes' %}</th>
                         <td>
                             <span class="count-like">
                                 {{ movie.likes }}
@@ -103,13 +119,13 @@
                         </td>
                     </tr> 
                     <tr>
-                        <th>Watched</th>
+                        <th>{% trans 'Watched' %}</th>
                         <td>
                             <span class="count-watched">{{ movie.watched }}</span>                            
                         </td>
                     </tr> 
                     <tr>
-                        <th>Watchlisted</th>
+                        <th>{% trans 'Watchlisted' %}</th>
                         <td>
                             <span class="count-watchlist">{{ movie.watchlisted }}</span>
                         </td>
@@ -117,32 +133,30 @@
                     <!-- <tr>
                         <th>Views</th>
                         <td>{{ movie.views }}</td>
-                    </tr>                           -->
+                    </tr> -->
                 </table> 
             </div>
             <div class="col-md-8">
                 <h4 class="mt-2">{{ movie.name }}</h4>
                 <p>Once Upon a Time in Hollywood is a 2019 comedy-drama film written and directed by Quentin Tarantino. Produced by Columbia Pictures, Bona Film Group, Heyday Films, and Visiona Romantica and distributed by Sony Pictures Releasing, it is a co-production between the United States, United Kingdom, and China. It features a large ensemble cast led by Leonardo DiCaprio, Brad Pitt, and Margot Robbie. Set in 1969 Los Angeles, the film follows an actor and his stunt double, as they navigate the changing film industry, and features "multiple storylines in a modern fairy tale tribute to the final moments of Hollywood's golden age.</p>                
-                <h4>Plot</h4>    
+                <h4>{% trans 'Plot' %}</h4>    
                 <p>{{ movie.plot }}</p>   
-                <h4>Cast</h4>           
+                <h4>{% trans 'Cast' %}</h4>           
                 <ul>
                     {% for actor in movie.cast.all %}
                         <li>
                             <a href="{% url 'artistdetail' actor.pk %}">
                                 {{ actor.name }} 
-                            </a>  
-                            as {{ actor.name }} 
+                            </a>                              
                         </li>                                                                     
                     {% endfor %}                    
                 </ul>
-                <h4>Trailer</h4>    
+                <h4>{% trans 'Trailer' %}</h4>    
                 <iframe width="100%" height="300" src="https://www.youtube.com/embed/LoebZZ8K5N0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
             </div>
         </div>
     </div>
-    <div class="m-3 p-3 border rounded">      
-        <h4>Your actions:</h4>
+    <div class="m-3 p-3 border rounded">              
         <div id="action_section" class="d-flex flex-column flex-md-row justify-content-around text-center">
             {% if profile is None %}
             <a href="{% url 'account_login' %}" id="like" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
@@ -340,6 +354,7 @@
 {% endblock %}
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   

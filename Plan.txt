@@ -1,19 +1,24 @@
-- Comment like, dislike -> /done/
-- Comment reply 
-- Comment edit
-- Comment delete
-- Movie rating -> /done/
-- Admin panel /Movie, Artist - CRUD/ -> /done/
-- Movie list page -> /done/
-- Movie detail page -> /done/
-- Artist list page -> /done/
-- Artist detail page -> /done/
-- Home page -> /done/
-- Language selection
-- Notification page
-- Social authentication
-- Pagination
-- Series page
-- Search page
-- News page
-- Help page
+1. Comment like, dislike -> /done/
+2. Comment reply 
+3. Comment edit
+4. Comment delete
+5. Movie rating -> /done/
+6. Admin panel /Movie, Artist - CRUD/ -> /done/
+7. Movie list page -> /done/
+8. Movie detail page -> /done/
+9. Artist list page -> /done/
+10. Artist detail page -> /done/
+11. Home page -> /done/
+12. Pagination -> /done/
+13. Language selection -> /done/
+14. Series
+    - Model
+    - List View, Template
+    - Detail View, Template
+    - Create View, Template
+    - Update View, Template
+15. News page and CRUD
+16. Search page
+17. Social authentication
+18. Notification page
+19. Help page

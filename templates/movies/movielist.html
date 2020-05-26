@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags %}
+{% load static custom_tags i18n %}
 {% block title %}
 Movies
 {% endblock %}
@@ -12,14 +12,14 @@ Movies
 <div id="movielist" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Films</li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Films' %}</li>
         </ol>
     </nav>
     <form action="." class="p-3" id="filterform">
         <div class="form-row">
             <div class="form-group col-12">
-                <label for="searchbyname">Search by name</label>
+                <label for="searchbyname">{% trans 'Search by name' %}</label>
                 <div class="input-group" id="searchbyname">                                        
                     <input class="form-control py-2 border-right-0 border" id="name" type="search" name="name" placeholder="Name..." {% if name is not None %} value="{{ name }}" {% endif %} />
                     <a href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
@@ -32,31 +32,29 @@ Movies
         </div>
         <div class="form-row">            
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="inputGenre">Genre</label>
+                <label for="inputGenre">{% trans 'Genre' %}</label>
                 <select id="inputGenre" class="form-control" name="genrename" id="genre">
-                    <option {% if genrename is None %} selected {% endif %}>Choose...</option>
+                    <option {% if genrename is None %} selected {% endif %}>{% trans 'Choose...' %}</option>
                     {% for genre in genres %}
                     <option value="{{ genre }}" {% if genrename == genre.name %} selected {% endif %}>{{ genre }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="releaseYearFrom">Release Year /From/</label>
+                <label for="releaseYearFrom">{% trans 'Release Year /From Jan-1/' %}</label>
                 <input type="number" min="1900" max="2020" class="form-control" name="releaseYearFrom" id="releaseYearFrom" {% if releaseYearFrom is None %} value="1900" {% else %} value="{{ releaseYearFrom }}" {% endif %}>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="releaseYearTo">Release Year /To/</label>
+                <label for="releaseYearTo">{% trans 'Release Year /To Dec-31/' %}</label>
                 <input type="number" min="1900" max="2020" class="form-control" name="releaseYearTo" id="releaseYearTo" {% if releaseYearTo is None %} value="2020" {% else %} value="{{ releaseYearTo }}" {% endif %}>
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
-                <label for="sort">Sort by</label>
+                <label for="sort">{% trans 'Sort By' %}</label>
                 <select id="sort" class="form-control" name="sortby">
-                    <option {% if sortby == "Latest first" %} selected {% endif %} >Latest first</option>   
-                    <option {% if sortby == "Latest last" %} selected {% endif %} >Latest last</option>       
-                    <option {% if sortby == "Rating (DESC)" %} selected {% endif %} >Rating (DESC)</option>       
-                    <option {% if sortby == "Rating (ASC)" %} selected {% endif %} >Rating (ASC)</option>                    
-                    <option {% if sortby == "Views (DESC)" %} selected {% endif %} >Views (DESC)</option>                    
-                    <option {% if sortby == "Views (ASC)" %} selected {% endif %} >Views (ASC)</option>                    
+                    <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
+                    <option {% if sortby == "IMDB Rating" %} selected {% endif %} >IMDB Rating</option>   
+                    <option {% if sortby == "Metascore" %} selected {% endif %} >Metascore</option>                                                        
+                    <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                                                         
                     <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
                     <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
                     <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
@@ -65,13 +63,15 @@ Movies
             </div>
         </div>   
         <div class="form-row">
-            <div class="form-group col-12">
-                <button id="searchbutton" class="btn btn-dark" type="submit">Search</button>          
+            <div class="form-group col-md-4"></div>
+            <div class="form-group col-md-4 px-md-5">
+                <button id="searchbutton" class="btn btn-dark btn-block" type="submit">{% trans 'Search' %}</button>          
             </div>            
+            <div class="form-group col-md-4"></div>
         </div>           
         <div class="form-row">                     
             <div class="form-group col-12 text-center">                                   
-                <label for="pagination">Total: {{ count }} films</label>
+                <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'films' %}</label>
                 <div id="pagination" class="d-flex justify-content-center">           
                     {% include 'includes/paginationMovies.html' %}  
                 </div>
@@ -90,11 +90,11 @@ Movies
             <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
                 <div class="card">
                     <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                        <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap">
+                        <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
                         <div class="card-img-overlay">                                
-                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                            <p>Rating:  {{ movie.rating }}</p>
-                            <p>Views:   {{ movie.views }}</p>
+                            <p>{% trans 'Release' %}: {{ movie.release_date|date:"Y" }}</p>
+                            <p>IMDB:  {{ movie.imdb_rating }}</p>
+                            <p>Metascore:  {{ movie.metascore }}</p>
                         </div>
                     </a>
                     <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
@@ -102,23 +102,23 @@ Movies
                     </a>                                                
                     <div class="d-flex justify-content-start p-0 text-center">
                         {% if profile is None %}
-                        <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to favorite list">
+                        <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to favorite list' %}">
                             <i class="fa fa-thumbs-o-up"></i>
                         </a>
-                        <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watched list" data-id="{{ movie.id }}">
+                        <a href="{% url 'account_login' %}" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to watched list' %}">
                             <i class="fa fa-check-circle-o"></i>
                         </a>
-                        <a href="{% url 'account_login' %}" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="Add to watchlist" data-id="{{ movie.id }}">
+                        <a href="{% url 'account_login' %}" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to watchlist' %}">
                             <i class="fa fa-plus-square-o"></i>
                         </a>
                         {% else %}
-                        <div id="like-{{ movie.id }}" class="action like border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}Remove from favorite list{% else %}Add to favorite list{% endif %}" data-id="{{ movie.id }}">
+                        <div id="like-{{ movie.id }}" class="action like border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_liked:profile %}{% trans 'Remove from favorite list' %}{% else %}{% trans 'Add to favorite list' %}{% endif %}" data-id="{{ movie.id }}">
                             <i id="icon-like-{{ movie.id }}" class="{% if movie|is_liked:profile %}fa fa-thumbs-up{% else %}fa fa-thumbs-o-up{% endif %}"></i>
                         </div>
-                        <div id="watched-{{ movie.id }}" class="action watched border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}Remove from watched list{% else %}Add to watched list{% endif %}" data-id="{{ movie.id }}">
+                        <div id="watched-{{ movie.id }}" class="action watched border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_watched:profile %}{% trans 'Remove from watched list' %}{% else %}{% trans 'Add to watched list' %}{% endif %}" data-id="{{ movie.id }}">
                             <i id="icon-watched-{{ movie.id }}" class="{% if movie|is_watched:profile %}fa fa-check-circle{% else %}fa fa-check-circle-o{% endif %}"></i>
                         </div>
-                        <div id="watchlist-{{ movie.id }}" class="action watchlist border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}Remove from watchlist{% else %}Add to watchlist{% endif %}" data-id="{{ movie.id }}">
+                        <div id="watchlist-{{ movie.id }}" class="action watchlist border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% if movie|is_added:profile %}{% trans 'Remove from watchlist' %}{% else %}{% trans 'Add to watchlist' %}{% endif %}" data-id="{{ movie.id }}">
                             <i id="icon-watchlist-{{ movie.id }}" class="{% if movie|is_added:profile %}fa fa-plus-square{% else %}fa fa-plus-square-o{% endif %}"></i>
                         </div>
                         {% endif %}                            
@@ -133,6 +133,7 @@ Movies
 
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   

@@ -152,6 +152,7 @@
 {% endblock %}
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $("#directorsearchbutton").click(function (e) {
         e.preventDefault();

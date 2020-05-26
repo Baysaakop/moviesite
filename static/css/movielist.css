@@ -143,9 +143,4 @@
     #movielist .list .card-title {
         font-size: 16px;        
     }
-
-    #movielist #searchbutton {
-        display: block;
-        width: 100%;
-    }
 }

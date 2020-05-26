@@ -227,6 +227,17 @@ body {
     display: none;
 }
 
+#collapsibleNavbar select {
+    background: #343a40;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+}
+
+#collapsibleNavbar select::after {
+    content: none;
+}
+
 @media screen and (max-width:576px) {
     .navbar-dark .right .nav-item {
         justify-content: start;

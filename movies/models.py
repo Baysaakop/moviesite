@@ -3,6 +3,24 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+class Country(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Language(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class Occupation(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
@@ -64,17 +82,22 @@ class Movie(models.Model):
     genre = models.ManyToManyField(Genre)
     runningtime = models.IntegerField(default=90)
     release_date = models.DateField(auto_now=False, blank=True, null=True)
+    country = models.ManyToManyField(Country)
+    language = models.ManyToManyField(Language)
     mpa_rating = models.ForeignKey(MPA_Rating, on_delete=models.CASCADE, blank=True, null=True)
     trailer = models.URLField(max_length=200, blank=True, null=True)
     production = models.ManyToManyField(Production)
     director = models.ManyToManyField(Artist, related_name='director')    
+    writer = models.ManyToManyField(Artist, related_name='writer')  
     cast = models.ManyToManyField(Artist, related_name='cast')
+    supportingcast = models.ManyToManyField(Artist, related_name='supportingcast')
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)    
     watched = models.IntegerField(default=0)    
     watchlisted = models.IntegerField(default=0)    
-    rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
     score = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
+    imdb_rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)    
+    metascore = models.IntegerField(default=0)
     image = models.ImageField(upload_to='movies/images/', blank=True, null=True)
     poster = models.ImageField(upload_to='movies/posters/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -129,4 +152,34 @@ class MovieCommentReply(models.Model):
 
     def __str__(self):
         return self.user.username + " on " + self.movie.name
-    
+
+# class Series(models.Model):
+#     name = models.CharField(max_length=30)
+#     description = models.TextField(blank=True, null=True)
+#     plot = models.TextField(blank=True, null=True)
+#     genre = models.ManyToManyField(Genre)
+#     release_date = models.DateField(auto_now=False, blank=True, null=True)
+#     country = models.ManyToManyField(Country)
+#     language = models.ManyToManyField(Language)
+#     mpa_rating = models.ForeignKey(MPA_Rating, on_delete=models.CASCADE, blank=True, null=True)
+#     trailer = models.URLField(max_length=200, blank=True, null=True)
+#     production = models.ManyToManyField(Production)
+#     director = models.ManyToManyField(Artist, related_name='director')    
+#     writer = models.ManyToManyField(Artist, related_name='writer')  
+#     cast = models.ManyToManyField(Artist, related_name='cast')
+#     supportingcast = models.ManyToManyField(Artist, related_name='supportingcast')
+#     views = models.IntegerField(default=0)
+#     likes = models.IntegerField(default=0)    
+#     watched = models.IntegerField(default=0)    
+#     watchlisted = models.IntegerField(default=0)    
+#     score = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
+#     imdb_rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)    
+#     metascore = models.IntegerField(default=0)
+#     image = models.ImageField(upload_to='movies/images/', blank=True, null=True)
+#     poster = models.ImageField(upload_to='movies/posters/', blank=True, null=True)
+
+#     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+#     updated_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.name

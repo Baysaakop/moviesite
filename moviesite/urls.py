@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from movies.views import views
 from movies.views import movieactionviews
@@ -10,6 +11,10 @@ from movies.views import artistactionviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+
+urlpatterns += i18n_patterns (
     path('', views.home, name='home'),
     path('movielist/', views.movielist, name='movielist'),
     path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
@@ -42,8 +47,8 @@ urlpatterns = [
     path('getartistbyid/', searchviews.getartistbyid, name='getartistbyid'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
-    path('profile/', views.profile, name='profile'),
-]
+    path('profile/', views.profile, name='profile'),    
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

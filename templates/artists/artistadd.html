@@ -71,6 +71,7 @@
 {% endblock %}
 
 {% block javascript %}
+{{ block.super }}
 <script>
     $("#image").change(function () {
         if (this.files && this.files[0]) {
