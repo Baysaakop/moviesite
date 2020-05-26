@@ -92,7 +92,11 @@ Movies
                     <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
                         <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
                         <div class="card-img-overlay">                                
+<<<<<<< HEAD
                             <p>{% trans 'Release' %}: {{ movie.release_date|date:"Y" }}</p>
+=======
+                            <p>Release: {{ movie.release_date|date:"Y" }}</p>
+>>>>>>> f1009e282da27781ff389cbd32bf8079f38e80c5
                             <p>IMDB:  {{ movie.imdb_rating }}</p>
                             <p>Metascore:  {{ movie.metascore }}</p>
                         </div>
