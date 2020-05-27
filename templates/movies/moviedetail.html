@@ -28,17 +28,11 @@
                         <th>{% trans 'Production' %}</th>
                         <td>
                             {% for production in movie.production.all %}
-<<<<<<< HEAD
                             <p class="m-0">
                                 <a href="#">
                                     {{ production.name }}
                                 </a>
                             </p>
-=======
-                            <a href="#">
-                                {{ production.name }}
-                            </a>
->>>>>>> f1009e282da27781ff389cbd32bf8079f38e80c5
                             {% endfor %}
                         </td>
                     </tr>          
@@ -58,17 +52,11 @@
                         <th>{% trans 'Writer' %}</th>
                         <td>
                             {% for writer in movie.writer.all %}
-<<<<<<< HEAD
                             <p class="m-0">
                                 <a href="{% url 'artistdetail' writer.pk %}">
                                     {{ writer.name }}
                                 </a>
                             </p>
-=======
-                            <a href="{% url 'artistdetail' writer.pk %}">
-                                {{ writer.name }}
-                            </a>
->>>>>>> f1009e282da27781ff389cbd32bf8079f38e80c5
                             {% endfor %}
                         </td>
                     </tr>
@@ -115,11 +103,7 @@
                         <td>{{ movie.metascore }}</td>
                     </tr> 
                     <tr>
-<<<<<<< HEAD
                         <th>{% trans 'Score' %}</th>
-=======
-                        <th>Score</th>
->>>>>>> f1009e282da27781ff389cbd32bf8079f38e80c5
                         <td>
                             <span class="avgrating">
                                 {{ movie.score|floatformat:1|intcomma }}
