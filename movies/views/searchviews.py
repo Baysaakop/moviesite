@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
-from ..models import Occupation, Artist, Genre, Movie, MPA_Rating
+from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Production, Country, Language, Series, Season, Episode
 import json
 
 def is_valid_queryparam(param):
@@ -46,6 +46,22 @@ def searchdirector(request):
     else:
         return HttpResponse("Request method is not a GET")
 
+def searchproducer(request):
+    if request.method == 'GET':
+        searchtext = request.GET.get('searchtext')
+        producers = Artist.objects.filter(occupation__name='Producer', name__icontains=searchtext).values()        
+        return JsonResponse({'producers': list(producers)})
+    else:
+        return HttpResponse("Request method is not a GET")     
+
+def searchwriter(request):
+    if request.method == 'GET':
+        searchtext = request.GET.get('searchtext')
+        writers = Artist.objects.filter(occupation__name='Writer', name__icontains=searchtext).values()                
+        return JsonResponse({'writers': list(writers)})
+    else:
+        return HttpResponse("Request method is not a GET")                
+
 def searchactor(request):
     if request.method == 'GET':
         searchtext = request.GET.get('searchtext')
@@ -53,6 +69,14 @@ def searchactor(request):
         return JsonResponse({'actors': list(actors)})
     else:
         return HttpResponse("Request method is not a GET")        
+
+def searchproduction(request):
+    if request.method == 'GET':
+        searchtext = request.GET.get('searchtext')
+        productions = Production.objects.filter(name__icontains=searchtext).values()        
+        return JsonResponse({'productions': list(productions)})
+    else:
+        return HttpResponse("Request method is not a GET")
 
 def getmoviebyid(request):
     if request.method == 'GET':
@@ -80,6 +104,32 @@ def getmoviebyid(request):
     else:
         return HttpResponse("Request method is not a GET")    
 
+def getseriesbyid(request):
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        movie = Movie.objects.get(id=id)
+        genres = serializers.serialize('json', movie.genre.all())
+        directors = serializers.serialize('json', movie.director.all())
+        actors = serializers.serialize('json', movie.cast.all())
+        data = {
+            'id': movie.id,
+            'name': movie.name,
+            'description': movie.description,
+            'plot': movie.plot,
+            'runningtime': movie.runningtime,
+            'release_date': movie.release_date,
+            'mpa_rating': movie.mpa_rating.id,
+            'trailer': movie.trailer, 
+            # 'image': movie.image.url,
+            # 'poster': movie.poster.url,
+            'genres': genres,
+            'directors': directors,
+            'actors': actors
+        }
+        return JsonResponse(data, safe=False)
+    else:
+        return HttpResponse("Request method is not a GET")            
+
 def getartistbyid(request):
     if request.method == 'GET':
         id = request.GET.get('id')
@@ -98,3 +148,15 @@ def getartistbyid(request):
         return JsonResponse(data, safe=False)
     else:
         return HttpResponse("Request method is not a GET")      
+
+def getproductionbyid(request):
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        production = Production.objects.get(id=id)        
+        data = {
+            'id': production.id,
+            'name': production.name,
+        }
+        return JsonResponse(data, safe=False)
+    else:
+        return HttpResponse("Request method is not a GET")    

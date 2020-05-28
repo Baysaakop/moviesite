@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply, MPA_Rating, Production, Country, Language
+from .models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply, MPA_Rating, Production, Country, Language, Episode, Season, Series
 
 admin.site.register(Occupation)
 admin.site.register(Artist)
@@ -15,6 +15,9 @@ admin.site.register(MPA_Rating)
 admin.site.register(Production)
 admin.site.register(Country)
 admin.site.register(Language)
+admin.site.register(Episode)
+admin.site.register(Season)
+admin.site.register(Series)
 
 class ProfileInline(admin.StackedInline):
     model = Profile

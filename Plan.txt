@@ -12,7 +12,8 @@
 12. Pagination -> /done/
 13. Language selection -> /done/
 14. Series
-    - Model
+    - Learn widget tweaks
+    - Model 
     - List View, Template
     - Detail View, Template
     - Create View, Template

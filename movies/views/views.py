@@ -45,7 +45,7 @@ def home(request):
     newmovies = Movie.objects.all().order_by('-updated_at')[:6]
     topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:6]        
     mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
-    mostwatchedmovies = Movie.objects.annotate(count_watched=Count('watchedlist')).order_by('-count_watched')[:6]
+    mostwatchedmovies = Movie.objects.annotate(count_watched=Count('moviewatchedlist')).order_by('-count_watched')[:6]
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
@@ -62,13 +62,13 @@ def home(request):
 def profile(request):
     profile = Profile.objects.get(user=request.user)  
     favoritelist = profile.liked_movies.order_by('name')  
-    watchedlist = profile.watchedlist.order_by('name')
-    watchlist = profile.watchlist.order_by('name')
+    moviewatchedlist = profile.moviewatchedlist.order_by('name')
+    moviewatchlist = profile.moviewatchlist.order_by('name')
     context = {
         'profile': profile,
         'favoritelist': favoritelist,
-        'watchedlist': watchedlist,
-        'watchlist': watchlist
+        'moviewatchedlist': moviewatchedlist,
+        'moviewatchlist': moviewatchlist
     }
     return render(request, 'profile.html', context)
 

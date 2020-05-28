@@ -1,0 +1,536 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block style %}
+<style>
+    form a {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    form a:hover {
+        background: #c3cac2;          
+        text-decoration: none;  
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>        
+            <li class="breadcrumb-item active" aria-current="page">Add new series</li>
+        </ol>
+    </nav> 
+    <div class="border rounded m-3 p-3">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Series name" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" rows="4" id="description" name="description" placeholder="Series description"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="plot">Plot</label>
+                    <textarea class="form-control" rows="4" id="plot" name="plot" placeholder="Series plot"></textarea>
+                </div>
+            </div>            
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="country">Country</label>
+                    <select id="country" class="form-control" name="country">
+                        {% for country in countries %}
+                        <option value="{{ country }}" {% if country.name == 'USA' %} selected {% endif %}>{{ country }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lang">Language</label>
+                    <select id="lang" class="form-control" name="lang">
+                        {% for lang in langs %}
+                        <option value="{{ lang }}" {% if lang.name == 'English' %} selected {% endif %}>{{ lang }}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+                <div class="form-group col-md-4">
+                    <label for="release_date">Release date</label>
+                    <input type="date" class="form-control" name="release_date" id="release_date">
+                </div>                
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="runningtime">Running time</label>
+                    <input type="number" min="0" class="form-control" name="runningtime" id="runningtime" value="90">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="mpa_rating">MPA Rating</label>
+                    <select class="custom-select" id="mpa_rating" name="mpa_rating">
+                        {% for mpa_rating in mpa_ratings %}
+                        <option value="{{ mpa_rating.id }}">{{ mpa_rating.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="imdb_rating">Imdb Rating</label>
+                    <input type="number" min="0" max="10" step="0.1" class="form-control" name="imdb_rating" id="imdb_rating" value="0">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="metascore">Metascore</label>
+                    <input type="number" min="0" max="100" class="form-control" name="metascore" id="metascore" value="0">
+                </div>
+            </div>
+            <div class="form-row">                
+                <div class="form-group col-md-9">                                
+                    <label>Genre</label>
+                    <div class="form-row">                
+                        {% for genre in genres %}
+                            <div class="form-group col-12 col-sm-6 col-md-3 col-lg-2 mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="genreCheck{{genre.id}}" name="genre" value="{{ genre.id }}">
+                                    <label class="custom-control-label" for="genreCheck{{genre.id}}">{{ genre.name }}</label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                    </div>         
+                    <div class="form-row">
+                        <label for="trailer">Trailer</label>                    
+                        <input type="text" class="form-control mr-lg-2" name="trailer" id="trailer" placeholder="URL:">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">                    
+                    <label for="custom-file-image">Image</label>
+                    <div class="border d-flex justify-content-center" style="width: 100%; height: 192px;">
+                        <img id="imagefield" src="" style="height: 100%; width: auto;">
+                    </div>                    
+                    <div class="custom-file" id="custom-file-image">
+                        <input type="file" class="custom-file-input" name="image" id="image" required>
+                        <label class="custom-file-label" for="image">Choose file</label>
+                    </div>                    
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find production</label>
+                    <div class="form-group" id="divsearchproduction">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="productionsearch" name="productionsearch" placeholder="Production name..."/>
+                            <a id="productionsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id='productionresult' class='form-row'>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="productionlist">Production</label>
+                    <div id="productionlist" class="rounded border" style="min-height: 120px;">
+                    </div>                    
+                </div>                
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find producer</label>
+                    <div class="form-group" id="divsearchproducer">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="producersearch" name="producersearch" placeholder="Producer name..."/>
+                            <a id="producersearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id='producerresult' class='form-row'>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="producerlist">Producer</label>
+                    <div id="producerlist" class="rounded border" style="min-height: 120px;">
+                    </div>                    
+                </div>                
+            </div> 
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find director</label>
+                    <div class="form-group" id="divsearchdirector">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="directorsearch" name="directorsearch" placeholder="Director name..."/>
+                            <a id="directorsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id='directorresult' class='form-row'>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="directorlist">Director</label>
+                    <div id="directorlist" class="rounded border" style="min-height: 120px;">
+                    </div>                    
+                </div>                
+            </div>  
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find writer</label>
+                    <div class="form-group" id="divsearchdirector">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="writersearch" name="writersearch" placeholder="Writer name..."/>
+                            <a id="writersearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id='writerresult' class='form-row'>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="writerlist">Writer</label>
+                    <div id="writerlist" class="rounded border" style="min-height: 120px;">
+                    </div>                    
+                </div>                
+            </div>  
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find main actor</label>
+                    <div class="form-group">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="mainactorsearch" name="mainactorsearch" placeholder="Actor name..."/>
+                            <a id="mainactorsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="mainactorresult" class="form-row">                        
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="maincastlist">Main cast</label>
+                    <div id="maincastlist" class="rounded border" style="min-height: 240px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label>Find supporting actor</label>
+                    <div class="form-group">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="supportingactorsearch" name="supportingactorsearch" placeholder="Actor name..."/>
+                            <a id="supportingactorsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="supportingactorresult" class="form-row">                        
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="supportingcastlist">Supporting Cast</label>
+                    <div id="supportingcastlist" class="rounded border" style="min-height: 240px;">
+                    </div>
+                </div>
+            </div>          
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                </div>
+            </div>  
+        </form>
+    </div>    
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script>
+    $("#productionsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#productionsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchproduction/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#productionresult").empty();
+                for (p in data.productions) {                    
+                    $("#productionresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input checkProduction' id='productionCheck" + data.productions[p].id + "' data-id='" + data.productions[p].id + "' data-name='" + data.productions[p].name + "' onchange='selectProduction(this)'>" +
+                                "<label class='custom-control-label' for='productionCheck" + data.productions[p].id + "'>" + data.productions[p].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#producersearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#producersearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchproducer/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#producerresult").empty();
+                for (d in data.producers) {                    
+                    $("#producerresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input checkProducer' id='producerCheck" + data.producers[d].id + "' data-id='" + data.producers[d].id + "' data-name='" + data.producers[d].name + "' onchange='selectProducer(this)'>" +
+                                "<label class='custom-control-label' for='producerCheck" + data.producers[d].id + "'>" + data.producers[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#directorsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#directorsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchdirector/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#directorresult").empty();
+                for (d in data.directors) {                    
+                    $("#directorresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input checkDirector' id='directorCheck" + data.directors[d].id + "' data-id='" + data.directors[d].id + "' data-name='" + data.directors[d].name + "' onchange='selectDirector(this)'>" +
+                                "<label class='custom-control-label' for='directorCheck" + data.directors[d].id + "'>" + data.directors[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#writersearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#writersearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchwriter/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#writerresult").empty();                
+                for (d in data.writers) {                    
+                    $("#writerresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input checkWriter' id='writerCheck" + data.writers[d].id + "' data-id='" + data.writers[d].id + "' data-name='" + data.writers[d].name + "' onchange='selectWriter(this)'>" +
+                                "<label class='custom-control-label' for='writerCheck" + data.writers[d].id + "'>" + data.writers[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#mainactorsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#mainactorsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchactor/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#mainactorresult").empty();
+                for (d in data.actors) {                    
+                    $("#mainactorresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input' id='mainactorCheck" + data.actors[d].id + "' data-id='" + data.actors[d].id + "' data-name='" + data.actors[d].name + "' onchange='selectMainActor(this)'>" +
+                                "<label class='custom-control-label' for='mainactorCheck" + data.actors[d].id + "'>" + data.actors[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#supportingactorsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#supportingactorsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchactor/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#supportingactorresult").empty();
+                for (d in data.actors) {                    
+                    $("#supportingactorresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input' id='supportingactorCheck" + data.actors[d].id + "' data-id='" + data.actors[d].id + "' data-name='" + data.actors[d].name + "' onchange='selectSupportingActor(this)'>" +
+                                "<label class='custom-control-label' for='supportingactorCheck" + data.actors[d].id + "'>" + data.actors[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    function selectProduction(checkbox) {        
+        var id = checkbox.getAttribute("data-id");            
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#productionlist").append(
+                "<div id='production" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checkProduction' name='production' id='productionCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='productionCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#production" + id).remove();
+        }
+    }
+    
+    function selectProducer(checkbox) {        
+        var id = checkbox.getAttribute("data-id");            
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#producerlist").append(
+                "<div id='producer" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checkProducer' name='producer' id='producerCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='producerCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#producer" + id).remove();
+        }
+    }
+
+    function selectDirector(checkbox) {        
+        var id = checkbox.getAttribute("data-id");            
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#directorlist").append(
+                "<div id='director" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checkDirector' name='director' id='directorCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='directorCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#director" + id).remove();
+        }
+    }
+
+    function selectWriter(checkbox) {        
+        var id = checkbox.getAttribute("data-id");            
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#writerlist").append(
+                "<div id='writer" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checkWriter' name='writer' id='writerCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='writerCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#writer" + id).remove();
+        }
+    }
+
+    function selectMainActor(checkbox) {        
+        var id = checkbox.getAttribute("data-id");   
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#maincastlist").append(
+                "<div id='actor" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checkmainActor' name='mainactor' id='mainactorCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='mainactorCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#mainactor" + id).remove();
+        }
+    }
+
+    function selectSupportingActor(checkbox) {        
+        var id = checkbox.getAttribute("data-id");   
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#supportingcastlist").append(
+                "<div id='supportingactor" + id + "' class='form-group col'>" +
+                    "<div class='custom-control custom-checkbox'>" +
+                        "<input type='checkbox' class='custom-control-input checksupportingActor' name='supportingactor' id='supportingactorCheck" + id + "' value='" + id + "' checked>" +
+                        "<label class='custom-control-label' for='supportingactorCheck" + id + "'>" + name + "</label>" +
+                    "</div>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#supportingactor" + id).remove();
+        }
+    }
+
+    $("#image").change(function () {
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $("#imagefield").attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+</script>
+{% endblock %}

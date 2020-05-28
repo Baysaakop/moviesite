@@ -57,15 +57,15 @@ def addToWatched(request):
         movie_id = request.GET.get('movie_id')
         movie = Movie.objects.get(pk=movie_id)
         profile = Profile.objects.get(user=user)
-        result = profile.watchedlist.filter(pk=movie_id).first()        
+        result = profile.moviewatchedlist.filter(pk=movie_id).first()        
         if result is None:
-            profile.watchedlist.add(movie)
+            profile.moviewatchedlist.add(movie)
             is_watched = True
         else:
-            profile.watchedlist.remove(movie)
+            profile.moviewatchedlist.remove(movie)
             is_watched = False
         
-        total_watched = Profile.objects.filter(watchedlist=movie).count()
+        total_watched = Profile.objects.filter(moviewatchedlist=movie).count()
         movie.watched = total_watched
         movie.save()
 
@@ -85,15 +85,15 @@ def addToWatchlist(request):
         movie_id = request.GET.get('movie_id')
         movie = Movie.objects.get(pk=movie_id)
         profile = Profile.objects.get(user=user)
-        result = profile.watchlist.filter(pk=movie_id).first()        
+        result = profile.moviewatchlist.filter(pk=movie_id).first()        
         if result is None:
-            profile.watchlist.add(movie)
+            profile.moviewatchlist.add(movie)
             is_added = True
         else:
-            profile.watchlist.remove(movie)
+            profile.moviewatchlist.remove(movie)
             is_added = False
 
-        total_watchlist = Profile.objects.filter(watchlist=movie).count()
+        total_watchlist = Profile.objects.filter(moviewatchlist=movie).count()
         movie.watchlisted = total_watchlist
         movie.save()
         
@@ -165,12 +165,12 @@ def commentLike(request):
         user = request.user
         comment_id = request.GET.get('comment_id')
         comment = MovieComment.objects.get(pk=comment_id)
-        result = comment.commentlike.filter(pk=user.pk).first()                
+        result = comment.moviecommentlike.filter(pk=user.pk).first()                
         if result is None:
-            comment.commentlike.add(user)
+            comment.moviecommentlike.add(user)
             is_liked = True
         else:
-            comment.commentlike.remove(user)
+            comment.moviecommentlike.remove(user)
             is_liked = False
             
         data = {
@@ -188,12 +188,12 @@ def commentDislike(request):
         user = request.user
         comment_id = request.GET.get('comment_id')
         comment = MovieComment.objects.get(pk=comment_id)
-        result = comment.commentdislike.filter(pk=user.pk).first()                
+        result = comment.moviecommentdislike.filter(pk=user.pk).first()                
         if result is None:
-            comment.commentdislike.add(user)
+            comment.moviecommentdislike.add(user)
             is_disliked = True
         else:
-            comment.commentdislike.remove(user)
+            comment.moviecommentdislike.remove(user)
             is_disliked = False
             
         data = {

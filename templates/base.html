@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block style %} {% endblock %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">        
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">       
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    {{ form.media }} 
 </head>
 <body>
     <div id="top">        
@@ -98,7 +102,7 @@
                         <span class="icontext">{% trans 'Language' %}</span>
                         <i class="fa fa-globe" style="font-size: 22px;"></i>
                     </a>                        
-                    <div class="dropdown-menu py-2">
+                    <div class="dropdown-menu dropdown-menu-right py-2">
                         {% get_current_language as LANGUAGE_CODE %}
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
@@ -126,11 +130,13 @@
                         <span class="icontext">{% trans 'Account' %}</span>
                         <i class="fa fa-user-circle" style="font-size: 22px;"></i>
                     </a>
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Profile' %}</a>
                         {% if user|isAdmin %}
                         <a class="dropdown-item" href="{% url 'movieadd' %}">{% trans 'Add movie' %}</a>
                         <a class="dropdown-item" href="{% url 'movieedit' %}">{% trans 'Edit movie' %}</a>
+                        <a class="dropdown-item" href="{% url 'seriesadd' %}">{% trans 'Add series' %}</a>
+                        <a class="dropdown-item" href="{% url 'new_series' %}">{% trans 'New series' %}</a>
                         <a class="dropdown-item" href="{% url 'artistadd' %}">{% trans 'Add artist' %}</a>
                         <a class="dropdown-item" href="{% url 'artistedit' %}">{% trans 'Edit artist' %}</a>
                         {% endif %}
@@ -167,10 +173,7 @@
     
     <div id="footer" class="jumbotron text-center" style="margin-bottom:0">
         <p>Footer</p>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    </div>    
     {% block javascript %}
     <script>    
         $(".language").click(function () {       

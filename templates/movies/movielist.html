@@ -33,7 +33,7 @@ Movies
         <div class="form-row">            
             <div class="form-group col-sm-12 col-md-6 col-lg-3">
                 <label for="inputGenre">{% trans 'Genre' %}</label>
-                <select id="inputGenre" class="form-control" name="genrename" id="genre">
+                <select id="inputGenre" class="form-control" name="genrename">
                     <option {% if genrename is None %} selected {% endif %}>{% trans 'Choose...' %}</option>
                     {% for genre in genres %}
                     <option value="{{ genre }}" {% if genrename == genre.name %} selected {% endif %}>{{ genre }}</option>

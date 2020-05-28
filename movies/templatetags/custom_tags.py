@@ -24,7 +24,7 @@ def is_watched(movie, profile):
     if profile is None:
         return False
     else:
-        result = profile.watchedlist.filter(pk=movie.pk).first()    
+        result = profile.moviewatchedlist.filter(pk=movie.pk).first()    
         if result is None:
             return False
         else:
@@ -35,7 +35,7 @@ def is_added(movie, profile):
     if profile is None:
         return False
     else:
-        result = profile.watchlist.filter(pk=movie.pk).first()    
+        result = profile.moviewatchlist.filter(pk=movie.pk).first()    
         if result is None:
             return False
         else:
@@ -46,7 +46,7 @@ def is_commentliked(comment, user):
     if user is None:
         return False
     else:
-        result = comment.commentlike.filter(pk=user.pk).first()    
+        result = comment.moviecommentlike.filter(pk=user.pk).first()    
         if result is None:
             return False
         else:
@@ -57,7 +57,7 @@ def is_commentdisliked(comment, user):
     if user is None:
         return False
     else:
-        result = comment.commentdislike.filter(pk=user.pk).first()    
+        result = comment.moviecommentdislike.filter(pk=user.pk).first()    
         if result is None:
             return False
         else:

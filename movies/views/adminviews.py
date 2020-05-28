@@ -1,10 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
-from ..models import Occupation, Artist, Genre, Movie, MPA_Rating
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
+from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Series, Season, Episode, Country, Language
+from ..forms import SeriesForm
 import json
 
 ## ADMIN VIEWS
@@ -205,3 +208,91 @@ def artistdelete(request):
             return redirect('artistlist')
     else:
         return HttpResponse("Request method is not a GET")    
+
+@login_required
+def seriesadd(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        description = request.POST['description']
+        plot = request.POST['plot']
+        runningtime = request.POST['runningtime']
+        release_date = request.POST['release_date']  
+        country = request.POST['country']
+        language = request.POST['lang']        
+        imdb_rating = request.POST['imdb_rating']
+        metascore = request.POST['metascore']  
+        genres = request.POST.getlist('genre')
+        trailer = request.POST['trailer']
+        image = request.FILES['image']          
+        productions = request.POST.getlist('production')
+        producers = request.POST.getlist('producer')
+        directors = request.POST.getlist('director')
+        writers = request.POST.getlist('writer')
+        actors = request.POST.getlist('actor')
+        supportingactors = request.POST.getlist('supportingactor')
+        user = request.user
+        mpa_rating = request.POST['mpa_rating']
+        mpa = MPA_Rating.objects.get(pk=mpa_rating)
+
+        series = Series.objects.create(
+            name=name,
+            description=description,
+            plot=plot,
+            runningtime=runningtime,
+            release_date=release_date,       
+            imdb_rating=imdb_rating,
+            metascore=metascore,     
+            mpa_rating=mpa,
+            trailer=trailer,
+            image=image,
+            updated_by=user
+        )
+        series.save()        
+
+        c = Country.objects.filter(name=country).first()
+        series.country.add(c)
+
+        l = Language.objects.filter(name=language).first()
+        series.language.add(l)
+
+        for g in genres:
+            series.genre.add(g)
+
+        for p in productions:
+            series.production.add(p)
+
+        for p in producers:
+            series.producer.add(p)
+
+        for d in directors:
+            series.director.add(d)
+
+        for w in writers:
+            series.writer.add(w)
+
+        for a in actors:
+            series.maincast.add(a)  
+
+        for s in supportingactors:
+            series.supportingcast.add(s)        
+
+        return redirect('home')
+    
+    countries = Country.objects.all().order_by('name')    
+    langs = Language.objects.all().order_by('name')    
+    genres = Genre.objects.all().order_by('name')    
+    mpa_ratings = MPA_Rating.objects.all()
+    context = {
+        'countries': countries,
+        'genres': genres,
+        'langs': langs,
+        'mpa_ratings': mpa_ratings
+    }
+
+    return render(request, 'series/seriesadd.html', context)        
+
+class NewSeriesView(CreateView):
+    model = Series
+    form_class = SeriesForm
+    success_url = reverse_lazy('home')
+    template_name = 'series/new_series.html'
