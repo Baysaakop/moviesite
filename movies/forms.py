@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import SelectMultiple
 from tempus_dominus.widgets import DatePicker
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -35,6 +36,36 @@ class SeriesForm(forms.ModelForm):
                     'maxDate': '2500-01-01',
                 }
             ),
+            'production': SelectMultiple(
+                attrs={
+                    'size': '10',
+                }
+            ),
+            'producer': SelectMultiple(
+                attrs={
+                    'size': '10',
+                }
+            ),
+            'director': SelectMultiple(
+                attrs={
+                    'size': '20',
+                }
+            ),
+            'writer': SelectMultiple(
+                attrs={
+                    'size': '20',
+                }
+            ),
+            'maincast': SelectMultiple(
+                attrs={
+                    'size': '30',
+                }
+            ),
+            'supportingcast': SelectMultiple(
+                attrs={
+                    'size': '30',
+                }
+            )
         }
 
     def __init__(self, *args, **kwargs):
@@ -42,11 +73,11 @@ class SeriesForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         ## ARTIST FILTERING
-        self.fields['producer'].queryset = Artist.objects.filter(occupation__name='Producer')
-        self.fields['director'].queryset = Artist.objects.filter(occupation__name='Director')
-        self.fields['writer'].queryset = Artist.objects.filter(occupation__name='Writer')
-        self.fields['maincast'].queryset = Artist.objects.filter(occupation__name='Actor')
-        self.fields['supportingcast'].queryset = Artist.objects.filter(occupation__name='Actor')
+        self.fields['producer'].queryset = Artist.objects.filter(occupation__name='Producer').order_by('name')   
+        self.fields['director'].queryset = Artist.objects.filter(occupation__name='Director').order_by('name')   
+        self.fields['writer'].queryset = Artist.objects.filter(occupation__name='Writer').order_by('name')   
+        self.fields['maincast'].queryset = Artist.objects.filter(occupation__name='Actor').order_by('name')   
+        self.fields['supportingcast'].queryset = Artist.objects.filter(occupation__name='Actor').order_by('name')   
         ## REQUIREMENT SETTING
         self.fields['runningtime'].required = False
         self.fields['genre'].required = False

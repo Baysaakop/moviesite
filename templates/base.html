@@ -62,7 +62,7 @@
                     <a class="nav-link" href="{% url 'movielist' %}">{% trans 'Films' %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% trans 'Series' %}</a>
+                    <a class="nav-link" href="{% url 'serieslist' %}">{% trans 'Series' %}</a>
                 </li>  
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'artistlist' %}">{% trans 'Artists' %}</a>
@@ -135,8 +135,7 @@
                         {% if user|isAdmin %}
                         <a class="dropdown-item" href="{% url 'movieadd' %}">{% trans 'Add movie' %}</a>
                         <a class="dropdown-item" href="{% url 'movieedit' %}">{% trans 'Edit movie' %}</a>
-                        <a class="dropdown-item" href="{% url 'seriesadd' %}">{% trans 'Add series' %}</a>
-                        <a class="dropdown-item" href="{% url 'new_series' %}">{% trans 'New series' %}</a>
+                        <a class="dropdown-item" href="{% url 'seriescreate' %}">{% trans 'Add new series' %}</a>                        
                         <a class="dropdown-item" href="{% url 'artistadd' %}">{% trans 'Add artist' %}</a>
                         <a class="dropdown-item" href="{% url 'artistedit' %}">{% trans 'Edit artist' %}</a>
                         {% endif %}

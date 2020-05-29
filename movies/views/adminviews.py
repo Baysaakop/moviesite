@@ -5,9 +5,10 @@ from django.http import HttpResponse, Http404, JsonResponse
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView
-from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Series, Season, Episode, Country, Language
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Series, Season, Episode, Country, Language, Profile
 from ..forms import SeriesForm
+from ..filters import SeriesFilter
 import json
 
 ## ADMIN VIEWS
@@ -291,8 +292,52 @@ def seriesadd(request):
 
     return render(request, 'series/seriesadd.html', context)        
 
-class NewSeriesView(CreateView):
+class SeriesListView(ListView):
     model = Series
+    template_name = 'series/serieslist.html'
+    context_object_name = 'queryset'
+    paginate_by = 12
+    ordering = ['-updated_at']
+    filterset_class = SeriesFilter
+
+    def get_context_data(self, **kwargs):
+        genres = Genre.objects.all().order_by('name')        
+        profile = None
+        if self.request.user.is_authenticated:
+            profile = Profile.objects.get(user=self.request.user)
+        context = super().get_context_data(**kwargs)
+        context['genres'] = genres
+        context['profile'] = profile
+        context['filterset'] = self.filterset
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+class SeriesDetailView(DetailView):
+    model = Series
+    template_name = 'series/seriesdetail.html'
+    context_object_name = 'series'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        return context
+
+class SeriesCreateView(CreateView):
+    model = Series
+    template_name = 'series/seriescreate.html'
     form_class = SeriesForm
-    success_url = reverse_lazy('home')
-    template_name = 'series/new_series.html'
+    success_url = reverse_lazy('serieslist')    
+
+class SeriesUpdateView(UpdateView):
+    model = Series
+    template_name = 'series/seriesupdate.html'
+    form_class = SeriesForm    
+    success_url = reverse_lazy('serieslist')    
+
+class SeriesDeleteView(DeleteView):
+    model = Series
+    template_name = 'series/seriesdelete.html'
+    success_url = reverse_lazy('serieslist')
