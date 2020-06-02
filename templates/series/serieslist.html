@@ -5,7 +5,7 @@ Series List
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/movielist.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,22 +17,94 @@ Series List
         </ol>
     </nav>
     <div class="m-3">
-        <form method="get">
-            {{ filter.form }}
-            <button type="submit">Search</button>
-        </form>
-    </div>
-    <div class="card-columns m-3">
-        {% for series in queryset %}
-            <div class="card bg-light" style="height: 200px;">
-                <div class="card-body d-flex justify-content-center align-items-center">
-                    <div>{{ series }}</div>
+        <form method="get" action="." id="filterform" class="p-3 border rounded">
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <label for="searchbyname">{% trans 'Search by name' %}</label>
+                    <div class="input-group" id="searchbyname">                                        
+                        <input class="form-control py-2 border-right-0 border" id="name" type="search" name="name" placeholder="Name..." {% if name is not None %} value="{{ name }}" {% endif %} />
+                        <a id="searchbutton" href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
+                            <div class="input-group-text bg-transparent">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-        {% endfor %}        
-    </div>    
+            <div class="form-row">
+                <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                    <label for="inputGenre">{% trans 'Genre' %}</label>
+                    <select id="inputGenre" class="form-control" name="genrename">
+                        <option {% if genrename is None %} selected {% endif %}>{% trans 'Any' %}</option>
+                        {% for genre in genres %}
+                        <option value="{{ genre }}" {% if genrename == genre.name %} selected {% endif %}>{{ genre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-sm-12 col-md-6 col-lg-3">
+                    <label for="sort">{% trans 'Sort By' %}</label>
+                    <select id="sort" class="form-control" name="sortby">
+                        <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
+                        <option {% if sortby == "IMDB Rating" %} selected {% endif %} >IMDB Rating</option>   
+                        <option {% if sortby == "Metascore" %} selected {% endif %} >Metascore</option>                                                        
+                        <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                                                         
+                        <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
+                        <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
+                        <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
+                        <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                        
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                </div>                
+            </div>            
+        </form>
+    </div>
     <div class="text-center m-3">
         <label for="pagination">{% trans 'Total' %}: {{ queryset.count }} {% trans 'films' %}</label>
+    </div> 
+    <div class="row p-3">
+        {% for series in queryset %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
+                <a href="{% url 'seriesdetail' series.pk %}">
+                    <div class="card">                                     
+                        {% if series.image %}
+                        <img class="card-img" src="{{ series.image.url }}" alt="Card image">
+                        {% else %}
+                        <div class="card-img" style="min-height: 220px;">
+                            <div class="title d-flex justify-content-center align-items-center text-center">
+                                <h5 class="card-title" style="color: #000;">{{ series }}</h5>                                
+                            </div>
+                        </div>
+                        {% endif %}   
+                        <div class="card-img-overlay">                
+                            <div class="title">
+                                <h6 class="card-title text-center">{{ series }}</h6>
+                                <p style="color: #fff; font-size: small;">Date: {{ series.release_date|date:"Y" }}</p>
+                                <p style="color: #fff; font-size: small">Imdb: {{ series.imdb_rating }}</p>
+                                <p style="color: #fff; font-size: small">Meta: {{ series.metascore }}</p>                                
+                            </div>
+                            <div class="actions d-flex justify-content-start p-0 text-center">
+                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Like' %}">
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                </a>
+                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Watched' %}">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Watchlist' %}">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </div>
+                        </div>                                                                                                         
+                    </div>   
+                    <p class="card-text">{{ series }}</p>                                      
+                </a>                                        
+            </div>
+        {% endfor %}
+    </div>
+    <div class="text-center m-3">        
         <div id="pagination" class="d-flex justify-content-center">           
             {% include 'includes/pagination.html' %}  
         </div>

@@ -8,7 +8,6 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Series, Season, Episode, Country, Language, Profile
 from ..forms import SeriesForm
-from ..filters import SeriesFilter
 import json
 
 ## ADMIN VIEWS
@@ -289,16 +288,17 @@ def seriesadd(request):
         'langs': langs,
         'mpa_ratings': mpa_ratings
     }
-
     return render(request, 'series/seriesadd.html', context)        
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
 
 class SeriesListView(ListView):
     model = Series
     template_name = 'series/serieslist.html'
     context_object_name = 'queryset'
-    paginate_by = 12
-    ordering = ['-updated_at']
-    filterset_class = SeriesFilter
+    paginate_by = 24
+    ordering = ['-updated_at']    
 
     def get_context_data(self, **kwargs):
         genres = Genre.objects.all().order_by('name')        
@@ -308,13 +308,38 @@ class SeriesListView(ListView):
         context = super().get_context_data(**kwargs)
         context['genres'] = genres
         context['profile'] = profile
-        context['filterset'] = self.filterset
+        context['name'] = self.request.GET.get('name')
+        context['genrename'] = self.request.GET.get('genrename')
+        context['sortby'] = self.request.GET.get('sortby')
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        return self.filterset.qs.distinct()
+        name = self.request.GET.get('name')
+        genrename = self.request.GET.get('genrename')
+        sortby = self.request.GET.get('sortby')
+        if is_valid_queryparam(name):
+            queryset = queryset.filter(name__icontains=name)        
+        if is_valid_queryparam(genrename) and genrename != 'Any' and genrename != 'Бүх':
+            queryset = queryset.filter(genre__name=genrename)
+        if is_valid_queryparam(sortby):
+            if sortby == 'Latest':
+                queryset = queryset.order_by('-updated_at')
+            elif sortby == 'IMDB Rating':
+                queryset = queryset.order_by('-imdb_rating')
+            elif sortby == 'Metascore':
+                queryset = queryset.order_by('-metascore')
+            elif sortby == 'Views':
+                queryset = queryset.order_by('-views')          
+            elif sortby == 'Release date (Newest first)':
+                queryset = queryset.order_by('-release_date')
+            elif sortby == 'Release date (Oldest first)':
+                queryset = queryset.order_by('release_date')
+            elif sortby == 'Alphabetically (A-Z)':
+                queryset = queryset.order_by('name')
+            elif sortby == 'Alphabetically (Z-A)':
+                queryset = queryset.order_by('-name')
+        return queryset
 
 class SeriesDetailView(DetailView):
     model = Series

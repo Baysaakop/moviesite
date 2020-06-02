@@ -1,0 +1,67 @@
+#searchbutton {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#searchbutton:hover {
+    background: #dee2e6;  
+}
+
+.card {    
+    border: 5px solid #000;    
+    width: 100%;
+    height: auto;    
+    transition: all .5s;    
+    overflow: hidden;
+}
+
+.card a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.card:hover {
+    border: 5px solid #dedede;    
+}
+
+.card:hover .card-img-overlay {         
+    visibility: visible;
+}
+
+.card-img {     
+    height: auto;
+    width: 100%;    
+}
+
+.card-img-overlay {         
+    background: #000;    
+    border: none;
+    color: #fff;       
+    height: 100%;
+    width: 100%;
+    opacity: .8;
+    text-decoration: none;                
+    padding: 0;
+    visibility: hidden;
+}
+
+.title {         
+    height: 80%;
+    padding: 5px;
+    color: #fff;
+}
+
+.actions {         
+    height: 20%;
+    bottom: 0;
+}
+
+.actions .fa {         
+    font-size: 22px;    
+    border-radius: 50%;    
+    color: #fff;
+}
+
+.actions .action:hover {
+    background: #343a40;
+}

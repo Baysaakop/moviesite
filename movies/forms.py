@@ -3,7 +3,7 @@ from django.forms import SelectMultiple
 from tempus_dominus.widgets import DatePicker
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Movie, Series, Artist
+from .models import Movie, Series, Artist, Genre
 
 class MovieForm(forms.ModelForm):
     class Meta:
@@ -73,6 +73,7 @@ class SeriesForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         ## ARTIST FILTERING
+        self.fields['genre'].queryset = Genre.objects.order_by('name')   
         self.fields['producer'].queryset = Artist.objects.filter(occupation__name='Producer').order_by('name')   
         self.fields['director'].queryset = Artist.objects.filter(occupation__name='Director').order_by('name')   
         self.fields['writer'].queryset = Artist.objects.filter(occupation__name='Writer').order_by('name')   
