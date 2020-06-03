@@ -16,10 +16,10 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns (
     path('', views.home, name='home'),
-    path('movielist/', views.movielist, name='movielist'),
-    path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
-    path('artistlist/', views.artistlist, name='artistlist'),
-    path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
+    # path('movielist/', views.movielist, name='movielist'),
+    # path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
+    # path('artistlist/', views.artistlist, name='artistlist'),
+    # path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
     ## MOVIE ACTIONS
     path('likemovie/', movieactionviews.likeMovie, name='likemovie'),
     path('addtowatched/', movieactionviews.addToWatched, name='addtowatched'),
@@ -32,13 +32,13 @@ urlpatterns += i18n_patterns (
     path('likeartist/', artistactionviews.likeArtist, name='likeartist'),
     path('followartist/', artistactionviews.followArtist, name='followartist'),
     ## ADMIN ACTIONS
-    path('movieadd/', adminviews.movieadd, name='movieadd'),
-    path('movieedit/', adminviews.movieedit, name='movieedit'),    
-    path('moviedelete/', adminviews.moviedelete, name='moviedelete'),   
-    path('artistadd/', adminviews.artistadd, name='artistadd'),
-    path('artistedit/', adminviews.artistedit, name='artistedit'),
-    path('artistdelete/', adminviews.artistdelete, name='artistdelete'), 
-    path('seriesadd/', adminviews.seriesadd, name='seriesadd'),    
+    # path('movieadd/', adminviews.movieadd, name='movieadd'),
+    # path('movieedit/', adminviews.movieedit, name='movieedit'),    
+    # path('moviedelete/', adminviews.moviedelete, name='moviedelete'),   
+    # path('artistadd/', adminviews.artistadd, name='artistadd'),
+    # path('artistedit/', adminviews.artistedit, name='artistedit'),
+    # path('artistdelete/', adminviews.artistdelete, name='artistdelete'), 
+    # path('seriesadd/', adminviews.seriesadd, name='seriesadd'),    
     ## SEARCH ACTIONS
     path('searchmovie/', searchviews.searchmovie, name='searchmovie'),
     path('searchartist/', searchviews.searchartist, name='searchartist'),    
@@ -56,6 +56,18 @@ urlpatterns += i18n_patterns (
     path('seriescreate/', adminviews.SeriesCreateView.as_view(), name='seriescreate'),
     path('seriesupdate/<pk>/', adminviews.SeriesUpdateView.as_view(), name='seriesupdate'),
     path('seriesdelete/<pk>/', adminviews.SeriesDeleteView.as_view(), name='seriesdelete'),
+    ## MOVIE VIEWS
+    path('movielist/', adminviews.MovieListView.as_view(), name='movielist'),
+    path('moviedetail/<pk>/', adminviews.MovieDetailView.as_view(), name='moviedetail'),
+    path('moviecreate/', adminviews.MovieCreateView.as_view(), name='moviecreate'),
+    path('movieupdate/<pk>/', adminviews.MovieUpdateView.as_view(), name='movieupdate'),
+    path('moviedelete/<pk>/', adminviews.MovieDeleteView.as_view(), name='moviedelete'),
+    ## ARTIST VIEWS
+    path('artistlist/', adminviews.ArtistListView.as_view(), name='artistlist'),
+    path('artistdetail/<pk>/', adminviews.ArtistDetailView.as_view(), name='artistdetail'),
+    path('artistcreate/', adminviews.ArtistCreateView.as_view(), name='artistcreate'),
+    path('artistupdate/<pk>/', adminviews.ArtistUpdateView.as_view(), name='artistupdate'),
+    path('artistdelete/<pk>/', adminviews.ArtistDeleteView.as_view(), name='artistdelete'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),    

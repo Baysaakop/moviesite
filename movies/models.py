@@ -45,11 +45,11 @@ class Artist(models.Model):
     # lastname = models.CharField(max_length=50, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     birthdate = models.DateField(auto_now=False, blank=True, null=True)
-    birthplace = models.CharField(max_length=100, blank=True, null=True)
-    nationality = models.CharField(max_length=100, blank=True, null=True)
+    country = models.ManyToManyField(Country)
     occupation = models.ManyToManyField(Occupation)    
     likes = models.IntegerField(default=0)
     followers = models.IntegerField(default=0)    
+    score = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
     image = models.ImageField(upload_to='artists/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -90,7 +90,7 @@ class Movie(models.Model):
     producer = models.ManyToManyField(Artist, related_name='movieproducer')  
     director = models.ManyToManyField(Artist, related_name='moviedirector')    
     writer = models.ManyToManyField(Artist, related_name='moviewriter')  
-    cast = models.ManyToManyField(Artist, related_name='moviecast')
+    maincast = models.ManyToManyField(Artist, related_name='moviecast')
     supportingcast = models.ManyToManyField(Artist, related_name='moviesupportingcast')
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)    
@@ -99,6 +99,7 @@ class Movie(models.Model):
     score = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)
     imdb_rating = models.DecimalField(max_digits=4, decimal_places=1, default=0.0)    
     metascore = models.IntegerField(default=0)
+    tomatometer = models.IntegerField(default=0)
     image = models.ImageField(upload_to='movies/images/', blank=True, null=True)
     poster = models.ImageField(upload_to='movies/posters/', blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -106,18 +107,6 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.name
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_admin = models.BooleanField(default=False)
-    moviewatchlist = models.ManyToManyField(Movie, related_name='moviewatchlist')
-    moviewatchedlist = models.ManyToManyField(Movie, related_name='moviewatchedlist')
-    liked_movies = models.ManyToManyField(Movie, related_name='liked_movies')
-    liked_artists = models.ManyToManyField(Artist, related_name='liked_artists')
-    followed_artists = models.ManyToManyField(Artist, related_name='followed_artists')
-
-    def __str__(self):
-        return self.user.username
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -250,3 +239,18 @@ class Series(models.Model):
 
     def __str__(self):
         return self.name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+    moviewatchlist = models.ManyToManyField(Movie, related_name='moviewatchlist')
+    moviewatchedlist = models.ManyToManyField(Movie, related_name='moviewatchedlist')
+    liked_movies = models.ManyToManyField(Movie, related_name='liked_movies')
+    liked_artists = models.ManyToManyField(Artist, related_name='liked_artists')
+    followed_artists = models.ManyToManyField(Artist, related_name='followed_artists')
+    series_favorite = models.ManyToManyField(Series, related_name='series_favorite')
+    series_watched = models.ManyToManyField(Series, related_name='series_watched')
+    series_watchlist = models.ManyToManyField(Series, related_name='series_watchlist')
+
+    def __str__(self):
+        return self.user.username

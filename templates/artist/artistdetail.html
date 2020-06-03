@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static custom_tags series_tags humanize i18n %}
+{% block title %}
+{{ series }}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="movielist" class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'artistlist' %}">{% trans 'Artists' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ artist }}</li>
+        </ol>
+    </nav>
+    <div class="m-3 p-3 border rounded">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    {% if artist.image %}
+                    <img class="card-img" src="{{ artist.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    {% else %}
+                    <div class="card-body bg-light" style="height: 250px;"></div>
+                    {% endif %}
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped" style="font-size: small;">    
+                        <tr>
+                            <th>{% trans 'Birthdate' %}</th>
+                            <td>{{ artist.birthdate|date:"M-d, Y" }}</td>
+                        </tr>     
+                        <tr>
+                            <th>{% trans 'Occupations' %}</th>
+                            <td>
+                                {% for occupation in artist.occupation.all %}
+                                {{ occupation.name }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <th>{% trans 'Nationality' %}</th>
+                            <td>
+                                {% for country in artist.country.all %}
+                                {{ country.name }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <th>{% trans 'Score' %}</th>
+                            <td><span class="avg-score">{{ artist.score|floatformat:1|intcomma }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Likes' %}</th>
+                            <td><span class="count-like">{{ artist.likes }}</span></td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Followers' %}</th>
+                            <td><span class="count-followers">{{ artist.followers }}</span></td>
+                        </tr> 
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between">
+                    <div id="title">
+                        <h4>{{ artist.name }}</h4>
+                    </div>
+                    {% if user.is_authenticated and user|isAdmin %}
+                    <div id="update">                        
+                        <a href="{% url 'artistupdate' artist.pk %}"><i class="fa fa-edit"></i> Edit</a>
+                    </div>                
+                    {% endif %}
+                </div>
+                <hr>
+                <div id="bio">
+                    <h5>Biography</h5>
+                    <p>{{ artist.bio }}</p>
+                </div>    
+                <div id="filmography">
+                    <h5>Filmography</h5>
+                    {% if movielist.count > 0 %}
+                    <strong>Films</strong>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Release Date</th>
+                                    <th>Film name</th>
+                                    <th>IMDB Rating</th>
+                                    <th>Actor</th>
+                                    <th>Producer</th>
+                                    <th>Director</th>
+                                    <th>Writer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for movie in movielist %}
+                                <tr>
+                                    <td>{{ movie.release_date|date:"Y" }}</td>
+                                    <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
+                                    <td>{{ movie.imdb_rating }}</td>     
+                                    <td>
+                                        {% if artist in movie.maincast.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>           
+                                    <td>
+                                        {% if artist in movie.producer.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td> 
+                                    <td>
+                                        {% if artist in movie.director.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>   
+                                    <td>
+                                        {% if artist in movie.writer.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>        
+                                </tr>
+                                {% endfor %}
+                            </tbody>            
+                        </table>
+                    </div>
+                    {% endif %}
+                    {% if serieslist.count > 0 %}
+                    <strong>Series</strong>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Release Date</th>
+                                    <th>Series name</th>
+                                    <th>IMDB Rating</th>
+                                    <th>Actor</th>
+                                    <th>Producer</th>
+                                    <th>Director</th>
+                                    <th>Writer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for series in serieslist %}
+                                <tr>
+                                    <td>{{ series.release_date|date:"Y" }}</td>
+                                    <td><a href="{% url 'seriesdetail' series.pk %}">{{ series.name }}</a></td>
+                                    <td>{{ series.imdb_rating }}</td>     
+                                    <td>
+                                        {% if artist in series.maincast.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>           
+                                    <td>
+                                        {% if artist in series.producer.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td> 
+                                    <td>
+                                        {% if artist in series.director.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>   
+                                    <td>
+                                        {% if artist in series.writer.all %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>        
+                                </tr>
+                                {% endfor %}
+                            </tbody>            
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>       
+            </div>
+        </div>                        
+    </div>    
+    <div id="action_section" class="m-3 border rounded d-flex flex-row justify-content-around text-center">
+        <a href="{% url 'account_login' %}" id="favorite" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Favorite">
+            <i class="fa fa-thumbs-o-up"></i>
+            <span class="count-favorite">{{ artist.likes }}</span>
+            <p class="m-0" style="font-size: 14px;">Add to Favorite</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Follow">
+            <i class="fa fa-user-plus"></i>
+            <span class="count-follow">{{ artist.followers }}</span>
+            <p class="m-0" style="font-size: 14px;">Follow</p>
+        </a>
+        <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give Rating">
+            <i class="fa fa-star-o"></i>
+            <span>0</span>
+            <p class="m-0" style="font-size: 14px;">Give Rating</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });    
+</script>
+{% endblock %}

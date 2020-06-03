@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static custom_tags i18n %}
 {% block title %}
-Series List
+Movie List
 {% endblock %}
 
 {% block style %}
@@ -13,7 +13,7 @@ Series List
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{% trans 'Series' %}</li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Movies' %}</li>
         </ol>
     </nav>
     <div class="m-3">
@@ -64,34 +64,34 @@ Series List
         </form>
     </div>
     <div class="text-center m-3">
-        <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'series' %}</label>
+        <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'films' %}</label>
     </div> 
     <div class="row p-3">
-        {% for series in queryset %}
+        {% for movie in queryset %}
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
-                <a href="{% url 'seriesdetail' series.pk %}">
+                <a href="{% url 'moviedetail' movie.pk %}">
                     <div class="card mb-0">                                     
-                        {% if series.image %}
-                        <img class="card-img" src="{{ series.image.url }}" alt="Card image">
+                        {% if movie.poster %}
+                        <img class="card-img" src="{{ movie.poster }}" alt="Card image">
                         {% else %}
                         <div class="card-img" style="min-height: 220px;">
                             <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h5 class="card-title" style="color: #000;">{{ series }}</h5>                                
+                                <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
                             </div>
                         </div>
                         {% endif %}   
                         <div class="card-img-overlay">                
                             <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h6 class="card-title text-center">{{ series }}</h6>                               
+                                <h6 class="card-title text-center">{{ movie }}</h6>
                             </div>
                             <div class="actions d-flex justify-content-start p-0 text-center">
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Favorite' %}">
+                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Like' %}">
                                     <i class="fa fa-thumbs-o-up"></i>
                                 </a>
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watched' %}">
+                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Watched' %}">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watchlist' %}">
+                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Watchlist' %}">
                                     <i class="fa fa-plus-circle"></i>
                                 </a>
                             </div>
@@ -99,15 +99,15 @@ Series List
                     </div>   
                     <div class="p-2 border bg-light">
                         <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <small>{{ series }}</small>  
+                            <small>{{ movie }}</small>  
                         </div>       
                         <div class="release">
-                            <small>Release: {{ series.release_date|date:"Y" }}</small>
+                            <small>Release: {{ movie.release_date|date:"Y" }}</small>
                         </div>    
                         <div class="imdb">
-                            <small>Imdb: {{ series.imdb_rating }}</small>       
+                            <small>Imdb: {{ movie.imdb_rating }}</small>       
                         </div>                                                                                                   
-                    </div>                
+                    </div>               
                 </a>                                        
             </div>
         {% endfor %}

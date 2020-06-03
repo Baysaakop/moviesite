@@ -13,22 +13,22 @@
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'serieslist' %}">{% trans 'Series' %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ series }}</li>
+            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">{% trans 'Movies' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ movie }}</li>
         </ol>
     </nav>
     <div class="m-3 p-3 border rounded">
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <img class="card-img" src="{{ series.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    <img class="card-img" src="{{ movie.poster }}" alt="Card image" style="width: 100%; height: auto;">
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped" style="font-size: small;">
                         <tr>
                             <th>{% trans 'Production' %}</th>
                             <td>
-                                {% for production in series.production.all %}
+                                {% for production in movie.production.all %}
                                 <a href="#">{{ production.name }}</a><br>
                                 {% endfor %}
                             </td>
@@ -36,7 +36,7 @@
                         <tr>
                             <th>{% trans 'Director' %}</th>
                             <td>
-                                {% for director in series.director.all %}
+                                {% for director in movie.director.all %}
                                 <a href="{% url 'artistdetail' director.pk %}">{{ director.name }}</a><br>
                                 {% endfor %}
                             </td>
@@ -44,7 +44,7 @@
                         <tr>
                             <th>{% trans 'Writer' %}</th>
                             <td>
-                                {% for writer in series.writer.all %}
+                                {% for writer in movie.writer.all %}
                                 <a href="{% url 'artistdetail' writer.pk %}">{{ writer.name }}</a><br>
                                 {% endfor %}
                             </td>
@@ -52,7 +52,7 @@
                         <tr>
                             <th>{% trans 'Cast' %}</th>
                             <td>
-                                {% for actor in series.maincast.all %}
+                                {% for actor in movie.maincast.all %}
                                 <a href="{% url 'artistdetail' actor.pk %}">{{ actor.name }}</a><br>                                                         
                                 {% endfor %}
                             </td>
@@ -60,50 +60,50 @@
                         <tr>
                             <th>{% trans 'Genres' %}</th>
                             <td>
-                                {% for genre in series.genre.all %}
+                                {% for genre in movie.genre.all %}
                                 {{ genre.name }}<br>
                                 {% endfor %}
                             </td>
                         </tr>
                         <tr>
                             <th>{% trans 'Release Date' %}</th>
-                            <td>{{ series.release_date }}</td>
+                            <td>{{ movie.release_date }}</td>
                         </tr>
                         <tr>
                             <th>{% trans 'Running Time' %}</th>
-                            <td>{{ series.runningtime }}</td>
+                            <td>{{ movie.runningtime }}</td>
                         </tr>
                         <tr>
                             <th>{% trans 'Rating' %}</th>
-                            <td>{{ series.mpa_rating }}</td>
+                            <td>{{ movie.mpa_rating }}</td>
                         </tr> 
                         <tr>
                             <th>IMDB</th>
-                            <td>{{ series.imdb_rating }}</td>
+                            <td>{{ movie.imdb_rating }}</td>
                         </tr> 
                         <tr>
                             <th>Metascore</th>
-                            <td>{{ series.metascore }}</td>
+                            <td>{{ movie.metascore }}</td>
                         </tr>
                         <tr>
                             <th>Tomatometer</th>
-                            <td>{{ series.tomatometer }}</td>
+                            <td>{{ movie.tomatometer }}</td>
                         </tr> 
                         <tr>
                             <th>{% trans 'Score' %}</th>
-                            <td><span class="avg-score">{{ series.score|floatformat:1|intcomma }}</span></td>
+                            <td><span class="avg-score">{{ movie.score|floatformat:1|intcomma }}</span></td>
                         </tr>
                         <tr>
                             <th>{% trans 'Likes' %}</th>
-                            <td><span class="count-like">{{ series.likes }}</span></td>
+                            <td><span class="count-like">{{ movie.likes }}</span></td>
                         </tr> 
                         <tr>
                             <th>{% trans 'Watched' %}</th>
-                            <td><span class="count-watched">{{ series.watched }}</span></td>
+                            <td><span class="count-watched">{{ movie.watched }}</span></td>
                         </tr> 
                         <tr>
                             <th>{% trans 'Watchlisted' %}</th>
-                            <td><span class="count-watchlist">{{ series.watchlisted }}</span></td>
+                            <td><span class="count-watchlist">{{ movie.watchlisted }}</span></td>
                         </tr> 
                     </table>
                 </div>
@@ -111,34 +111,44 @@
             <div class="col-md-9">
                 <div class="d-flex justify-content-between">
                     <div id="title">
-                        <h4>{{ series.name }}</h4>
+                        <h4>{{ movie.name }}</h4>
                     </div>
                     {% if user.is_authenticated and user|isAdmin %}
                     <div id="update">                        
-                        <a href="{% url 'seriesupdate' series.pk %}"><i class="fa fa-edit"></i> Edit</a>
+                        <a href="{% url 'movieupdate' movie.pk %}"><i class="fa fa-edit"></i> Edit</a>
                     </div>                
                     {% endif %}
                 </div>
-                <hr>
                 <div id="description">
-                    <h5>Description</h5>
-                    <p>{{ series.description }}</p>
+                    <p>
+                        {% if movie.description is none %}
+                        Cras mattis sapien lorem, eu suscipit est ullamcorper eget. Sed in efficitur mauris, eu varius diam. Integer et orci mattis, ornare augue a, egestas leo. Suspendisse id tincidunt nulla. In hac habitasse platea dictumst. Suspendisse bibendum nisl diam, eu scelerisque sem consectetur sed. Donec quis mi pretium, cursus quam vitae.
+                        {% else %}
+                        {{ movie.description }}
+                        {% endif %}
+                    </p>
                 </div>    
                 <div id="plot">
                     <h5>Plot</h5>
-                    <p>{{ series.plot }}</p>
+                    <p>
+                        {% if movie.plot is none %}
+                        Cras mattis sapien lorem, eu suscipit est ullamcorper eget. Sed in efficitur mauris, eu varius diam. Integer et orci mattis, ornare augue a, egestas leo. Suspendisse id tincidunt nulla. In hac habitasse platea dictumst. Suspendisse bibendum nisl diam, eu scelerisque sem consectetur sed. Donec quis mi pretium, cursus quam vitae.
+                        {% else %}
+                        {{ movie.plot }}
+                        {% endif %}
+                    </p>
                 </div>   
                 <div id="cast">
                     <h5>Cast</h5>
                     <ul>
-                        {% for actor in series.maincast.all %}
+                        {% for actor in movie.maincast.all %}
                         <li><a href="{% url 'artistdetail' actor.pk %}">{{ actor.name }}</a></li>
                         {% endfor %}  
                     </ul>
                 </div>    
                 <div id="trailer" class="mt-3">
                     <h5>Trailer</h5>
-                    <iframe width="100%" height="300" src="{{ series.trailer }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
+                    <iframe width="100%" height="300" src="{{ movie.trailer }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
                 </div>     
             </div>
         </div>                        
@@ -146,17 +156,17 @@
     <div id="action_section" class="m-3 border rounded d-flex flex-row justify-content-around text-center">
         <a href="{% url 'account_login' %}" id="favorite" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Favorite">
             <i class="fa fa-thumbs-o-up"></i>
-            <span class="count-favorite">{{ series.likes }}</span>
+            <span class="count-favorite">{{ movie.likes }}</span>
             <p class="m-0" style="font-size: 14px;">Add to Favorite</p>
         </a>
         <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Watched">
             <i class="fa fa-eye"></i>
-            <span class="count-watched">{{ series.watched }}</span>
+            <span class="count-watched">{{ movie.watched }}</span>
             <p class="m-0" style="font-size: 14px;">Add to Watched</p>
         </a>
         <a href="{% url 'account_login' %}" id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Watchlist">
             <i class="fa fa-plus-circle"></i>
-            <span class="count-watchlist">{{ series.watchlisted }}</span>
+            <span class="count-watchlist">{{ movie.watchlisted }}</span>
             <p class="m-0" style="font-size: 14px;">Add to Watchlist</p>
         </a>
         <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give Rating">

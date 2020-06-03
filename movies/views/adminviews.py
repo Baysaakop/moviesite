@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from ..models import Occupation, Artist, Genre, Movie, MPA_Rating, Series, Season, Episode, Country, Language, Profile
-from ..forms import SeriesForm
+from ..forms import SeriesForm, MovieForm, ArtistForm
 import json
 
 ## ADMIN VIEWS
@@ -297,7 +298,8 @@ class SeriesListView(ListView):
     model = Series
     template_name = 'series/serieslist.html'
     context_object_name = 'queryset'
-    paginate_by = 24
+    paginate_by = 12
+    count = 0
     ordering = ['-updated_at']    
 
     def get_context_data(self, **kwargs):
@@ -310,7 +312,8 @@ class SeriesListView(ListView):
         context['profile'] = profile
         context['name'] = self.request.GET.get('name')
         context['genrename'] = self.request.GET.get('genrename')
-        context['sortby'] = self.request.GET.get('sortby')
+        context['sortby'] = self.request.GET.get('sortby')        
+        context['count'] = self.count
         return context
 
     def get_queryset(self):
@@ -339,6 +342,7 @@ class SeriesListView(ListView):
                 queryset = queryset.order_by('name')
             elif sortby == 'Alphabetically (Z-A)':
                 queryset = queryset.order_by('-name')
+        self.count = queryset.count()
         return queryset
 
 class SeriesDetailView(DetailView):
@@ -366,3 +370,151 @@ class SeriesDeleteView(DeleteView):
     model = Series
     template_name = 'series/seriesdelete.html'
     success_url = reverse_lazy('serieslist')
+
+class MovieListView(ListView):
+    model = Movie
+    template_name = 'movie/movielist.html'
+    context_object_name = 'queryset'
+    paginate_by = 24
+    count = 0
+    ordering = ['-updated_at']    
+
+    def get_context_data(self, **kwargs):
+        genres = Genre.objects.all().order_by('name')        
+        profile = None
+        if self.request.user.is_authenticated:
+            profile = Profile.objects.get(user=self.request.user)
+        context = super().get_context_data(**kwargs)
+        context['genres'] = genres
+        context['profile'] = profile
+        context['name'] = self.request.GET.get('name')
+        context['genrename'] = self.request.GET.get('genrename')
+        context['sortby'] = self.request.GET.get('sortby')
+        context['count'] = self.count
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        name = self.request.GET.get('name')
+        genrename = self.request.GET.get('genrename')
+        sortby = self.request.GET.get('sortby')
+        if is_valid_queryparam(name):
+            queryset = queryset.filter(name__icontains=name)        
+        if is_valid_queryparam(genrename) and genrename != 'Any' and genrename != 'Бүх':
+            queryset = queryset.filter(genre__name=genrename)
+        if is_valid_queryparam(sortby):
+            if sortby == 'Latest':
+                queryset = queryset.order_by('-updated_at')
+            elif sortby == 'IMDB Rating':
+                queryset = queryset.order_by('-imdb_rating')
+            elif sortby == 'Metascore':
+                queryset = queryset.order_by('-metascore')
+            elif sortby == 'Views':
+                queryset = queryset.order_by('-views')          
+            elif sortby == 'Release date (Newest first)':
+                queryset = queryset.order_by('-release_date')
+            elif sortby == 'Release date (Oldest first)':
+                queryset = queryset.order_by('release_date')
+            elif sortby == 'Alphabetically (A-Z)':
+                queryset = queryset.order_by('name')
+            elif sortby == 'Alphabetically (Z-A)':
+                queryset = queryset.order_by('-name') 
+        self.count = queryset.count()       
+        return queryset
+
+class MovieDetailView(DetailView):
+    model = Movie
+    template_name = 'movie/moviedetail.html'
+    context_object_name = 'movie'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        return context
+
+class MovieCreateView(CreateView):
+    model = Movie
+    template_name = 'movie/moviecreate.html'
+    form_class = MovieForm
+    success_url = reverse_lazy('movielist')    
+
+class MovieUpdateView(UpdateView):
+    model = Movie
+    template_name = 'movie/movieupdate.html'
+    form_class = MovieForm    
+    success_url = reverse_lazy('movielist')    
+
+class MovieDeleteView(DeleteView):
+    model = Movie
+    template_name = 'movie/moviedelete.html'
+    success_url = reverse_lazy('movielist')    
+
+class ArtistListView(ListView):
+    model = Artist
+    template_name = 'artist/artistlist.html'
+    context_object_name = 'queryset'
+    paginate_by = 24
+    count = 0
+    ordering = ['-updated_at']    
+
+    def get_context_data(self, **kwargs):
+        occupations = Occupation.objects.all().order_by('name')        
+        profile = None
+        if self.request.user.is_authenticated:
+            profile = Profile.objects.get(user=self.request.user)
+        context = super().get_context_data(**kwargs)
+        context['occupations'] = occupations
+        context['profile'] = profile
+        context['name'] = self.request.GET.get('name')
+        context['occupationname'] = self.request.GET.get('occupationname')
+        context['sortby'] = self.request.GET.get('sortby')
+        context['count'] = self.count
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        name = self.request.GET.get('name')
+        occupationname = self.request.GET.get('occupationname')
+        sortby = self.request.GET.get('sortby')
+        if is_valid_queryparam(name):
+            queryset = queryset.filter(name__icontains=name)        
+        if is_valid_queryparam(occupationname) and occupationname != 'Any' and occupationname != 'Бүх':
+            queryset = queryset.filter(occupation__name=occupationname)
+        if is_valid_queryparam(sortby):
+            if sortby == 'Latest':
+                queryset = queryset.order_by('-updated_at')        
+            elif sortby == 'Alphabetically (A-Z)':
+                queryset = queryset.order_by('name')
+            elif sortby == 'Alphabetically (Z-A)':
+                queryset = queryset.order_by('-name') 
+        self.count = queryset.count()       
+        return queryset
+
+class ArtistDetailView(DetailView):
+    model = Artist
+    template_name = 'artist/artistdetail.html'
+    context_object_name = 'artist'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        movies = Movie.objects.filter(Q(director=self.object) | Q(maincast=self.object) | Q(writer=self.object)).order_by('release_date').distinct()
+        series = Series.objects.filter(Q(director=self.object) | Q(maincast=self.object) | Q(writer=self.object)).order_by('release_date').distinct()
+        context['movielist'] = movies
+        context['serieslist'] = series
+        return context
+
+class ArtistCreateView(CreateView):
+    model = Artist
+    template_name = 'artist/artistcreate.html'
+    form_class = ArtistForm
+    success_url = reverse_lazy('artistlist')    
+
+class ArtistUpdateView(UpdateView):
+    model = Artist
+    template_name = 'artist/artistupdate.html'
+    form_class = ArtistForm    
+    success_url = reverse_lazy('artistlist')    
+
+class ArtistDeleteView(DeleteView):
+    model = Artist
+    template_name = 'artist/artistdelete.html'
+    success_url = reverse_lazy('artistlist')

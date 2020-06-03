@@ -59,7 +59,7 @@
                     <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
                 </li>  
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'movielist' %}">{% trans 'Films' %}</a>
+                    <a class="nav-link" href="{% url 'movielist' %}">{% trans 'Movies' %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'serieslist' %}">{% trans 'Series' %}</a>
@@ -133,11 +133,9 @@
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Profile' %}</a>
                         {% if user|isAdmin %}
-                        <a class="dropdown-item" href="{% url 'movieadd' %}">{% trans 'Add movie' %}</a>
-                        <a class="dropdown-item" href="{% url 'movieedit' %}">{% trans 'Edit movie' %}</a>
+                        <a class="dropdown-item" href="{% url 'moviecreate' %}">{% trans 'Add new movie' %}</a>                        
                         <a class="dropdown-item" href="{% url 'seriescreate' %}">{% trans 'Add new series' %}</a>                        
-                        <a class="dropdown-item" href="{% url 'artistadd' %}">{% trans 'Add artist' %}</a>
-                        <a class="dropdown-item" href="{% url 'artistedit' %}">{% trans 'Edit artist' %}</a>
+                        <a class="dropdown-item" href="{% url 'artistcreate' %}">{% trans 'Add new artist' %}</a>                        
                         {% endif %}
                         <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>
                     </div>

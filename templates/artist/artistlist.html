@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static custom_tags i18n %}
 {% block title %}
-Series List
+Artist List
 {% endblock %}
 
 {% block style %}
@@ -13,7 +13,7 @@ Series List
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{% trans 'Series' %}</li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Artists' %}</li>
         </ol>
     </nav>
     <div class="m-3">
@@ -33,23 +33,18 @@ Series List
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
-                    <label for="inputGenre">{% trans 'Genre' %}</label>
-                    <select id="inputGenre" class="form-control" name="genrename">
-                        <option {% if genrename is None %} selected {% endif %}>{% trans 'Any' %}</option>
-                        {% for genre in genres %}
-                        <option value="{{ genre }}" {% if genrename == genre.name %} selected {% endif %}>{{ genre }}</option>
+                    <label for="inputOccupation">{% trans 'Occupation' %}</label>
+                    <select id="inputOccupation" class="form-control" name="occupationname">
+                        <option {% if occupationname is None %} selected {% endif %}>{% trans 'Any' %}</option>
+                        {% for occupation in occupations %}
+                        <option value="{{ occupation }}" {% if occupationname == occupation.name %} selected {% endif %}>{{ occupation }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
                     <label for="sort">{% trans 'Sort By' %}</label>
                     <select id="sort" class="form-control" name="sortby">
-                        <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
-                        <option {% if sortby == "IMDB Rating" %} selected {% endif %} >IMDB Rating</option>   
-                        <option {% if sortby == "Metascore" %} selected {% endif %} >Metascore</option>                                                        
-                        <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                                                         
-                        <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
-                        <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
+                        <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>                           
                         <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
                         <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                        
                     </select>
@@ -64,49 +59,43 @@ Series List
         </form>
     </div>
     <div class="text-center m-3">
-        <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'series' %}</label>
+        <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'artists' %}</label>
     </div> 
     <div class="row p-3">
-        {% for series in queryset %}
+        {% for artist in queryset %}
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
-                <a href="{% url 'seriesdetail' series.pk %}">
+                <a href="{% url 'artistdetail' artist.pk %}">
                     <div class="card mb-0">                                     
-                        {% if series.image %}
-                        <img class="card-img" src="{{ series.image.url }}" alt="Card image">
+                        {% if artist.image %}
+                        <img class="card-img" src="{{ artist.image.url }}" alt="Card image">
                         {% else %}
                         <div class="card-img" style="min-height: 220px;">
                             <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h5 class="card-title" style="color: #000;">{{ series }}</h5>                                
+                                <h5 class="card-title" style="color: #000;">{{ artist }}</h5>                                
                             </div>
                         </div>
                         {% endif %}   
                         <div class="card-img-overlay">                
                             <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h6 class="card-title text-center">{{ series }}</h6>                               
+                                <h6 class="card-title text-center">{{ artist }}</h6>                               
                             </div>
                             <div class="actions d-flex justify-content-start p-0 text-center">
                                 <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Favorite' %}">
                                     <i class="fa fa-thumbs-o-up"></i>
                                 </a>
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watched' %}">
-                                    <i class="fa fa-eye"></i>
+                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Follow' %}">
+                                    <i class="fa fa-user-plus"></i>
                                 </a>
-                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watchlist' %}">
-                                    <i class="fa fa-plus-circle"></i>
+                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Give Rating' %}">
+                                    <i class="fa fa-star-o"></i>
                                 </a>
                             </div>
                         </div>                                                                                                         
                     </div>   
                     <div class="p-2 border bg-light">
                         <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <small>{{ series }}</small>  
-                        </div>       
-                        <div class="release">
-                            <small>Release: {{ series.release_date|date:"Y" }}</small>
-                        </div>    
-                        <div class="imdb">
-                            <small>Imdb: {{ series.imdb_rating }}</small>       
-                        </div>                                                                                                   
+                            <small>{{ artist }}</small>  
+                        </div>                                                                                                         
                     </div>                
                 </a>                                        
             </div>
