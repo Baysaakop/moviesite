@@ -106,42 +106,7 @@ class Movie(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
-
-@receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()        
-
-class MovieRating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=0)
-    updated_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.username + " on " + self.movie.name
-
-class MovieComment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    text_comment = models.TextField()        
-    commentlike = models.ManyToManyField(User, related_name='moviecommentlike')
-    commentdislike = models.ManyToManyField(User, related_name='moviecommentdislike')
-    updated_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.username + " on " + self.movie.name
-
-class MovieCommentReply(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    target_comment = models.ForeignKey(MovieComment, on_delete=models.CASCADE)
-    text_comment = models.TextField()
-    updated_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.user.username + " on " + self.movie.name
+        return self.name     
 
 class Episode(models.Model):
     name = models.CharField(max_length=50)
@@ -170,7 +135,7 @@ class Episode(models.Model):
     metascore = models.IntegerField(default=0)
     image = models.ImageField(upload_to='episode/images/', blank=True, null=True)    
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -201,14 +166,14 @@ class Season(models.Model):
     metascore = models.IntegerField(default=0)
     image = models.ImageField(upload_to='season/images/', blank=True, null=True)    
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     episodes = models.ManyToManyField(Episode)
 
     def __str__(self):
         return self.name
 
 class Series(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
     plot = models.TextField(blank=True, null=True)
     genre = models.ManyToManyField(Genre)
@@ -234,23 +199,56 @@ class Series(models.Model):
     tomatometer = models.IntegerField(default=0)
     image = models.ImageField(upload_to='series/images/', blank=True, null=True)    
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     seasons = models.ManyToManyField(Season)
 
     def __str__(self):
         return self.name
 
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()   
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_admin = models.BooleanField(default=False)
-    moviewatchlist = models.ManyToManyField(Movie, related_name='moviewatchlist')
-    moviewatchedlist = models.ManyToManyField(Movie, related_name='moviewatchedlist')
-    liked_movies = models.ManyToManyField(Movie, related_name='liked_movies')
-    liked_artists = models.ManyToManyField(Artist, related_name='liked_artists')
-    followed_artists = models.ManyToManyField(Artist, related_name='followed_artists')
+    is_admin = models.BooleanField(default=False)        
+    movie_favorite = models.ManyToManyField(Movie, related_name='movie_favorite')
+    movie_watched = models.ManyToManyField(Movie, related_name='movie_watched')
+    movie_watchlist = models.ManyToManyField(Movie, related_name='movie_watchlist')
     series_favorite = models.ManyToManyField(Series, related_name='series_favorite')
     series_watched = models.ManyToManyField(Series, related_name='series_watched')
     series_watchlist = models.ManyToManyField(Series, related_name='series_watchlist')
+    artist_favorite = models.ManyToManyField(Artist, related_name='artist_favorite')
+    artist_followed = models.ManyToManyField(Artist, related_name='artist_followed')
 
     def __str__(self):
         return self.user.username
+
+class MovieRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username + " on " + movie.name
+
+class SeriesRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username + " on " + series.name
+
+class ArtistRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username + " on " + artist.name

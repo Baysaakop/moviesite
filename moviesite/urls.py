@@ -4,10 +4,9 @@ from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from movies.views import views
-from movies.views import movieactionviews
-from movies.views import adminviews
+from movies.views import actionviews
+from movies.views import crudviews
 from movies.views import searchviews
-from movies.views import artistactionviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,29 +15,21 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns (
     path('', views.home, name='home'),
-    # path('movielist/', views.movielist, name='movielist'),
-    # path('moviedetail/<pk>/', views.moviedetail, name='moviedetail'),
-    # path('artistlist/', views.artistlist, name='artistlist'),
-    # path('artistdetail/<pk>/', views.artistdetail, name='artistdetail'),
-    ## MOVIE ACTIONS
-    path('likemovie/', movieactionviews.likeMovie, name='likemovie'),
-    path('addtowatched/', movieactionviews.addToWatched, name='addtowatched'),
-    path('addtowatchlist/', movieactionviews.addToWatchlist, name='addtowatchlist'),
-    path('ratemovie/', movieactionviews.rateMovie, name='ratemovie'),
-    path('postcomment/', movieactionviews.postComment, name='postcomment'),
-    path('commentlike/', movieactionviews.commentLike, name='commentlike'),
-    path('commentdislike/', movieactionviews.commentDislike, name='commentdislike'),
+    ## ACTIONS
+    path('movieaddfavorite/', actionviews.movieaddfavorite, name='movieaddfavorite'),
+    path('movieaddwatched/', actionviews.movieaddwatched, name='movieaddwatched'),
+    path('movieaddwatchlist/', actionviews.movieaddwatchlist, name='movieaddwatchlist'),
+    path('moviegiverating/', actionviews.moviegiverating, name='moviegiverating'),
+    path('seriesaddfavorite/', actionviews.seriesaddfavorite, name='seriesaddfavorite'),
+    path('seriesaddwatched/', actionviews.seriesaddwatched, name='seriesaddwatched'),
+    path('seriesaddwatchlist/', actionviews.seriesaddwatchlist, name='seriesaddwatchlist'),
+    path('seriesgiverating/', actionviews.seriesgiverating, name='seriesgiverating'),
+    # path('postcomment/', movieactionviews.postComment, name='postcomment'),
+    # path('commentlike/', movieactionviews.commentLike, name='commentlike'),
+    # path('commentdislike/', movieactionviews.commentDislike, name='commentdislike'),
     ## ARTIST ACTIONS
-    path('likeartist/', artistactionviews.likeArtist, name='likeartist'),
-    path('followartist/', artistactionviews.followArtist, name='followartist'),
-    ## ADMIN ACTIONS
-    # path('movieadd/', adminviews.movieadd, name='movieadd'),
-    # path('movieedit/', adminviews.movieedit, name='movieedit'),    
-    # path('moviedelete/', adminviews.moviedelete, name='moviedelete'),   
-    # path('artistadd/', adminviews.artistadd, name='artistadd'),
-    # path('artistedit/', adminviews.artistedit, name='artistedit'),
-    # path('artistdelete/', adminviews.artistdelete, name='artistdelete'), 
-    # path('seriesadd/', adminviews.seriesadd, name='seriesadd'),    
+    # path('likeartist/', artistactionviews.likeArtist, name='likeartist'),
+    # path('followartist/', artistactionviews.followArtist, name='followartist'), 
     ## SEARCH ACTIONS
     path('searchmovie/', searchviews.searchmovie, name='searchmovie'),
     path('searchartist/', searchviews.searchartist, name='searchartist'),    
@@ -51,23 +42,25 @@ urlpatterns += i18n_patterns (
     path('getartistbyid/', searchviews.getartistbyid, name='getartistbyid'),
     path('getproductionbyid/', searchviews.getproductionbyid, name='getproductionbyid'),
     ## SERIES VIEWS
-    path('serieslist/', adminviews.SeriesListView.as_view(), name='serieslist'),
-    path('seriesdetail/<pk>/', adminviews.SeriesDetailView.as_view(), name='seriesdetail'),
-    path('seriescreate/', adminviews.SeriesCreateView.as_view(), name='seriescreate'),
-    path('seriesupdate/<pk>/', adminviews.SeriesUpdateView.as_view(), name='seriesupdate'),
-    path('seriesdelete/<pk>/', adminviews.SeriesDeleteView.as_view(), name='seriesdelete'),
+    path('serieslist/', crudviews.SeriesListView.as_view(), name='serieslist'),
+    path('seriesdetail/<pk>/', crudviews.SeriesDetailView.as_view(), name='seriesdetail'),
+    path('seriescreate/', crudviews.SeriesCreateView.as_view(), name='seriescreate'),
+    path('seriesupdate/<pk>/', crudviews.SeriesUpdateView.as_view(), name='seriesupdate'),
+    path('seriesdelete/<pk>/', crudviews.SeriesDeleteView.as_view(), name='seriesdelete'),
+    path('seriescastedit/<pk>/', crudviews.SeriesCastEdit, name='seriescastedit'),
     ## MOVIE VIEWS
-    path('movielist/', adminviews.MovieListView.as_view(), name='movielist'),
-    path('moviedetail/<pk>/', adminviews.MovieDetailView.as_view(), name='moviedetail'),
-    path('moviecreate/', adminviews.MovieCreateView.as_view(), name='moviecreate'),
-    path('movieupdate/<pk>/', adminviews.MovieUpdateView.as_view(), name='movieupdate'),
-    path('moviedelete/<pk>/', adminviews.MovieDeleteView.as_view(), name='moviedelete'),
+    path('movielist/', crudviews.MovieListView.as_view(), name='movielist'),
+    path('moviedetail/<pk>/', crudviews.MovieDetailView.as_view(), name='moviedetail'),
+    path('moviecreate/', crudviews.MovieCreateView.as_view(), name='moviecreate'),
+    path('movieupdate/<pk>/', crudviews.MovieUpdateView.as_view(), name='movieupdate'),
+    path('moviedelete/<pk>/', crudviews.MovieDeleteView.as_view(), name='moviedelete'),
+    path('moviecastedit/<pk>/', crudviews.MovieCastEdit, name='moviecastedit'),
     ## ARTIST VIEWS
-    path('artistlist/', adminviews.ArtistListView.as_view(), name='artistlist'),
-    path('artistdetail/<pk>/', adminviews.ArtistDetailView.as_view(), name='artistdetail'),
-    path('artistcreate/', adminviews.ArtistCreateView.as_view(), name='artistcreate'),
-    path('artistupdate/<pk>/', adminviews.ArtistUpdateView.as_view(), name='artistupdate'),
-    path('artistdelete/<pk>/', adminviews.ArtistDeleteView.as_view(), name='artistdelete'),
+    path('artistlist/', crudviews.ArtistListView.as_view(), name='artistlist'),
+    path('artistdetail/<pk>/', crudviews.ArtistDetailView.as_view(), name='artistdetail'),
+    path('artistcreate/', crudviews.ArtistCreateView.as_view(), name='artistcreate'),
+    path('artistupdate/<pk>/', crudviews.ArtistUpdateView.as_view(), name='artistupdate'),
+    path('artistdelete/<pk>/', crudviews.ArtistDeleteView.as_view(), name='artistdelete'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),    

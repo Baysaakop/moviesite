@@ -1,25 +1,14 @@
-1. Comment like, dislike -> /done/
-2. Comment reply 
-3. Comment edit
-4. Comment delete
-5. Movie rating -> /done/
-6. Admin panel /Movie, Artist - CRUD/ -> /done/
-7. Movie list page -> /done/
-8. Movie detail page -> /done/
-9. Artist list page -> /done/
-10. Artist detail page -> /done/
-11. Home page -> /done/
-12. Pagination -> /done/
-13. Language selection -> /done/
-14. Series
-    - Learn widget tweaks
-    - Model 
-    - List View, Template
-    - Detail View, Template
-    - Create View, Template
-    - Update View, Template
-15. News page and CRUD
-16. Search page
-17. Social authentication
-18. Notification page
-19. Help page
+NEW PLAN
+1. Movie CRUD - Done
+1.1 Movie actions - Done
+2. Series CRUD - done
+2.1 Series actions - Done
+3. Artist CRUD - done
+3.1 Artist actions
+4. Season CRUD
+5. Episode CRUD
+6. Language
+7. Search page
+8. Social authentaction
+9. Help page
+

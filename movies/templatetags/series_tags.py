@@ -26,7 +26,7 @@ def is_watched(series, profile):
             return True  
 
 @register.filter
-def is_watchlist(series, profile):
+def is_watchlisted(series, profile):
     if profile is None:
         return False
     else:
@@ -35,3 +35,5 @@ def is_watchlist(series, profile):
             return False
         else:
             return True          
+
+            

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="movielist" class="container">
+<div id="serieslist" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <img class="card-img" src="{{ series.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    <img class="card-img" src="{{ series.poster }}" alt="Card image" style="width: 100%; height: auto;">
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped" style="font-size: small;">
@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <th>{% trans 'Release Date' %}</th>
-                            <td>{{ series.release_date }}</td>
+                            <td>{{ series.release_date|date:"Y" }}</td>
                         </tr>
                         <tr>
                             <th>{% trans 'Running Time' %}</th>
@@ -77,25 +77,25 @@
                             <th>{% trans 'Rating' %}</th>
                             <td>{{ series.mpa_rating }}</td>
                         </tr> 
-                        <tr>
+                        <!-- <tr>
                             <th>IMDB</th>
-                            <td>{{ series.imdb_rating }}</td>
+                            <td>{{ movie.imdb_rating }}</td>
                         </tr> 
                         <tr>
                             <th>Metascore</th>
-                            <td>{{ series.metascore }}</td>
+                            <td>{{ movie.metascore }}</td>
                         </tr>
                         <tr>
                             <th>Tomatometer</th>
-                            <td>{{ series.tomatometer }}</td>
-                        </tr> 
+                            <td>{{ movie.tomatometer }}</td>
+                        </tr>  -->
                         <tr>
                             <th>{% trans 'Score' %}</th>
                             <td><span class="avg-score">{{ series.score|floatformat:1|intcomma }}</span></td>
                         </tr>
                         <tr>
                             <th>{% trans 'Likes' %}</th>
-                            <td><span class="count-like">{{ series.likes }}</span></td>
+                            <td><span class="count-favorite">{{ series.likes }}</span></td>
                         </tr> 
                         <tr>
                             <th>{% trans 'Watched' %}</th>
@@ -119,57 +119,161 @@
                     </div>                
                     {% endif %}
                 </div>
-                <hr>
+                
                 <div id="description">
-                    <h5>Description</h5>
-                    <p>{{ series.description }}</p>
+                    <p>
+                        {% if series.description is none %}
+                        Cras mattis sapien lorem, eu suscipit est ullamcorper eget. Sed in efficitur mauris, eu varius diam. Integer et orci mattis, ornare augue a, egestas leo. Suspendisse id tincidunt nulla. In hac habitasse platea dictumst. Suspendisse bibendum nisl diam, eu scelerisque sem consectetur sed. Donec quis mi pretium, cursus quam vitae.
+                        {% else %}
+                        {{ series.description }}
+                        {% endif %}
+                    </p>
                 </div>    
                 <div id="plot">
                     <h5>Plot</h5>
-                    <p>{{ series.plot }}</p>
+                    <p>
+                        {% if series.plot is none %}
+                        Cras mattis sapien lorem, eu suscipit est ullamcorper eget. Sed in efficitur mauris, eu varius diam. Integer et orci mattis, ornare augue a, egestas leo. Suspendisse id tincidunt nulla. In hac habitasse platea dictumst. Suspendisse bibendum nisl diam, eu scelerisque sem consectetur sed. Donec quis mi pretium, cursus quam vitae.
+                        {% else %}
+                        {{ series.plot }}
+                        {% endif %}
+                    </p>
                 </div>   
-                <div id="cast">
-                    <h5>Cast</h5>
-                    <ul>
-                        {% for actor in series.maincast.all %}
-                        <li><a href="{% url 'artistdetail' actor.pk %}">{{ actor.name }}</a></li>
-                        {% endfor %}  
-                    </ul>
-                </div>    
-                <div id="trailer" class="mt-3">
+                <div id="trailer">
                     <h5>Trailer</h5>
+                    {% if series.trailer is None %}
+                    <div class="bg-light d-flex justify-content-center align-items-center border" style="height: 200px;">
+                        <h4>Trailer</h4>
+                    </div>
+                    {% else %}
                     <iframe width="100%" height="300" src="{{ series.trailer }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
-                </div>     
+                    {% endif %}
+                </div>
+                <div id="cast" class="mt-3">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5>Cast</h5>
+                        </div>                   
+                        {% if user.is_authenticated and user|isAdmin %}
+                        <div id="editcast">                        
+                            <a href="{% url 'seriescastedit' series.pk %}"><i class="fa fa-edit"></i> Edit</a>
+                        </div>                
+                        {% endif %}     
+                    </div>                  
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>Main Role</h6>                 
+                            <ul>
+                                {% for actor in series.maincast.all %}
+                                <li><a href="{% url 'artistdetail' actor.pk %}">{{ actor.name }}</a></li>
+                                {% endfor %}  
+                            </ul>
+                        </div>
+                        <div class="col-md-9">
+                            <h6>Supporting Role</h6>                 
+                            <ul>
+                                {% for actor in series.supportingcast.all %}
+                                <li><a href="{% url 'artistdetail' actor.pk %}">{{ actor.name }}</a></li>
+                                {% endfor %}  
+                            </ul>
+                        </div>
+                    </div>                                             
+                </div>                          
             </div>
         </div>                        
-    </div>    
+    </div>        
     <div id="action_section" class="m-3 border rounded d-flex flex-row justify-content-around text-center">
-        <a href="{% url 'account_login' %}" id="favorite" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Favorite">
+        {% if profile is None %}
+        <a href="{% url 'account_login' %}" class="w-100" title="Add to Favorite">
             <i class="fa fa-thumbs-o-up"></i>
             <span class="count-favorite">{{ series.likes }}</span>
-            <p class="m-0" style="font-size: 14px;">Add to Favorite</p>
+            <p class="text-favorite m-0" style="font-size: 14px;">Add to Favorite</p>            
         </a>
-        <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Watched">
+        <a href="{% url 'account_login' %}" class="w-100" title="Add to Watched">
             <i class="fa fa-eye"></i>
             <span class="count-watched">{{ series.watched }}</span>
-            <p class="m-0" style="font-size: 14px;">Add to Watched</p>
+            <p class="text-watched m-0" style="font-size: 14px;">Add to Watched</p>
         </a>
-        <a href="{% url 'account_login' %}" id="watchlist" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Watchlist">
+        <a href="{% url 'account_login' %}" class="w-100" title="Add to Watchlist">
             <i class="fa fa-plus-circle"></i>
             <span class="count-watchlist">{{ series.watchlisted }}</span>
-            <p class="m-0" style="font-size: 14px;">Add to Watchlist</p>
+            <p class="text-watchlist m-0" style="font-size: 14px;">Add to Watchlist</p>
         </a>
-        <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give Rating">
+        <a href="{% url 'account_login' %}" class="w-100" title="Give Rating">
             <i class="fa fa-star-o"></i>
-            <span>0</span>
+            <span>{{ series.score }}</span>
             <p class="m-0" style="font-size: 14px;">Give Rating</p>
         </a>
-        <a href="{% url 'account_login' %}" id="comment" class="w-100" data-toggle="tooltip" data-placement="top" title="Write Comment">
+        <a href="{% url 'account_login' %}" class="w-100" title="Write Comment">
             <i class="fa fa-comment-o"></i>
             <span id="count-comment">0</span>
             <p class="m-0" style="font-size: 14px;">Write Comment</p>
         </a>
+        {% else %}
+        <div id="favorite" class="w-100" data-id="{{ series.id }}" title="{% if series|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+            <i id="icon-favorite" class="{% if series|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+            <span class="count-favorite">{{ series.likes }}</span>
+            <p class="text-favorite m-0" style="font-size: 14px;">{% if series|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}</p>            
+        </div>
+        <div id="watched" class="w-100" data-id="{{ series.id }}" title="{% if series|is_watched:profile %} Remove from Watched {% else %} Add to Watched {% endif %}">
+            <i id="icon-watched" class="{% if series|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
+            <span class="count-watched">{{ series.watched }}</span>
+            <p class="text-watched m-0" style="font-size: 14px;">{% if series|is_watched:profile %} Remove from Watched {% else %} Add to Watched {% endif %}</p>
+        </div>
+        <div id="watchlist" class="w-100" data-id="{{ series.id }}" title="{% if series|is_watchlisted:profile %} Remove from Watchlist {% else %} Add to Watchlist {% endif %}">
+            <i id="icon-watchlist" class="{% if series|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
+            <span class="count-watchlist">{{ series.watchlisted }}</span>
+            <p class="text-watchlist m-0" style="font-size: 14px;">{% if series|is_watchlisted:profile %} Remove from Watchlist {% else %} Add to Watchlist {% endif %}</p>
+        </div>
+        <div id="rating" class="w-100" data-toggle="modal" data-target="#modalRating" title="{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}">
+            <i id="icon-rating" class="{% if user_rating == 0 %}fa fa-star-o{% else %}fa fa-star{% endif%}"></i>
+            <span class="user-rating">{{ user_rating }}</span>
+            <p class="text-rating m-0" style="font-size: 14px;">{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}</p>
+        </div>
+        <div id="comment" class="w-100" title="Write Comment">
+            <i class="fa fa-comment-o"></i>
+            <span class="count-comment">0</span>
+            <p class="m-0" style="font-size: 14px;">Write Comment</p>
+        </div>
+        {% endif %}             
     </div>
+    <div class="modal fade" id="modalRating">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Give rating on this movie</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-rating d-flex justify-content-center align-items-center flex-row-reverse">
+                        <input class="form-check-input" type="radio" id="star10" name="rating" value="10" data-id="{{ series.id }}" />
+                        <label class="form-check-label fa fa-star" for="star10" title="10 star"></label>      
+                        <input class="form-check-input" type="radio" id="star9" name="rating" value="9" data-id="{{ series.id }}" />
+                        <label class="form-check-label fa fa-star" for="star9" title="9 star"></label>                                              
+                        <input class="form-check-input" type="radio" id="star8" name="rating" value="8" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star8" title="8 star"></label> 
+                        <input class="form-check-input" type="radio" id="star7" name="rating" value="7" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star7" title="7 star"></label> 
+                        <input class="form-check-input" type="radio" id="star6" name="rating" value="6" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star6" title="6 star"></label>
+                        <input class="form-check-input" type="radio" id="star5" name="rating" value="5" data-id="{{ series.id }}" />
+                        <label class="form-check-label fa fa-star" for="star5" title="5 star"></label>      
+                        <input class="form-check-input" type="radio" id="star4" name="rating" value="4" data-id="{{ series.id }}" />
+                        <label class="form-check-label fa fa-star" for="star4" title="4 star"></label>                                              
+                        <input class="form-check-input" type="radio" id="star3" name="rating" value="3" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star3" title="3 star"></label> 
+                        <input class="form-check-input" type="radio" id="star2" name="rating" value="2" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star2" title="2 star"></label> 
+                        <input class="form-check-input" type="radio" id="star1" name="rating" value="1" data-id="{{ series.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star1" title="1 star"></label>  
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>   
 </div>
 {% endblock %}
 
@@ -180,5 +284,117 @@
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
     });    
+
+    $('#favorite').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddfavorite/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                var text = $('.count-favorite').first().text();
+                var count = parseInt(text);
+                if (data.is_liked) {               
+                    $("#icon-favorite").attr("class", "fa fa-thumbs-up");
+                    $("span.count-favorite").text((count + 1).toString());
+                    $("p.text-favorite").text("Remove from Favorite");
+                    $("#favorite").attr("title", "Remove from Favorite");
+                }
+                else
+                {                         
+                    $("#icon-favorite").attr("class", "fa fa-thumbs-o-up");
+                    $("span.count-favorite").text((count - 1).toString());
+                    $("p.text-favorite").text("Add to Favorite");
+                    $("#favorite").attr("title", "Add to Favorite");
+                }
+            }
+        })
+    });
+
+    $('#watched').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddwatched/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                var text = $('.count-watched').first().text();
+                var count = parseInt(text);
+                if (data.is_watched) {               
+                    $("#icon-watched").attr("class", "fa fa-eye-slash");
+                    $("span.count-watched").text((count + 1).toString());
+                    $("p.text-watched").text("Remove from Watched");
+                    $("#watched").attr("title", "Remove from Watched");
+                }
+                else
+                {                         
+                    $("#icon-watched").attr("class", "fa fa-eye");
+                    $("span.count-watched").text((count - 1).toString());
+                    $("p.text-watched").text("Add to Watched");
+                    $("#watched").attr("title", "Add to Watched");
+                }
+            }
+        })
+    });
+
+    $('#watchlist').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddwatchlist/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                var text = $('.count-watchlist').first().text();
+                var count = parseInt(text);
+                if (data.is_added) {               
+                    $("#icon-watchlist").attr("class", "fa fa-minus-circle");
+                    $("span.count-watchlist").text((count + 1).toString());
+                    $("p.text-watchlist").text("Remove from Watchlist");
+                    $("#watchlist").attr("title", "Remove from Watchlist");
+                }
+                else
+                {                         
+                    $("#icon-watchlist").attr("class", "fa fa-plus-circle");
+                    $("span.count-watchlist").text((count - 1).toString());
+                    $("p.text-watchlist").text("Add to Watchlist");
+                    $("#watchlist").attr("title", "Add to Watchlist");
+                }
+            }
+        })
+    });
+
+    $("input[name='rating']").click(function () {
+        var id = $(this).attr("data-id");
+        var rating = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/seriesgiverating/",
+            data: {
+                series_id: id,
+                rating: rating
+            },
+            success: function(data)
+            {
+                $("span.avg-score").text(" " + data.average.toFixed(1).toString());
+                $("#icon-rating").attr("class", "fa fa-star");
+                $("span.user-rating").text(rating);                
+                $("p.text-rating").text("Edit rating");
+                $("#rating").attr("title", "Edit rating");
+                alert("Thanks for your review.");
+            }
+        });
+    });
 </script>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags i18n %}
+{% load static custom_tags series_tags i18n %}
 {% block title %}
 Series List
 {% endblock %}
@@ -45,13 +45,14 @@ Series List
                     <label for="sort">{% trans 'Sort By' %}</label>
                     <select id="sort" class="form-control" name="sortby">
                         <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
-                        <option {% if sortby == "IMDB Rating" %} selected {% endif %} >IMDB Rating</option>   
-                        <option {% if sortby == "Metascore" %} selected {% endif %} >Metascore</option>                                                        
-                        <option {% if sortby == "Views" %} selected {% endif %} >Views</option>                                                         
+                        <option {% if sortby == "Score" %} selected {% endif %} >Score</option>   
+                        <option {% if sortby == "Likes" %} selected {% endif %} >Likes</option>                                                        
+                        <option {% if sortby == "Watched" %} selected {% endif %} >Watched</option>    
+                        <option {% if sortby == "Watchlisted" %} selected {% endif %} >Watchlisted</option>                                                         
                         <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
                         <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
                         <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
-                        <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                        
+                        <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                   
                     </select>
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-2">
@@ -85,27 +86,43 @@ Series List
                                 <h6 class="card-title text-center">{{ series }}</h6>                               
                             </div>
                             <div class="actions d-flex justify-content-start p-0 text-center">
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Favorite' %}">
+                                {% if profile is None %}
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
                                     <i class="fa fa-thumbs-o-up"></i>
                                 </a>
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watched' %}">
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watched' %}">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Watchlist' %}">
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watchlist' %}">
                                     <i class="fa fa-plus-circle"></i>
+                                </a>
+                                {% else %}
+                                <a id="favorite{{ series.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ series.id }}"
+                                    title="{% if series|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+                                    <i id="icon-favorite{{ series.id }}" class="{% if series|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+                                </a>
+                                <a id="watched{{ series.id }}" href="#" class="action watched p-2" style="width: 33%;" data-id="{{ series.id }}"
+                                    title="{% if series|is_watched:profile %} Remove from Watched {% else %} Add to Watched {% endif %}">
+                                    <i id="icon-watched{{ series.id }}" class="{% if series|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
+                                </a>
+                                <a id="watchlist{{ series.id }}" href="#" class="action watchlist p-2" style="width: 33%;" data-id="{{ series.id }}"
+                                    title="{% if series|is_watchlisted:profile %} Remove from Watchlist {% else %} Add to Watchlist {% endif %}">
+                                    <i id="icon-watchlist{{ series.id }}" class="{% if series|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
+                                </a>
+                                {% endif %}
                                 </a>
                             </div>
                         </div>                                                                                                         
                     </div>   
                     <div class="p-2 border bg-light">
                         <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <small>{{ series }}</small>  
+                            <small style="font-weight: bold;">{{ series }}</small>  
                         </div>       
                         <div class="release">
-                            <small>Release: {{ series.release_date|date:"Y" }}</small>
+                            <small style="font-weight: bold;">Release: {{ series.release_date|date:"Y" }}</small>
                         </div>    
                         <div class="imdb">
-                            <small>Imdb: {{ series.imdb_rating }}</small>       
+                            <small style="font-weight: bold;">Score: {{ series.score }}</small>       
                         </div>                                                                                                   
                     </div>                
                 </a>                                        
@@ -127,5 +144,77 @@ Series List
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
     });    
+
+    $('.favorite').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddfavorite/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_liked) {               
+                    $("#icon-favorite" + id).attr("class", "fa fa-thumbs-up");
+                    $("#favorite" + id).attr("title", "Remove from Favorite");
+                }
+                else
+                {                         
+                    $("#icon-favorite" + id).attr("class", "fa fa-thumbs-o-up");
+                    $("#favorite" + id).attr("title", "Add to Favorite");
+                }
+            }
+        })
+    });
+
+    $('.watched').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddwatched/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_watched) {               
+                    $("#icon-watched" + id).attr("class", "fa fa-eye-slash");
+                    $("#watched" + id).attr("title", "Remove from Watched");
+                }
+                else
+                {                         
+                    $("#icon-watched" + id).attr("class", "fa fa-eye");
+                    $("#watched" + id).attr("title", "Add to Watched");
+                }
+            }
+        })
+    });
+
+    $('.watchlist').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/seriesaddwatchlist/",
+            data: {
+                series_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_added) {               
+                    $("#icon-watchlist" + id).attr("class", "fa fa-minus-circle");
+                    $("#watchlist" + id).attr("title", "Remove from Watchlist");
+                }
+                else
+                {                         
+                    $("#icon-watchlist" + id).attr("class", "fa fa-plus-circle");
+                    $("#watchlist" + id).attr("title", "Add to Watchlist");
+                }
+            }
+        })
+    });
 </script>
 {% endblock %}

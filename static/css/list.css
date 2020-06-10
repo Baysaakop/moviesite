@@ -53,12 +53,18 @@
 
 .actions {         
     height: 20%;
-    bottom: 0;
+    bottom: 0;        
+}
+
+.actions .action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .actions .fa {         
     font-size: 20px;      
-    color: #fff;
+    color: #fff;         
 }
 
 .actions .action:hover {

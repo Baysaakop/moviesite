@@ -1,23 +1,23 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Occupation, Artist, Genre, Movie, Profile, MovieRating, MovieComment, MovieCommentReply, MPA_Rating, Production, Country, Language, Episode, Season, Series
+from .models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating
 
-admin.site.register(Occupation)
-admin.site.register(Artist)
-admin.site.register(Genre)
-admin.site.register(Movie)
-admin.site.register(Profile)
-admin.site.register(MovieRating)
-admin.site.register(MovieComment)
-admin.site.register(MovieCommentReply)
-admin.site.register(MPA_Rating)
-admin.site.register(Production)
 admin.site.register(Country)
 admin.site.register(Language)
+admin.site.register(Genre)
+admin.site.register(Occupation)
+admin.site.register(MPA_Rating)
+admin.site.register(Production)
+admin.site.register(Artist)
+admin.site.register(Movie)
 admin.site.register(Episode)
 admin.site.register(Season)
 admin.site.register(Series)
+admin.site.register(Profile)
+admin.site.register(ArtistRating)
+admin.site.register(MovieRating)
+admin.site.register(SeriesRating)
 
 class ProfileInline(admin.StackedInline):
     model = Profile

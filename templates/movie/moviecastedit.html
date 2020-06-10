@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block style %}
+<style>
+    form a {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    form a:hover {
+        background: #c3cac2;          
+        text-decoration: none;  
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'movielist' %}">{% trans 'Movie' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'moviedetail' movie.pk %}">{{ movie }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cast Edit</li>
+        </ol>
+    </nav> 
+    <div class="border rounded m-3 p-3">
+        <h4>Cast of {{ movie }}</h4>
+        <hr>
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}                                 
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="maincastlist">Main Cast</label>
+                    <div id="maincastlist" class="rounded border p-3" style="min-height: 240px;">     
+                        {% for cast in movie.maincast.all %}
+                        <div class='custom-control custom-checkbox'>
+                            <input type='checkbox' class='custom-control-input' name='maincast' id='maincast{{ cast.pk }}' value='{{ cast.pk }}' checked>
+                            <label class='custom-control-label' for='maincast{{ cast.pk }}'> {{ cast.name }} </label>
+                        </div>             
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group col-md-9">
+                    <label>Find actor</label>
+                    <div class="form-group">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="maincastsearch" name="maincastsearch" placeholder="Actor name..."/>
+                            <a id="maincastsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="maincastresult" class="form-row">                        
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="supportingcastlist">Supporting Cast</label>
+                    <div id="supportingcastlist" class="rounded border p-3" style="min-height: 400px;">     
+                        {% for cast in movie.supportingcast.all %}
+                        <div class='custom-control custom-checkbox'>
+                            <input type='checkbox' class='custom-control-input' name='supportingcast' id='supportingcast{{ cast.pk }}' value='{{ cast.pk }}' checked>
+                            <label class='custom-control-label' for='supportingcast{{ cast.pk }}'> {{ cast.name }} </label>
+                        </div>             
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-group col-md-9">
+                    <label>Find actor</label>
+                    <div class="form-group">                
+                        <div class="input-group">                                        
+                            <input class="form-control py-2 border-right-0 border" type="search" id="supportingcastsearch" name="supportingcastsearch" placeholder="Actor name..."/>
+                            <a id="supportingcastsearchbutton" href="#" class="input-group-append">
+                                <div class="input-group-text bg-transparent">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="supportingcastresult" class="form-row">                        
+                    </div>
+                </div>                
+            </div>   
+            <div class="form-row">
+                <div class="form-group col-md-2 mb-0">
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                </div>
+            </div>            
+        </form>
+    </div>    
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script>        
+    $("#maincastsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#maincastsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchactor/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#maincastresult").empty();
+                for (d in data.actors) {                    
+                    $("#maincastresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input' id='maincast" + data.actors[d].id + "' data-id='" + data.actors[d].id + "' data-name='" + data.actors[d].name + "' onchange='selectMainCast(this)'>" +
+                                "<label class='custom-control-label' for='maincast" + data.actors[d].id + "'>" + data.actors[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    $("#supportingcastsearchbutton").click(function (e) {
+        e.preventDefault();
+        var searchtext = $("#supportingcastsearch").val();        
+        $.ajax({
+            type: "GET",
+            url: "/searchactor/",
+            data: {
+                searchtext: searchtext
+            },
+            success: function(data)
+            {
+                $("#supportingcastresult").empty();
+                for (d in data.actors) {                    
+                    $("#supportingcastresult").append(
+                        "<div class='form-group col-12 col-sm-6 col-md-3 mb-3'>" +
+                            "<div class='custom-control custom-checkbox'>" +
+                                "<input type='checkbox' class='custom-control-input' id='supportingcast" + data.actors[d].id + "' data-id='" + data.actors[d].id + "' data-name='" + data.actors[d].name + "' onchange='selectSupportingCast(this)'>" +
+                                "<label class='custom-control-label' for='supportingcast" + data.actors[d].id + "'>" + data.actors[d].name + "</label>" +
+                            "</div>" +
+                        "</div>"
+                    )
+                }
+            }
+        })
+    });
+
+    function selectMainCast(checkbox) {        
+        var id = checkbox.getAttribute("data-id");   
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#maincastlist").append(
+                "<div class='custom-control custom-checkbox'>" +
+                    "<input type='checkbox' class='custom-control-input' name='maincast' id='maincast" + id + "' value='" + id + "' checked>" +
+                    "<label class='custom-control-label' for='maincast" + id + "'>" + name + "</label>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#maincast" + id).remove();
+        }
+    }
+
+    function selectSupportingCast(checkbox) {        
+        var id = checkbox.getAttribute("data-id");   
+        var name = checkbox.getAttribute("data-name");        
+        if (checkbox.checked) {
+            $("#supportingcastlist").append(
+                "<div class='custom-control custom-checkbox'>" +
+                    "<input type='checkbox' class='custom-control-input' name='supportingcast' id='supportingcast" + id + "' value='" + id + "' checked>" +
+                    "<label class='custom-control-label' for='supportingcast" + id + "'>" + name + "</label>" +
+                "</div>"
+            )
+        }
+        else {
+            $("#supportingcast" + id).remove();
+        }
+    }
+</script>
+{% endblock %}

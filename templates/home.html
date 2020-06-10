@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% load static custom_tags i18n %}
+{% load static custom_tags movie_tags i18n %}
 
 {% block title %}
 Mollywood
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -62,118 +62,144 @@ Mollywood
         <div id="newmovies" class="m-3 p-3">
             <div class="row">
                 <div class="col-12 col-md-10">
-                    <p class="listTitle">{% trans 'Newly added movies' %}</p>
+                    <h4 class="listTitle">{% trans 'Newly added movies' %}</h4>
                 </div>
                 <div class="col-12 col-md-2 text-md-right">
                     <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">{% trans 'Show more' %}</a>
                 </div>
             </div>        
-            <div class="row rowlist">
+            <div class="row rowlist mt-3">
                 {% for movie in newmovies %}
-                <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
-                    <div class="card">
-                        <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                            <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
-                            <div class="card-img-overlay">                                
-                                <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                                <p>Rating:  {{ movie.imdb_rating }}</p>
-                                <p>Views:   {{ movie.views }}</p>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
+                    <a href="{% url 'moviedetail' movie.pk %}">
+                        <div class="card mb-0">                                     
+                            {% if movie.poster %}
+                            <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
+                            {% else %}
+                            <div class="card-img" style="min-height: 220px;">
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
+                                </div>
                             </div>
-                        </a>
-                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
-                            <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
-                        </a>                         
-                    </div>
-                </div>        
+                            {% endif %}   
+                            <div class="card-img-overlay">                
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h6 class="card-title text-center">{{ movie }}</h6>
+                                </div>
+                                <div class="actions d-flex justify-content-start p-0 text-center">
+                                    {% if profile is None %}
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
+                                        <i class="fa fa-thumbs-o-up"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watched' %}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watchlist' %}">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </a>
+                                    {% else %}
+                                    <a id="favorite{{ movie.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+                                        <i id="icon-favorite{{ movie.id }}" class="{% if movie|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+                                    </a>
+                                    <a id="watched{{ movie.id }}" href="#" class="action watched p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watched:profile %} Remove from Watched {% else %} Add to Watched {% endif %}">
+                                        <i id="icon-watched{{ movie.id }}" class="{% if movie|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
+                                    </a>
+                                    <a id="watchlist{{ movie.id }}" href="#" class="action watchlist p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watchlisted:profile %} Remove from Watchlist {% else %} Add to Watchlist {% endif %}">
+                                        <i id="icon-watchlist{{ movie.id }}" class="{% if movie|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>                                                                                                         
+                        </div>   
+                        <div class="p-2 border bg-light">
+                            <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <smalls style="font-weight: bold;">{{ movie }}</smalls>  
+                            </div>       
+                            <div class="release">
+                                <small style="font-weight: bold;">Release: {{ movie.release_date|date:"Y" }}</small>
+                            </div>    
+                            <div class="imdb">
+                                <small style="font-weight: bold;">Score: {{ movie.score }}</small>       
+                            </div>                                                                                                   
+                        </div>               
+                    </a>                                        
+                </div>       
                 {% endfor %}
             </div>
         </div>
         <div id="topmovies" class="m-3 p-3">
             <div class="row">
                 <div class="col-12 col-md-10">
-                    <p class="listTitle">{% trans 'Top rated movies' %}</p>
+                    <h4 class="listTitle">{% trans 'Top rated movies' %}</h4>
                 </div>
                 <div class="col-12 col-md-2 text-md-right">
                     <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">{% trans 'Show more' %}</a>
                 </div>
             </div>
-            <div class="row rowlist">
+            <div class="row rowlist mt-3">
                 {% for movie in topratedmovies %}
-                <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
-                    <div class="card">
-                        <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                            <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
-                            <div class="card-img-overlay">                                
-                                <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                                <p>Rating:  {{ movie.imdb_rating }}</p>
-                                <p>Views:   {{ movie.views }}</p>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
+                    <a href="{% url 'moviedetail' movie.pk %}">
+                        <div class="card mb-0">                                     
+                            {% if movie.poster %}
+                            <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
+                            {% else %}
+                            <div class="card-img" style="min-height: 220px;">
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
+                                </div>
                             </div>
-                        </a>
-                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
-                            <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
-                        </a>                                                                    
-                    </div>
-                </div>        
+                            {% endif %}   
+                            <div class="card-img-overlay">                
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h6 class="card-title text-center">{{ movie }}</h6>
+                                </div>
+                                <div class="actions d-flex justify-content-start p-0 text-center">
+                                    {% if profile is None %}
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
+                                        <i class="fa fa-thumbs-o-up"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watched' %}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watchlist' %}">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </a>
+                                    {% else %}
+                                    <a id="favorite{{ movie.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+                                        <i id="icon-favorite{{ movie.id }}" class="{% if movie|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+                                    </a>
+                                    <a id="watched{{ movie.id }}" href="#" class="action watched p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watched:profile %} Remove from Watched {% else %} Add to Watched {% endif %}">
+                                        <i id="icon-watched{{ movie.id }}" class="{% if movie|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
+                                    </a>
+                                    <a id="watchlist{{ movie.id }}" href="#" class="action watchlist p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watchlisted:profile %} Remove from Watchlist {% else %} Add to Watchlist {% endif %}">
+                                        <i id="icon-watchlist{{ movie.id }}" class="{% if movie|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>                                                                                                         
+                        </div>   
+                        <div class="p-2 border bg-light">
+                            <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <smalls style="font-weight: bold;">{{ movie }}</smalls>  
+                            </div>       
+                            <div class="release">
+                                <small style="font-weight: bold;">Release: {{ movie.release_date|date:"Y" }}</small>
+                            </div>    
+                            <div class="imdb">
+                                <small style="font-weight: bold;">Score: {{ movie.score }}</small>       
+                            </div>                                                                                                   
+                        </div>               
+                    </a>                                        
+                </div>       
                 {% endfor %}
-            </div>
-        </div>
-        <div id="mostlikedmovies" class="m-3 p-3">
-            <div class="row">
-                <div class="col-12 col-md-10">
-                    <p class="listTitle">{% trans 'Most liked movies' %}</p>
-                </div>
-                <div class="col-12 col-md-2 text-md-right">
-                    <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">{% trans 'Show more' %}</a>
-                </div>
-            </div>
-            <div class="row rowlist">
-                {% for movie in mostlikedmovies %}
-                <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
-                    <div class="card">
-                        <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                            <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
-                            <div class="card-img-overlay">                                
-                                <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                                <p>Rating:  {{ movie.imdb_rating }}</p>
-                                <p>Views:   {{ movie.views }}</p>
-                            </div>
-                        </a>
-                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
-                            <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
-                        </a>                                                                    
-                    </div>
-                </div>        
-                {% endfor %}
-            </div>
-        </div>
-        <div id="mostlikedmovies" class="m-3 p-3">
-            <div class="row">
-                <div class="col-12 col-md-10">
-                    <p class="listTitle">{% trans 'Most watched movies' %}</p>
-                </div>
-                <div class="col-12 col-md-2 text-md-right">
-                    <a href="{% url 'movielist' %}" class="listBtn btn btn-dark btn-block">{% trans 'Show more' %}</a>
-                </div>
-            </div>
-            <div class="row rowlist">
-                {% for movie in mostwatchedmovies %}
-                <div class="column col-12 col-sm-6 col-md-3 col-lg-2 mb-3">  
-                    <div class="card">
-                        <a class="card-img" href="{% url 'moviedetail' movie.pk %}">
-                            <img class="card-img-top" src="{{ movie.poster }}" alt="Card image cap">
-                            <div class="card-img-overlay">                                
-                                <p>Release: {{ movie.release_date|date:"Y" }}</p>
-                                <p>Rating:  {{ movie.imdb_rating }}</p>
-                                <p>Views:   {{ movie.views }}</p>
-                            </div>
-                        </a>
-                        <a class="card-body text-center" href="{% url 'moviedetail' movie.pk %}" data-toggle="tooltip" data-placement="top" title="{{ movie.name }} /{{ movie.release_date|date:"Y" }}/">
-                            <p class="card-title">{{ movie.name }} /{{ movie.release_date|date:"Y" }}/</p>
-                        </a>                                                                     
-                    </div>
-                </div>        
-                {% endfor %}
-            </div>
+            </div>                
         </div>
     </div>
 </div>

@@ -138,10 +138,8 @@ def getartistbyid(request):
         data = {
             'id': artist.id,
             'name': artist.name,
-            'bio': artist.bio,
-            'birthplace': artist.birthplace,
+            'bio': artist.bio,            
             'birthdate': artist.birthdate,
-            'nationality': artist.nationality, 
             # 'image': artist.image.url,
             'occupations': occupations
         }

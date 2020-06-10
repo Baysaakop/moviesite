@@ -18,12 +18,48 @@
     background: #dedede;   
 }
 
+.modal-rating input {
+    display: none;
+}
+
+.modal-rating label {
+    font-size: 24px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+    color: #ddd;
+}
+
+.modal-rating .checked {
+    color: #FFD700;
+}
+
+.modal-rating input:checked ~ label {
+    color: #FFD700;
+}
+
+.modal-rating input:checked + label:hover,
+.modal-rating input:checked ~ label:hover,
+.modal-rating label:hover ~ input:checked ~ label,
+.modal-rating input:checked ~ label:hover ~ label {
+    color: #FFED85;
+}
+
+.modal-rating:not(:checked) label:hover,
+.modal-rating:not(:checked) label:hover ~ label {
+    color: #FFD700;
+}
+
 @media screen and (max-width:576px) {
     #action_section a {
         height: 50px;
     }
 
-    #action_section span, p {
+    #action_section span {
+        display: none;
+    }
+
+    #action_section p {
         display: none;
     }
 
