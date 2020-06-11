@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags i18n %}
 
-{% load crispy_forms_tags %}
+{% block title %}
+{% trans 'Add New Movie' %}
+{% endblock %}
 
 {% block style %}
 <style>
@@ -20,12 +23,12 @@
 <div class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>        
-            <li class="breadcrumb-item active" aria-current="page">Add new movie</li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>        
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Add New Movie' %}</li>
         </ol>
     </nav> 
     <div class="border rounded m-3 p-3">
-        <h4>Add New Movie</h4>
+        <h4>{% trans 'Add New Movie' %}</h4>
         <form method="POST" novalidate>
             {% csrf_token %}                  
             {{ form.name|as_crispy_field }} 

@@ -1,14 +1,15 @@
 NEW PLAN
 1. Movie CRUD - Done
 1.1 Movie actions - Done
-2. Series CRUD - done
+2. Series CRUD - Done
 2.1 Series actions - Done
-3. Artist CRUD - done
-3.1 Artist actions
+3. Artist CRUD - Done
+3.1 Artist actions - Done
 4. Season CRUD
 5. Episode CRUD
-6. Language
+6. Language - In progress
 7. Search page
 8. Social authentaction
 9. Help page
+10. Data import
 

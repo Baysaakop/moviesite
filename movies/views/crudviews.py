@@ -40,6 +40,16 @@ def getUserSeriesRating(user, series):
     else:
         return 0
 
+def getUserArtistRating(user, artist):
+    if user.is_authenticated:
+        user_rating = ArtistRating.objects.filter(user=user, artist=artist).first()
+        if user_rating is None:
+            return 0
+        else:
+            return user_rating.rating
+    else:
+        return 0
+
 class MovieListView(ListView):
     model = Movie
     template_name = 'movie/movielist.html'
@@ -131,9 +141,9 @@ class SeriesListView(ListView):
     ordering = ['-updated_at']    
 
     def get_context_data(self, **kwargs):
-        genres = Genre.objects.all().order_by('name')        
-        profile = getProfile(self.request.user)
         context = super().get_context_data(**kwargs)
+        genres = Genre.objects.all().order_by('name')        
+        profile = getProfile(self.request.user)        
         context['genres'] = genres
         context['profile'] = profile
         context['name'] = self.request.GET.get('name')
@@ -212,11 +222,9 @@ class ArtistListView(ListView):
     ordering = ['-updated_at']    
 
     def get_context_data(self, **kwargs):
-        occupations = Occupation.objects.all().order_by('name')        
-        profile = None
-        if self.request.user.is_authenticated:
-            profile = Profile.objects.get(user=self.request.user)
         context = super().get_context_data(**kwargs)
+        occupations = Occupation.objects.all().order_by('name')        
+        profile = getProfile(self.request.user)                
         context['occupations'] = occupations
         context['profile'] = profile
         context['name'] = self.request.GET.get('name')
@@ -253,8 +261,12 @@ class ArtistDetailView(DetailView):
         context = super().get_context_data(**kwargs)        
         movies = Movie.objects.filter(Q(director=self.object) | Q(maincast=self.object) | Q(writer=self.object)).order_by('release_date').distinct()
         series = Series.objects.filter(Q(director=self.object) | Q(maincast=self.object) | Q(writer=self.object)).order_by('release_date').distinct()
+        profile = getProfile(self.request.user)
+        user_rating = getUserArtistRating(self.request.user, self.object)        
         context['movielist'] = movies
         context['serieslist'] = series
+        context['profile'] = profile
+        context['user_rating'] = user_rating
         return context
 
 class ArtistCreateView(CreateView):

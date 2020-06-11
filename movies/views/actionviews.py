@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from datetime import datetime
 from django.contrib.auth.models import User
-from ..models import Movie, Series, Profile, MovieRating, SeriesRating
+from ..models import Movie, Series, Artist, Profile, MovieRating, SeriesRating, ArtistRating
 
 def getMovieRating(movie_id):
     movie = Movie.objects.get(pk=movie_id)
@@ -20,6 +20,18 @@ def getMovieRating(movie_id):
 def getSeriesRating(series_id):
     series = Series.objects.get(pk=series_id)
     ratings = SeriesRating.objects.filter(series=series)
+    count = ratings.count()
+    average = 0
+    if count > 0:
+        sum = 0
+        for r in ratings:
+            sum += r.rating
+        average = sum / count
+    return average
+
+def getArtistRating(artist_id):
+    artist = Artist.objects.get(pk=artist_id)
+    ratings = ArtistRating.objects.filter(artist=artist)
     count = ratings.count()
     average = 0
     if count > 0:
@@ -252,6 +264,88 @@ def seriesgiverating(request):
     else:
         return HttpResponse("Request method is not a GET")
 
+@login_required
+def artistaddfavorite(request):
+    if request.method == 'GET':
+        is_liked = False
+        user = request.user
+        artist_id = request.GET.get('artist_id')
+        artist = Artist.objects.get(pk=artist_id)
+        profile = Profile.objects.get(user=user)
+        result = profile.artist_favorite.filter(pk=artist_id).first()        
+        if result is None:
+            profile.artist_favorite.add(artist)
+            is_liked = True
+        else:
+            profile.artist_favorite.remove(artist)
+            is_liked = False
+        
+        total_likes = Profile.objects.filter(artist_favorite=artist).count()
+        artist.likes = total_likes
+        artist.save()
+
+        data = {
+            'is_liked': is_liked
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")
+
+@login_required
+def artistaddfollowed(request):
+    if request.method == 'GET':
+        is_followed = False
+        user = request.user
+        artist_id = request.GET.get('artist_id')
+        artist = Artist.objects.get(pk=artist_id)
+        profile = Profile.objects.get(user=user)
+        result = profile.artist_followed.filter(pk=artist_id).first()        
+        if result is None:
+            profile.artist_followed.add(artist)
+            is_followed = True
+        else:
+            profile.artist_followed.remove(artist)
+            is_followed = False
+        
+        total_followers = Profile.objects.filter(artist_followed=artist).count()
+        artist.followers = total_followers
+        artist.save()
+
+        data = {
+            'is_followed': is_followed
+        }
+        return JsonResponse(data)
+
+    else:
+        return HttpResponse("Request method is not a GET")
+
+@login_required
+def artistgiverating(request):
+    if request.method == 'GET':
+        user = request.user
+        rating = request.GET.get('rating')
+        artist_id = request.GET.get('artist_id')        
+        artist = Artist.objects.get(pk=artist_id)
+        result = ArtistRating.objects.filter(artist=artist, user=user).first()
+        if result is None:
+            result = ArtistRating.objects.create(
+                artist = artist,
+                user = user,
+                rating = rating
+            )
+        else:
+            result.rating = rating
+            result.save()
+        average = getArtistRating(artist_id)
+        artist.score = average
+        artist.save()
+        data = {
+            'average': average
+        }
+        return JsonResponse(data)
+    else:
+        return HttpResponse("Request method is not a GET")
 
 # @login_required
 # def postComment(request):

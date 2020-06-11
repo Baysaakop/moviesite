@@ -24,12 +24,12 @@ urlpatterns += i18n_patterns (
     path('seriesaddwatched/', actionviews.seriesaddwatched, name='seriesaddwatched'),
     path('seriesaddwatchlist/', actionviews.seriesaddwatchlist, name='seriesaddwatchlist'),
     path('seriesgiverating/', actionviews.seriesgiverating, name='seriesgiverating'),
+    path('artistaddfavorite/', actionviews.artistaddfavorite, name='artistaddfavorite'),
+    path('artistaddfollowed/', actionviews.artistaddfollowed, name='artistaddfollowed'),
+    path('artistgiverating/', actionviews.artistgiverating, name='artistgiverating'),
     # path('postcomment/', movieactionviews.postComment, name='postcomment'),
     # path('commentlike/', movieactionviews.commentLike, name='commentlike'),
     # path('commentdislike/', movieactionviews.commentDislike, name='commentdislike'),
-    ## ARTIST ACTIONS
-    # path('likeartist/', artistactionviews.likeArtist, name='likeartist'),
-    # path('followartist/', artistactionviews.followArtist, name='followartist'), 
     ## SEARCH ACTIONS
     path('searchmovie/', searchviews.searchmovie, name='searchmovie'),
     path('searchartist/', searchviews.searchartist, name='searchartist'),    

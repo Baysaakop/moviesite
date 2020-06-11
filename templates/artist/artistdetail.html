@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load static custom_tags series_tags humanize i18n %}
+{% load static custom_tags artist_tags humanize i18n %}
 {% block title %}
-{{ series }}
+{{ artist }}
 {% endblock %}
 
 {% block style %}
@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="movielist" class="container">
+<div id="artistdetail" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -24,14 +24,14 @@
                     {% if artist.image %}
                     <img class="card-img" src="{{ artist.image.url }}" alt="Card image" style="width: 100%; height: auto;">
                     {% else %}
-                    <div class="card-body bg-light" style="height: 250px;"></div>
+                    <div class="card-body bg-light" style="height: 300px;"></div>
                     {% endif %}
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped" style="font-size: small;">    
                         <tr>
                             <th>{% trans 'Birthdate' %}</th>
-                            <td>{{ artist.birthdate|date:"M-d, Y" }}</td>
+                            <td>{{ artist.birthdate|date:"Y-m-d" }}</td>
                         </tr>     
                         <tr>
                             <th>{% trans 'Occupations' %}</th>
@@ -55,7 +55,7 @@
                         </tr>
                         <tr>
                             <th>{% trans 'Likes' %}</th>
-                            <td><span class="count-like">{{ artist.likes }}</span></td>
+                            <td><span class="count-favorite">{{ artist.likes }}</span></td>
                         </tr>
                         <tr>
                             <th>{% trans 'Followers' %}</th>
@@ -90,7 +90,7 @@
                                 <tr>
                                     <th>Release Date</th>
                                     <th>Film name</th>
-                                    <th>IMDB Rating</th>
+                                    <th>Film score</th>
                                     <th>Actor</th>
                                     <th>Producer</th>
                                     <th>Director</th>
@@ -102,7 +102,7 @@
                                 <tr>
                                     <td>{{ movie.release_date|date:"Y" }}</td>
                                     <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                                    <td>{{ movie.imdb_rating }}</td>     
+                                    <td>{{ movie.score }}</td>     
                                     <td>
                                         {% if artist in movie.maincast.all %}
                                             Yes
@@ -197,21 +197,78 @@
         </div>                        
     </div>    
     <div id="action_section" class="m-3 border rounded d-flex flex-row justify-content-around text-center">
-        <a href="{% url 'account_login' %}" id="favorite" class="w-100" data-toggle="tooltip" data-placement="top" title="Add to Favorite">
+        {% if profile is None %}
+        <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Add to Favorite' %}">
             <i class="fa fa-thumbs-o-up"></i>
             <span class="count-favorite">{{ artist.likes }}</span>
-            <p class="m-0" style="font-size: 14px;">Add to Favorite</p>
+            <p class="text-favorite m-0" style="font-size: 14px;">Add to Favorite</p>
         </a>
-        <a href="{% url 'account_login' %}" id="watched" class="w-100" data-toggle="tooltip" data-placement="top" title="Follow">
+        <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Follow' %}">
             <i class="fa fa-user-plus"></i>
-            <span class="count-follow">{{ artist.followers }}</span>
-            <p class="m-0" style="font-size: 14px;">Follow</p>
+            <span class="count-followers">{{ artist.followers }}</span>
+            <p class="text-followers m-0" style="font-size: 14px;">Follow</p>
         </a>
-        <a href="{% url 'account_login' %}" id="rating" class="w-100" data-toggle="tooltip" data-placement="top" title="Give Rating">
+        <a href="{% url 'account_login' %}" class="w-100" title="Give Rating">
             <i class="fa fa-star-o"></i>
-            <span>0</span>
+            <span>{{ artist.score }}</span>
             <p class="m-0" style="font-size: 14px;">Give Rating</p>
         </a>
+        {% else %}
+        <div id="favorite" class="w-100" data-id="{{ artist.id }}"
+            title="{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+            <i id="icon-favorite" class="{% if artist|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+            <span class="count-favorite">{{ artist.likes }}</span>
+            <p class="text-favorite m-0" style="font-size: 14px;">{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}</p>            
+        </div>
+        <div id="follow" class="w-100" data-id="{{ artist.id }}"
+            title="{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}" >
+            <i id="icon-follow" class="{% if artist|is_followed:profile %} fa fa-user-times {% else %} fa fa-user-plus {% endif %}"></i>
+            <span class="count-followers">{{ artist.followers }}</span>
+            <p class="text-followers m-0" style="font-size: 14px;">{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}</p>
+        </div>
+        <div id="rating" class="w-100" data-toggle="modal" data-target="#modalRating" title="{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}">
+            <i id="icon-rating" class="{% if user_rating == 0 %}fa fa-star-o{% else %}fa fa-star{% endif%}"></i>
+            <span class="user-rating">{{ user_rating }}</span>
+            <p class="text-rating m-0" style="font-size: 14px;">{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}</p>
+        </div>
+        {% endif %}
+    </div>
+    <div class="modal fade" id="modalRating">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Give rating on this artist</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-rating d-flex justify-content-center align-items-center flex-row-reverse">
+                        <input class="form-check-input" type="radio" id="star10" name="rating" value="10" data-id="{{ artist.id }}" />
+                        <label class="form-check-label fa fa-star" for="star10" title="10 star"></label>      
+                        <input class="form-check-input" type="radio" id="star9" name="rating" value="9" data-id="{{ artist.id }}" />
+                        <label class="form-check-label fa fa-star" for="star9" title="9 star"></label>                                              
+                        <input class="form-check-input" type="radio" id="star8" name="rating" value="8" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star8" title="8 star"></label> 
+                        <input class="form-check-input" type="radio" id="star7" name="rating" value="7" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star7" title="7 star"></label> 
+                        <input class="form-check-input" type="radio" id="star6" name="rating" value="6" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star6" title="6 star"></label>
+                        <input class="form-check-input" type="radio" id="star5" name="rating" value="5" data-id="{{ artist.id }}" />
+                        <label class="form-check-label fa fa-star" for="star5" title="5 star"></label>      
+                        <input class="form-check-input" type="radio" id="star4" name="rating" value="4" data-id="{{ artist.id }}" />
+                        <label class="form-check-label fa fa-star" for="star4" title="4 star"></label>                                              
+                        <input class="form-check-input" type="radio" id="star3" name="rating" value="3" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star3" title="3 star"></label> 
+                        <input class="form-check-input" type="radio" id="star2" name="rating" value="2" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star2" title="2 star"></label> 
+                        <input class="form-check-input" type="radio" id="star1" name="rating" value="1" data-id="{{ artist.id }}"/>
+                        <label class="form-check-label fa fa-star" for="star1" title="1 star"></label>  
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -223,5 +280,87 @@
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
     });    
+
+    $('#favorite').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/artistaddfavorite/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                var text = $('.count-favorite').first().text();
+                var count = parseInt(text);
+                if (data.is_liked) {               
+                    $("#icon-favorite").attr("class", "fa fa-thumbs-up");
+                    $("span.count-favorite").text((count + 1).toString());
+                    $("p.text-favorite").text("Remove from Favorite");
+                    $("#favorite").attr("title", "Remove from Favorite");
+                }
+                else
+                {                         
+                    $("#icon-favorite").attr("class", "fa fa-thumbs-o-up");
+                    $("span.count-favorite").text((count - 1).toString());
+                    $("p.text-favorite").text("Add to Favorite");
+                    $("#favorite").attr("title", "Add to Favorite");
+                }
+            }
+        })
+    });
+
+    $('#follow').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/artistaddfollowed/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                var text = $('.count-followers').first().text();
+                var count = parseInt(text);
+                if (data.is_followed) {               
+                    $("#icon-follow").attr("class", "fa fa-user-times");
+                    $("span.count-followers").text((count + 1).toString());
+                    $("p.text-followers").text("Unfollow");
+                    $("#follow").attr("title", "Unfollow");
+                }
+                else
+                {                         
+                    $("#icon-follow").attr("class", "fa fa-user-plus");
+                    $("span.count-followers").text((count - 1).toString());
+                    $("p.text-followers").text("Follow");
+                    $("#follow").attr("title", "Follow");
+                }
+            }
+        })
+    });
+
+    $("input[name='rating']").click(function () {
+        var id = $(this).attr("data-id");
+        var rating = $(this).val();
+        $.ajax({
+            type: "GET",
+            url: "/artistgiverating/",
+            data: {
+                artist_id: id,
+                rating: rating
+            },
+            success: function(data)
+            {
+                $("span.avg-score").text(" " + data.average.toFixed(1).toString());
+                $("#icon-rating").attr("class", "fa fa-star");
+                $("span.user-rating").text(rating);                
+                $("p.text-rating").text("Edit rating");
+                $("#rating").attr("title", "Edit rating");
+                alert("Thanks for your review.");
+            }
+        });
+    });
 </script>
 {% endblock %}

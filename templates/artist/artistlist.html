@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static custom_tags i18n %}
+{% load static custom_tags artist_tags i18n %}
 {% block title %}
 Artist List
 {% endblock %}
@@ -80,22 +80,42 @@ Artist List
                                 <h6 class="card-title text-center">{{ artist }}</h6>                               
                             </div>
                             <div class="actions d-flex justify-content-start p-0 text-center">
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Add to Favorite' %}">
+                                {% if profile is None %}
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
                                     <i class="fa fa-thumbs-o-up"></i>
                                 </a>
-                                <a href="#" class="action border-top border-right p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Follow' %}">
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Follow' %}">
                                     <i class="fa fa-user-plus"></i>
                                 </a>
-                                <a href="#" class="action border-top p-2" style="width: 33%;" data-toggle="tooltip" data-placement="top" title="{% trans 'Give Rating' %}">
+                                <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Give Rating' %}">
                                     <i class="fa fa-star-o"></i>
                                 </a>
+                                {% else %}
+                                <a id="favorite{{ artist.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ artist.id }}"
+                                    title="{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+                                    <i id="icon-favorite{{ artist.id }}" class="{% if artist|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+                                </a>
+                                <a id="follow{{ artist.id }}" href="#" class="action follow p-2" style="width: 33%;" data-id="{{ artist.id }}"
+                                    title="{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}" >
+                                    <i id="icon-follow{{ artist.id }}" class="{% if artist|is_followed:profile %} fa fa-user-times {% else %} fa fa-user-plus {% endif %}"></i>
+                                </a>
+                                <a id="rating{{ artist.id }}" href="#" class="action rating p-2" style="width: 33%;" title="{% trans 'Give Rating' %}" data-id="{{ artist.id }}">
+                                    <i class="fa fa-star-o"></i>
+                                </a>
+                                {% endif %}
                             </div>
                         </div>                                                                                                         
                     </div>   
                     <div class="p-2 border bg-light">
                         <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <small>{{ artist }}</small>  
-                        </div>                                                                                                         
+                            <small style="font-weight: bold;">{{ artist }}</small>  
+                        </div>            
+                        <div class="birthyear">
+                            <small style="font-weight: bold;">Birth year: {{ artist.birthdate|date:"Y" }}</small>
+                        </div>
+                        <div class="score">
+                            <small style="font-weight: bold;">Score: {{ artist.score }}</small>       
+                        </div>                                                                                               
                     </div>                
                 </a>                                        
             </div>
@@ -116,5 +136,53 @@ Artist List
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
     });    
+
+    $('.favorite').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/artistaddfavorite/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_liked) {               
+                    $("#icon-favorite" + id).attr("class", "fa fa-thumbs-up");
+                    $("#favorite" + id).attr("title", "Remove from Favorite");
+                }
+                else
+                {                         
+                    $("#icon-favorite" + id).attr("class", "fa fa-thumbs-o-up");
+                    $("#favorite" + id).attr("title", "Add to Favorite");
+                }
+            }
+        })
+    });
+
+    $('.follow').click(function (e) {
+        e.preventDefault();                
+        var id = $(this).attr("data-id");       
+        $.ajax({
+            type: "GET",
+            url: "/artistaddfollowed/",
+            data: {
+                artist_id: id
+            },
+            success: function(data)
+            {
+                if (data.is_followed) {               
+                    $("#icon-follow" + id).attr("class", "fa fa-user-times");
+                    $("#follow" + id).attr("title", "Unfollow");
+                }
+                else
+                {                         
+                    $("#icon-follow" + id).attr("class", "fa fa-user-plus");
+                    $("#follow" + id).attr("title", "Follow");
+                }
+            }
+        })
+    });
 </script>
 {% endblock %}

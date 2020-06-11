@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-26 14:40+0800\n"
+"POT-Creation-Date: 2020-06-11 16:59+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,246 +120,395 @@ msgstr ""
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
-#: .\templates\artists\artistlist.html:15 .\templates\base.html:61
-#: .\templates\movies\moviedetail.html:15 .\templates\movies\movielist.html:15
+#: .\templates\artist\artistdelete.html:23
+#: .\templates\artist\artistdetail.html:15
+#: .\templates\artist\artistlist.html:15
+#: .\templates\artist\artistupdate.html:23 .\templates\base.html:59
+#: .\templates\movie\moviecastedit.html:23
+#: .\templates\movie\moviecreate.html:26 .\templates\movie\moviedelete.html:23
+#: .\templates\movie\moviedetail.html:15 .\templates\movie\movielist.html:15
+#: .\templates\movie\movieupdate.html:23
+#: .\templates\series\seriescastedit.html:23
+#: .\templates\series\seriesdelete.html:23
+#: .\templates\series\seriesdetail.html:15
+#: .\templates\series\serieslist.html:15
+#: .\templates\series\seriesupdate.html:23
 msgid "Home"
 msgstr "Нүүр"
 
-#: .\templates\artists\artistlist.html:16 .\templates\base.html:70
+#: .\templates\artist\artistdelete.html:24
+#: .\templates\artist\artistdetail.html:16
+#: .\templates\artist\artistlist.html:16
+#: .\templates\artist\artistupdate.html:24 .\templates\base.html:68
 msgid "Artists"
 msgstr "Уран бүтээлч"
 
-#: .\templates\artists\artistlist.html:22 .\templates\movies\movielist.html:22
-msgid "Search by name"
-msgstr "Нэрээр хайлт хийх"
+#: .\templates\artist\artistdetail.html:33
+msgid "Birthdate"
+msgstr "Төрсөн өдөр"
 
-#: .\templates\artists\artistlist.html:35
-msgid "Occupation"
+#: .\templates\artist\artistdetail.html:37
+msgid "Occupations"
 msgstr "Мэргэжил"
 
-#: .\templates\artists\artistlist.html:37 .\templates\movies\movielist.html:37
-msgid "Choose..."
-msgstr "Сонгох..."
+#: .\templates\artist\artistdetail.html:45
+msgid "Nationality"
+msgstr "Үндэс"
 
-#: .\templates\artists\artistlist.html:44
-msgid "Age /Min/"
-msgstr "Нас /-с дээш/"
-
-#: .\templates\artists\artistlist.html:48
-msgid "Age /Max/"
-msgstr "Нас /-с доош/"
-
-#: .\templates\artists\artistlist.html:52 .\templates\movies\movielist.html:52
-msgid "Sort By"
-msgstr "Эрэмбэлэх"
-
-#: .\templates\artists\artistlist.html:68 .\templates\base.html:75
-#: .\templates\base.html:77 .\templates\movies\movielist.html:68
-msgid "Search"
-msgstr "Хайлт хийх"
-
-#: .\templates\artists\artistlist.html:74 .\templates\movies\movielist.html:74
-msgid "Total"
-msgstr "Нийт"
-
-#: .\templates\artists\artistlist.html:74
-msgid "artists"
-msgstr "уран бүтээлч"
-
-#: .\templates\artists\artistlist.html:97
-#: .\templates\artists\artistlist.html:104
-#: .\templates\movies\movielist.html:105 .\templates\movies\movielist.html:115
-msgid "Add to favorite list"
-msgstr "Дуртай жагсаалтанд нэмэх"
-
-#: .\templates\artists\artistlist.html:100
-#: .\templates\artists\artistlist.html:107
-msgid "Follow the artist"
-msgstr "Дагах"
-
-#: .\templates\artists\artistlist.html:104
-#: .\templates\movies\movielist.html:115
-msgid "Remove from favorite list"
-msgstr "Дуртай жагсаалтаас хасах"
-
-#: .\templates\artists\artistlist.html:107
-msgid "Unfollow the artist"
-msgstr "Дагахаа болих"
-
-#: .\templates\base.html:19
-msgid "Mollywood"
-msgstr "Молливүүд"
-
-#: .\templates\base.html:64 .\templates\movies\moviedetail.html:16
-#: .\templates\movies\movielist.html:16
-msgid "Films"
-msgstr "Кино"
-
-#: .\templates\base.html:67
-msgid "Series"
-msgstr "Цуврал"
-
-#: .\templates\base.html:81 .\templates\base.html:82
-msgid "Notification"
-msgstr "Мэдээлэл"
-
-#: .\templates\base.html:92 .\templates\base.html:93
-msgid "Help"
-msgstr "Тусламж"
-
-#: .\templates\base.html:103 .\templates\base.html:104
-msgid "Language"
-msgstr "Хэл"
-
-#: .\templates\base.html:131 .\templates\base.html:132
-msgid "Account"
-msgstr "Хаяг"
-
-#: .\templates\base.html:136
-msgid "Profile"
-msgstr "Профайл"
-
-#: .\templates\base.html:138
-msgid "Add movie"
-msgstr "Кино нэмэх"
-
-#: .\templates\base.html:139
-msgid "Edit movie"
-msgstr "Кино засах"
-
-#: .\templates\base.html:140
-msgid "Add artist"
-msgstr "Уран бүтээлч нэмэх"
-
-#: .\templates\base.html:141
-msgid "Edit artist"
-msgstr "Уран бүтээлч засах"
-
-#: .\templates\base.html:143
-msgid "Sign out"
-msgstr "Гарах"
-
-#: .\templates\base.html:148
-msgid "Sign in"
-msgstr "Нэвтрэх"
-
-#: .\templates\home.html:64
-msgid "Newly added movies"
-msgstr "Шинээр нэмэгдсэн кинонууд"
-
-#: .\templates\home.html:67 .\templates\home.html:96 .\templates\home.html:125
-#: .\templates\home.html:154
-msgid "Show more"
-msgstr "Цааш үзэх"
-
-#: .\templates\home.html:93
-msgid "Top rated movies"
-msgstr "Өндөр үнэлгээтэй кинонууд"
-
-#: .\templates\home.html:122
-msgid "Most liked movies"
-msgstr "Хүмүүсийн дуртай кинонууд"
-
-#: .\templates\home.html:151
-msgid "Most watched movies"
-msgstr "Хандалт ихтэй кинонууд"
-
-#: .\templates\movies\moviedetail.html:28
-msgid "Production"
-msgstr "Продакшн"
-
-#: .\templates\movies\moviedetail.html:40
-msgid "Director"
-msgstr "Найруулагч"
-
-#: .\templates\movies\moviedetail.html:52
-msgid "Writer"
-msgstr "Зохиолч"
-
-#: .\templates\movies\moviedetail.html:64
-#: .\templates\movies\moviedetail.html:144
-msgid "Cast"
-msgstr "Жүжигчид"
-
-#: .\templates\movies\moviedetail.html:76
-msgid "Genres"
-msgstr "Төрөл"
-
-#: .\templates\movies\moviedetail.html:86
-msgid "Release Date"
-msgstr "Нээлт"
-
-#: .\templates\movies\moviedetail.html:90
-msgid "Running Time"
-msgstr "Хугацаа"
-
-#: .\templates\movies\moviedetail.html:94
-msgid "Rating"
-msgstr "Ангилал"
-
-#: .\templates\movies\moviedetail.html:106
+#: .\templates\artist\artistdetail.html:53
+#: .\templates\movie\moviedetail.html:97 .\templates\movie\movielist.html:124
+#: .\templates\series\seriesdetail.html:97
 msgid "Score"
 msgstr "Үнэлгээ"
 
-#: .\templates\movies\moviedetail.html:114
+#: .\templates\artist\artistdetail.html:57
+#: .\templates\movie\moviedetail.html:101
+#: .\templates\series\seriesdetail.html:101
 msgid "Likes"
 msgstr "Таалагдсан"
 
-#: .\templates\movies\moviedetail.html:122
+#: .\templates\artist\artistdetail.html:61
+msgid "Followers"
+msgstr "Дагагчид"
+
+#: .\templates\artist\artistdetail.html:201
+#: .\templates\artist\artistlist.html:84 .\templates\home.html:91
+#: .\templates\home.html:162 .\templates\movie\moviedetail.html:191
+#: .\templates\movie\moviedetail.html:194
+#: .\templates\movie\moviedetail.html:217
+#: .\templates\movie\moviedetail.html:220
+#: .\templates\movie\moviedetail.html:315
+#: .\templates\movie\moviedetail.html:316 .\templates\movie\movielist.html:90
+#: .\templates\movie\movielist.html:101 .\templates\movie\movielist.html:165
+#: .\templates\profile.html:75 .\templates\profile.html:144
+#: .\templates\profile.html:213 .\templates\series\serieslist.html:90
+msgid "Add to Favorite"
+msgstr "Дуртай жагсаалтанд нэмэх"
+
+#: .\templates\artist\artistdetail.html:206
+#: .\templates\artist\artistlist.html:87
+msgid "Follow"
+msgstr "Дагах"
+
+#: .\templates\artist\artistlist.html:23 .\templates\movie\movielist.html:23
+#: .\templates\series\serieslist.html:23
+msgid "Search by name"
+msgstr "Нэрээр хайлт хийх"
+
+#: .\templates\artist\artistlist.html:25 .\templates\movie\movielist.html:25
+#: .\templates\series\serieslist.html:25
+msgid "Name"
+msgstr "Нэр"
+
+#: .\templates\artist\artistlist.html:36
+msgid "Occupation"
+msgstr "Мэргэжил"
+
+#: .\templates\artist\artistlist.html:38 .\templates\movie\movielist.html:38
+#: .\templates\series\serieslist.html:38
+msgid "Any"
+msgstr "Бүх"
+
+#: .\templates\artist\artistlist.html:45 .\templates\movie\movielist.html:45
+#: .\templates\series\serieslist.html:45
+msgid "Sort By"
+msgstr "Эрэмбэлэх"
+
+#: .\templates\artist\artistlist.html:62 .\templates\movie\movielist.html:68
+#: .\templates\series\serieslist.html:68
+msgid "Total"
+msgstr "Нийт"
+
+#: .\templates\artist\artistlist.html:62
+msgid "artists"
+msgstr "уран бүтээлч"
+
+#: .\templates\artist\artistlist.html:90
+#: .\templates\artist\artistlist.html:102
+#: .\templates\movie\moviedetail.html:206
+#: .\templates\movie\moviedetail.html:209
+#: .\templates\movie\moviedetail.html:232
+#: .\templates\movie\moviedetail.html:235
+msgid "Give Rating"
+msgstr "Үнэлгээ өгөх"
+
+#: .\templates\base.html:22
+msgid "Mollywood"
+msgstr "Молливүүд"
+
+#: .\templates\base.html:62 .\templates\movie\moviedelete.html:24
+#: .\templates\movie\moviedetail.html:16 .\templates\movie\movielist.html:16
+msgid "Movies"
+msgstr "Кино"
+
+#: .\templates\base.html:65 .\templates\series\seriescastedit.html:24
+#: .\templates\series\seriesdelete.html:24
+#: .\templates\series\seriesdetail.html:16
+#: .\templates\series\serieslist.html:16
+#: .\templates\series\seriesupdate.html:24
+msgid "Series"
+msgstr "Цуврал"
+
+#: .\templates\base.html:73 .\templates\base.html:75
+#: .\templates\movie\movielist.html:61 .\templates\movie\movielist.html:62
+msgid "Search"
+msgstr "Хайлт хийх"
+
+#: .\templates\base.html:79 .\templates\base.html:80
+msgid "Notification"
+msgstr "Мэдээлэл"
+
+#: .\templates\base.html:90 .\templates\base.html:91 .\templates\base.html:95
+msgid "Help"
+msgstr "Тусламж"
+
+#: .\templates\base.html:96
+msgid "About us"
+msgstr "Бидний тухай"
+
+#: .\templates\base.html:97
+msgid "Q&A"
+msgstr "Түгээмэл асуултууд"
+
+#: .\templates\base.html:101 .\templates\base.html:102
+msgid "Language"
+msgstr "Хэл"
+
+#: .\templates\base.html:129 .\templates\base.html:130
+msgid "Account"
+msgstr "Хаяг"
+
+#: .\templates\base.html:134
+msgid "Profile"
+msgstr "Профайл"
+
+#: .\templates\base.html:136
+msgid "Add new movie"
+msgstr "Шинээр кино нэмэх"
+
+#: .\templates\base.html:137
+msgid "Add new series"
+msgstr "Шинээр цуврал нэмэх"
+
+#: .\templates\base.html:138
+#, fuzzy
+#| msgid "Add artist"
+msgid "Add new artist"
+msgstr "Уран бүтээлч нэмэх"
+
+#: .\templates\base.html:140
+msgid "Sign out"
+msgstr "Гарах"
+
+#: .\templates\base.html:145
+msgid "Sign in"
+msgstr "Нэвтрэх"
+
+#: .\templates\home.html:65
+msgid "Newly added movies"
+msgstr "Шинээр нэмэгдсэн кинонууд"
+
+#: .\templates\home.html:68 .\templates\home.html:139
+msgid "Show more"
+msgstr "Цааш үзэх"
+
+#: .\templates\home.html:94 .\templates\home.html:165
+#: .\templates\movie\moviedetail.html:196
+#: .\templates\movie\moviedetail.html:199
+#: .\templates\movie\moviedetail.html:222
+#: .\templates\movie\moviedetail.html:225
+#: .\templates\movie\moviedetail.html:345
+#: .\templates\movie\moviedetail.html:346 .\templates\movie\movielist.html:93
+#: .\templates\movie\movielist.html:105 .\templates\movie\movielist.html:189
+#: .\templates\profile.html:78 .\templates\profile.html:147
+#: .\templates\profile.html:216 .\templates\series\serieslist.html:93
+msgid "Add to Watched"
+msgstr "Үзсэн киноны жагсаалтанд нэмэх"
+
+#: .\templates\home.html:97 .\templates\home.html:168
+#: .\templates\movie\moviedetail.html:201
+#: .\templates\movie\moviedetail.html:204
+#: .\templates\movie\moviedetail.html:227
+#: .\templates\movie\moviedetail.html:230
+#: .\templates\movie\moviedetail.html:375
+#: .\templates\movie\moviedetail.html:376 .\templates\movie\movielist.html:96
+#: .\templates\movie\movielist.html:109 .\templates\movie\movielist.html:213
+#: .\templates\profile.html:81 .\templates\profile.html:150
+#: .\templates\profile.html:219 .\templates\series\serieslist.html:96
+msgid "Add to Watchlist"
+msgstr "Дараа үзэх"
+
+#: .\templates\home.html:136
+msgid "Top rated movies"
+msgstr "Өндөр үнэлгээтэй кинонууд"
+
+#: .\templates\movie\moviecastedit.html:24
+msgid "Movie"
+msgstr "Кино"
+
+#: .\templates\movie\moviecreate.html:5 .\templates\movie\moviecreate.html:27
+#: .\templates\movie\moviecreate.html:31
+msgid "Add New Movie"
+msgstr "Шинээр кино нэмэх"
+
+#: .\templates\movie\moviedetail.html:33
+#: .\templates\series\seriesdetail.html:33
+msgid "Production"
+msgstr "Продакшн"
+
+#: .\templates\movie\moviedetail.html:41
+#: .\templates\series\seriesdetail.html:41
+msgid "Director"
+msgstr "Найруулагч"
+
+#: .\templates\movie\moviedetail.html:49
+msgid "Screenwriter"
+msgstr "Кино зохиолч"
+
+#: .\templates\movie\moviedetail.html:57
+msgid "Main cast"
+msgstr "Гол дүр"
+
+#: .\templates\movie\moviedetail.html:65
+#: .\templates\series\seriesdetail.html:65
+msgid "Genres"
+msgstr "Төрөл"
+
+#: .\templates\movie\moviedetail.html:73
+#: .\templates\series\seriesdetail.html:73
+msgid "Release Date"
+msgstr "Нээлт"
+
+#: .\templates\movie\moviedetail.html:77
+#: .\templates\series\seriesdetail.html:77
+msgid "Running Time"
+msgstr "Үргэлжлэх хугацаа"
+
+#: .\templates\movie\moviedetail.html:81
+#: .\templates\series\seriesdetail.html:81
+msgid "Rating"
+msgstr "Ангилал"
+
+#: .\templates\movie\moviedetail.html:105
+#: .\templates\series\seriesdetail.html:105
 msgid "Watched"
 msgstr "Үзсэн"
 
-#: .\templates\movies\moviedetail.html:128
+#: .\templates\movie\moviedetail.html:109
+#: .\templates\series\seriesdetail.html:109
 msgid "Watchlisted"
 msgstr "Үзэхээр нэмсэн"
 
-#: .\templates\movies\moviedetail.html:142
+#: .\templates\movie\moviedetail.html:122
+#: .\templates\movie\moviedetail.html:163
+msgid "Edit"
+msgstr "Засах"
+
+#: .\templates\movie\moviedetail.html:137
 msgid "Plot"
 msgstr "Үйл явдал"
 
-#: .\templates\movies\moviedetail.html:155
+#: .\templates\movie\moviedetail.html:147
+#: .\templates\movie\moviedetail.html:150
 msgid "Trailer"
 msgstr "Танилцуулга"
 
-#: .\templates\movies\movielist.html:35
+#: .\templates\movie\moviedetail.html:159
+#: .\templates\series\seriesdetail.html:57
+msgid "Cast"
+msgstr "Жүжигчид"
+
+#: .\templates\movie\moviedetail.html:169
+msgid "Main Role"
+msgstr "Гол дүрд"
+
+#: .\templates\movie\moviedetail.html:177
+msgid "Supporting Role"
+msgstr "Туслах дүрд"
+
+#: .\templates\movie\moviedetail.html:211
+#: .\templates\movie\moviedetail.html:214
+#: .\templates\movie\moviedetail.html:237
+#: .\templates\movie\moviedetail.html:240
+msgid "Write Comment"
+msgstr "Сэтгэгдэл үлдээх"
+
+#: .\templates\movie\moviedetail.html:217
+#: .\templates\movie\moviedetail.html:220
+#: .\templates\movie\moviedetail.html:308
+#: .\templates\movie\moviedetail.html:309 .\templates\movie\movielist.html:101
+#: .\templates\movie\movielist.html:160
+msgid "Remove from Favorite"
+msgstr "Дуртай жагсаалтаас хасах"
+
+#: .\templates\movie\moviedetail.html:222
+#: .\templates\movie\moviedetail.html:225
+#: .\templates\movie\moviedetail.html:338
+#: .\templates\movie\moviedetail.html:339 .\templates\movie\movielist.html:105
+#: .\templates\movie\movielist.html:184
+msgid "Remove from Watched"
+msgstr "Үзсэн киноны жагсаалтаас хасах"
+
+#: .\templates\movie\moviedetail.html:227
+#: .\templates\movie\moviedetail.html:230
+#: .\templates\movie\moviedetail.html:368
+#: .\templates\movie\moviedetail.html:369 .\templates\movie\movielist.html:109
+#: .\templates\movie\movielist.html:208
+#, fuzzy
+#| msgid "Remove from watchlist"
+msgid "Remove from Watchlist"
+msgstr "Үзэх киноны жагсаалтаас хасах"
+
+#: .\templates\movie\moviedetail.html:232
+#: .\templates\movie\moviedetail.html:235
+#: .\templates\movie\moviedetail.html:397
+#: .\templates\movie\moviedetail.html:398
+msgid "Edit Rating"
+msgstr "Өгсөн үнэлгээгээ өөрчлөх"
+
+#: .\templates\movie\moviedetail.html:248
+msgid "Give rating on this movie"
+msgstr "Энэ кинонд үнэлгээ өгөх"
+
+#: .\templates\movie\moviedetail.html:276
+msgid "Close"
+msgstr "Хаах"
+
+#: .\templates\movie\moviedetail.html:399
+msgid "Thanks for your review."
+msgstr "Үнэлгээ өгсөнд баярлалаа."
+
+#: .\templates\movie\movielist.html:4
+msgid "Movie List"
+msgstr "Кино жагсаалт"
+
+#: .\templates\movie\movielist.html:36 .\templates\series\serieslist.html:36
 msgid "Genre"
 msgstr "Төрөл"
 
-#: .\templates\movies\movielist.html:44
-msgid "Release Year /From Jan-1/"
-msgstr "Нээлт /1 сарын 1-с/"
-
-#: .\templates\movies\movielist.html:48
-msgid "Release Year /To Dec-31/"
-msgstr "Нээлт /12 сарын 31 хүртэл/"
-
-#: .\templates\movies\movielist.html:74
+#: .\templates\movie\movielist.html:68
 msgid "films"
 msgstr "кино"
 
-#: .\templates\movies\movielist.html:95
+#: .\templates\movie\movielist.html:121
 msgid "Release"
 msgstr "Нээлт"
 
-#: .\templates\movies\movielist.html:108 .\templates\movies\movielist.html:118
-msgid "Add to watched list"
-msgstr "Үзсэн киноны жагсаалтанд нэмэх"
-
-#: .\templates\movies\movielist.html:111 .\templates\movies\movielist.html:121
-msgid "Add to watchlist"
-msgstr "Үзэх киноны жагсаалтанд нэмэх"
-
-#: .\templates\movies\movielist.html:118
-msgid "Remove from watched list"
-msgstr "Үзсэн киноны жагсаалтаас хасах"
-
-#: .\templates\movies\movielist.html:121
-msgid "Remove from watchlist"
-msgstr "Үзэх киноны жагсаалтаас хасах"
+#: .\templates\movie\movieupdate.html:24
+msgid "Films"
+msgstr "Кино"
 
 #: .\templates\openid\login.html:9
 msgid "OpenID Sign In"
 msgstr ""
+
+#: .\templates\series\seriesdetail.html:49
+msgid "Writer"
+msgstr "Зохиолч"
+
+#: .\templates\series\serieslist.html:68
+msgid "series"
+msgstr "Цуврал"
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8

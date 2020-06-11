@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="serieslist" class="container">
+<div id="seriesdetail" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -21,7 +21,11 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card">
-                    <img class="card-img" src="{{ series.poster }}" alt="Card image" style="width: 100%; height: auto;">
+                    {% if series.image %}
+                    <img class="card-img" src="{{ series.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    {% else %}
+                    <div class="card-body bg-light" style="height: 300px;"></div>
+                    {% endif %}
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped" style="font-size: small;">
