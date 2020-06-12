@@ -162,23 +162,23 @@ class SeriesListView(ListView):
         if is_valid_queryparam(genrename) and genrename != 'Any' and genrename != 'Бүх':
             queryset = queryset.filter(genre__name=genrename)
         if is_valid_queryparam(sortby):
-            if sortby == 'Latest':
+            if sortby == 'Latest' or sortby == 'Шинээр нэмэгдсэн':
                 queryset = queryset.order_by('-updated_at')
-            elif sortby == 'Score':
+            elif sortby == 'Score' or sortby == 'Үнэлгээгээр':
                 queryset = queryset.order_by('-score')
-            elif sortby == 'Likes':
+            elif sortby == 'Likes' or sortby == 'Like-н тоогоор':
                 queryset = queryset.order_by('-likes')
-            elif sortby == 'Watched':
+            elif sortby == 'Watched' or sortby == 'Үзсэн тоогоор':
                 queryset = queryset.order_by('-watched') 
-            elif sortby == 'Watchlisted':
+            elif sortby == 'Watchlisted' or sortby == 'Үзэхээр нэмсэн тоогоор':
                 queryset = queryset.order_by('-watchlisted')          
-            elif sortby == 'Release date (Newest first)':
+            elif sortby == 'Release date (Newest first)' or sortby == 'Нээлтийн огноо (Шинэ нь эхэндээ)':
                 queryset = queryset.order_by('-release_date')
-            elif sortby == 'Release date (Oldest first)':
+            elif sortby == 'Release date (Oldest first)' or sortby == 'Нээлтийн огноо (Хуучин нь эхэндээ)':
                 queryset = queryset.order_by('release_date')
-            elif sortby == 'Alphabetically (A-Z)':
+            elif sortby == 'Alphabetically (A-Z)' or sortby == 'Үсгийн дарааллаар (А-Я)':
                 queryset = queryset.order_by('name')
-            elif sortby == 'Alphabetically (Z-A)':
+            elif sortby == 'Alphabetically (Z-A)' or sortby == 'Үсгийн дарааллаар (Я-А)':
                 queryset = queryset.order_by('-name') 
         self.count = queryset.count()
         return queryset

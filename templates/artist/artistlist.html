@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static custom_tags artist_tags i18n %}
 {% block title %}
-Artist List
+{% trans 'Artist List' %}
 {% endblock %}
 
 {% block style %}
@@ -52,8 +52,8 @@ Artist List
                 <div class="form-group col-sm-12 col-md-6 col-lg-2">
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-2">
-                    <label class="text-light">Search</label>
-                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    <label class="text-light">{% trans 'Search' %}</label>
+                    <button type="submit" class="btn btn-primary btn-block">{% trans 'Search' %}</button>
                 </div>
             </div>        
         </form>
@@ -92,11 +92,11 @@ Artist List
                                 </a>
                                 {% else %}
                                 <a id="favorite{{ artist.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ artist.id }}"
-                                    title="{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+                                    title="{% if artist|is_favorite:profile %} {% trans 'Remove from Favorite' %} {% else %} {% trans 'Add to Favorite' %} {% endif %}">
                                     <i id="icon-favorite{{ artist.id }}" class="{% if artist|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
                                 </a>
                                 <a id="follow{{ artist.id }}" href="#" class="action follow p-2" style="width: 33%;" data-id="{{ artist.id }}"
-                                    title="{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}" >
+                                    title="{% if artist|is_followed:profile %} {% trans 'Unfollow' %} {% else %} {% trans 'Follow' %} {% endif %}" >
                                     <i id="icon-follow{{ artist.id }}" class="{% if artist|is_followed:profile %} fa fa-user-times {% else %} fa fa-user-plus {% endif %}"></i>
                                 </a>
                                 <a id="rating{{ artist.id }}" href="#" class="action rating p-2" style="width: 33%;" title="{% trans 'Give Rating' %}" data-id="{{ artist.id }}">
@@ -111,10 +111,10 @@ Artist List
                             <small style="font-weight: bold;">{{ artist }}</small>  
                         </div>            
                         <div class="birthyear">
-                            <small style="font-weight: bold;">Birth year: {{ artist.birthdate|date:"Y" }}</small>
+                            <small style="font-weight: bold;">{% trans 'Birth year' %}: {{ artist.birthdate|date:"Y" }}</small>
                         </div>
                         <div class="score">
-                            <small style="font-weight: bold;">Score: {{ artist.score }}</small>       
+                            <small style="font-weight: bold;">{% trans 'Score' %}: {{ artist.score }}</small>       
                         </div>                                                                                               
                     </div>                
                 </a>                                        
@@ -150,12 +150,12 @@ Artist List
             {
                 if (data.is_liked) {               
                     $("#icon-favorite" + id).attr("class", "fa fa-thumbs-up");
-                    $("#favorite" + id).attr("title", "Remove from Favorite");
+                    $("#favorite" + id).attr("title", "{% trans 'Remove from Favorite' %}");
                 }
                 else
                 {                         
                     $("#icon-favorite" + id).attr("class", "fa fa-thumbs-o-up");
-                    $("#favorite" + id).attr("title", "Add to Favorite");
+                    $("#favorite" + id).attr("title", "{% trans 'Add to Favorite' %}");
                 }
             }
         })
@@ -174,12 +174,12 @@ Artist List
             {
                 if (data.is_followed) {               
                     $("#icon-follow" + id).attr("class", "fa fa-user-times");
-                    $("#follow" + id).attr("title", "Unfollow");
+                    $("#follow" + id).attr("title", "{% trans 'Unfollow' %}");
                 }
                 else
                 {                         
                     $("#icon-follow" + id).attr("class", "fa fa-user-plus");
-                    $("#follow" + id).attr("title", "Follow");
+                    $("#follow" + id).attr("title", "{% trans 'Follow' %}");
                 }
             }
         })

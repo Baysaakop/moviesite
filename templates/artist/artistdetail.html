@@ -71,30 +71,30 @@
                     </div>
                     {% if user.is_authenticated and user|isAdmin %}
                     <div id="update">                        
-                        <a href="{% url 'artistupdate' artist.pk %}"><i class="fa fa-edit"></i> Edit</a>
+                        <a href="{% url 'artistupdate' artist.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
                     </div>                
                     {% endif %}
                 </div>
                 <hr>
                 <div id="bio">
-                    <h5>Biography</h5>
+                    <h5>{% trans 'Biography' %}</h5>
                     <p>{{ artist.bio }}</p>
                 </div>    
                 <div id="filmography">
-                    <h5>Filmography</h5>
+                    <h5>{% trans 'Filmography' %}</h5>
                     {% if movielist.count > 0 %}
-                    <strong>Films</strong>
+                    <strong>{% trans 'Films' %}</strong>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Release Date</th>
-                                    <th>Film name</th>
-                                    <th>Film score</th>
-                                    <th>Actor</th>
-                                    <th>Producer</th>
-                                    <th>Director</th>
-                                    <th>Writer</th>
+                                    <th>{% trans 'Release Date' %}</th>
+                                    <th>{% trans 'Film name' %}</th>
+                                    <th>{% trans 'Film score' %}</th>
+                                    <th>{% trans 'Actor' %}</th>
+                                    <th>{% trans 'Producer' %}</th>
+                                    <th>{% trans 'Director' %}</th>
+                                    <th>{% trans 'Writer' %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,30 +105,30 @@
                                     <td>{{ movie.score }}</td>     
                                     <td>
                                         {% if artist in movie.maincast.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td>           
                                     <td>
                                         {% if artist in movie.producer.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td> 
                                     <td>
                                         {% if artist in movie.director.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td>   
                                     <td>
                                         {% if artist in movie.writer.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td>        
                                 </tr>
@@ -138,18 +138,18 @@
                     </div>
                     {% endif %}
                     {% if serieslist.count > 0 %}
-                    <strong>Series</strong>
+                    <strong>{% trans 'Series' %}</strong>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Release Date</th>
-                                    <th>Series name</th>
-                                    <th>IMDB Rating</th>
-                                    <th>Actor</th>
-                                    <th>Producer</th>
-                                    <th>Director</th>
-                                    <th>Writer</th>
+                                    <th>{% trans 'Release Date' %}</th>
+                                    <th>{% trans 'Film name' %}</th>
+                                    <th>{% trans 'Film score' %}</th>
+                                    <th>{% trans 'Actor' %}</th>
+                                    <th>{% trans 'Producer' %}</th>
+                                    <th>{% trans 'Director' %}</th>
+                                    <th>{% trans 'Writer' %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,32 +160,32 @@
                                     <td>{{ series.imdb_rating }}</td>     
                                     <td>
                                         {% if artist in series.maincast.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td>           
                                     <td>
                                         {% if artist in series.producer.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td> 
                                     <td>
                                         {% if artist in series.director.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
                                     </td>   
                                     <td>
                                         {% if artist in series.writer.all %}
-                                            Yes
+                                            {% trans 'Yes' %}
                                         {% else %}
-                                            No
+                                            {% trans 'No' %}
                                         {% endif %}
-                                    </td>        
+                                    </td>       
                                 </tr>
                                 {% endfor %}
                             </tbody>            
@@ -201,35 +201,35 @@
         <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Add to Favorite' %}">
             <i class="fa fa-thumbs-o-up"></i>
             <span class="count-favorite">{{ artist.likes }}</span>
-            <p class="text-favorite m-0" style="font-size: 14px;">Add to Favorite</p>
+            <p class="text-favorite m-0" style="font-size: 14px;">{% trans 'Add to Favorite' %}</p>
         </a>
         <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Follow' %}">
             <i class="fa fa-user-plus"></i>
             <span class="count-followers">{{ artist.followers }}</span>
-            <p class="text-followers m-0" style="font-size: 14px;">Follow</p>
+            <p class="text-followers m-0" style="font-size: 14px;">{% trans 'Follow' %}</p>
         </a>
-        <a href="{% url 'account_login' %}" class="w-100" title="Give Rating">
+        <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Give Rating' %}">
             <i class="fa fa-star-o"></i>
             <span>{{ artist.score }}</span>
-            <p class="m-0" style="font-size: 14px;">Give Rating</p>
+            <p class="m-0" style="font-size: 14px;">{% trans 'Give Rating' %}</p>
         </a>
         {% else %}
         <div id="favorite" class="w-100" data-id="{{ artist.id }}"
-            title="{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}">
+            title="{% if artist|is_favorite:profile %} {% trans 'Remove from Favorite' %} {% else %} {% trans 'Add to Favorite' %} {% endif %}">
             <i id="icon-favorite" class="{% if artist|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
             <span class="count-favorite">{{ artist.likes }}</span>
-            <p class="text-favorite m-0" style="font-size: 14px;">{% if artist|is_favorite:profile %} Remove from Favorite {% else %} Add to Favorite {% endif %}</p>            
+            <p class="text-favorite m-0" style="font-size: 14px;">{% if artist|is_favorite:profile %} {% trans 'Remove from Favorite' %} {% else %} {% trans 'Add to Favorite' %} {% endif %}</p>            
         </div>
         <div id="follow" class="w-100" data-id="{{ artist.id }}"
-            title="{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}" >
+            title="{% if artist|is_followed:profile %} {% trans 'Unfollow' %} {% else %} {% trans 'Follow' %} {% endif %}" >
             <i id="icon-follow" class="{% if artist|is_followed:profile %} fa fa-user-times {% else %} fa fa-user-plus {% endif %}"></i>
             <span class="count-followers">{{ artist.followers }}</span>
-            <p class="text-followers m-0" style="font-size: 14px;">{% if artist|is_followed:profile %} Unfollow {% else %} Follow {% endif %}</p>
+            <p class="text-followers m-0" style="font-size: 14px;">{% if artist|is_followed:profile %} {% trans 'Unfollow' %} {% else %} {% trans 'Follow' %} {% endif %}</p>
         </div>
-        <div id="rating" class="w-100" data-toggle="modal" data-target="#modalRating" title="{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}">
+        <div id="rating" class="w-100" data-toggle="modal" data-target="#modalRating" title="{% if user_rating == 0 %}{% trans 'Give rating' %}{% else %}{% trans 'Edit rating' %}{% endif %}">
             <i id="icon-rating" class="{% if user_rating == 0 %}fa fa-star-o{% else %}fa fa-star{% endif%}"></i>
             <span class="user-rating">{{ user_rating }}</span>
-            <p class="text-rating m-0" style="font-size: 14px;">{% if user_rating == 0 %}Give Rating{% else %}Edit Rating{% endif %}</p>
+            <p class="text-rating m-0" style="font-size: 14px;">{% if user_rating == 0 %}{% trans 'Give rating' %}{% else %}{% trans 'Edit rating' %}{% endif %}</p>
         </div>
         {% endif %}
     </div>
@@ -237,7 +237,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Give rating on this artist</h5>
+                    <h5 class="modal-title">{% trans 'Give rating on this artist' %}</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -265,7 +265,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">{% trans 'Close' %}</button>
                 </div>
             </div>
         </div>
@@ -297,15 +297,15 @@
                 if (data.is_liked) {               
                     $("#icon-favorite").attr("class", "fa fa-thumbs-up");
                     $("span.count-favorite").text((count + 1).toString());
-                    $("p.text-favorite").text("Remove from Favorite");
-                    $("#favorite").attr("title", "Remove from Favorite");
+                    $("p.text-favorite").text("{% trans 'Remove from Favorite' %}");
+                    $("#favorite").attr("title", "{% trans 'Remove from Favorite' %}");
                 }
                 else
                 {                         
                     $("#icon-favorite").attr("class", "fa fa-thumbs-o-up");
                     $("span.count-favorite").text((count - 1).toString());
-                    $("p.text-favorite").text("Add to Favorite");
-                    $("#favorite").attr("title", "Add to Favorite");
+                    $("p.text-favorite").text("{% trans 'Add to Favorite' %}");
+                    $("#favorite").attr("title", "{% trans 'Add to Favorite' %}");
                 }
             }
         })
@@ -327,15 +327,15 @@
                 if (data.is_followed) {               
                     $("#icon-follow").attr("class", "fa fa-user-times");
                     $("span.count-followers").text((count + 1).toString());
-                    $("p.text-followers").text("Unfollow");
-                    $("#follow").attr("title", "Unfollow");
+                    $("p.text-followers").text("{% trans 'Unfollow' %}");
+                    $("#follow").attr("title", "{% trans 'Unfollow' %}");
                 }
                 else
                 {                         
                     $("#icon-follow").attr("class", "fa fa-user-plus");
                     $("span.count-followers").text((count - 1).toString());
-                    $("p.text-followers").text("Follow");
-                    $("#follow").attr("title", "Follow");
+                    $("p.text-followers").text("{% trans 'Follow' %}");
+                    $("#follow").attr("title", "{% trans 'Follow' %}");
                 }
             }
         })
@@ -356,9 +356,9 @@
                 $("span.avg-score").text(" " + data.average.toFixed(1).toString());
                 $("#icon-rating").attr("class", "fa fa-star");
                 $("span.user-rating").text(rating);                
-                $("p.text-rating").text("Edit rating");
-                $("#rating").attr("title", "Edit rating");
-                alert("Thanks for your review.");
+                $("p.text-rating").text("{% trans 'Edit rating' %}");
+                $("#rating").attr("title", "{% trans 'Edit rating' %}");
+                alert("{% trans 'Thanks for your review' %}.");
             }
         });
     });

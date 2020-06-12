@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating
+from .models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Franchise, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating
 
 admin.site.register(Country)
 admin.site.register(Language)
@@ -11,6 +11,7 @@ admin.site.register(MPA_Rating)
 admin.site.register(Production)
 admin.site.register(Artist)
 admin.site.register(Movie)
+admin.site.register(Franchise)
 admin.site.register(Episode)
 admin.site.register(Season)
 admin.site.register(Series)

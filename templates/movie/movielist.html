@@ -44,15 +44,15 @@
                 <div class="form-group col-sm-12 col-md-6 col-lg-4">
                     <label for="sort">{% trans 'Sort By' %}</label>
                     <select id="sort" class="form-control" name="sortby">
-                        <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>         
-                        <option {% if sortby == "Score" %} selected {% endif %} >Score</option>   
-                        <option {% if sortby == "Likes" %} selected {% endif %} >Likes</option>                                                        
-                        <option {% if sortby == "Watched" %} selected {% endif %} >Watched</option>    
-                        <option {% if sortby == "Watchlisted" %} selected {% endif %} >Watchlisted</option>                                                         
-                        <option {% if sortby == "Release date (Newest first)" %} selected {% endif %} >Release date (Newest first)</option>        
-                        <option {% if sortby == "Release date (Oldest first)" %} selected {% endif %} >Release date (Oldest first)</option>                    
-                        <option {% if sortby == "Alphabetically (A-Z)" %} selected {% endif %} >Alphabetically (A-Z)</option>           
-                        <option {% if sortby == "Alphabetically (Z-A)" %} selected {% endif %} >Alphabetically (Z-A)</option>                                        
+                        <option {% if sortby == 'Latest' or sortby == 'Шинээр нэмэгдсэн' %} selected {% endif %} >{% trans 'Latest' %}</option>         
+                        <option {% if sortby == 'Score' or sortby == 'Үнэлгээгээр' %} selected {% endif %} >{% trans 'Score' %}</option>   
+                        <option {% if sortby == 'Likes' or sortby == 'Like-н тоогоор' %} selected {% endif %} >{% trans 'Likes' %}</option>                                                        
+                        <option {% if sortby == 'Watched' or sortby == 'Үзсэн тоогоор' %} selected {% endif %} >{% trans 'Watched' %}</option>    
+                        <option {% if sortby == 'Watchlisted' or sortby == 'Үзэхээр нэмсэн тоогоор' %} selected {% endif %} >{% trans 'Watchlisted' %}</option>                                                         
+                        <option {% if sortby == 'Release date (Newest first)' or sortby == 'Нээлтийн огноо (Шинэ нь эхэндээ)' %} selected {% endif %} >{% trans 'Release date (Newest first)' %}</option>        
+                        <option {% if sortby == 'Release date (Oldest first)' or sortby == 'Нээлтийн огноо (Хуучин нь эхэндээ)' %} selected {% endif %} >{% trans 'Release date (Oldest first)' %}</option>                    
+                        <option {% if sortby == 'Alphabetically (A-Z)' or sortby == 'Үсгийн дарааллаар (А-Я)' %} selected {% endif %} >{% trans 'Alphabetically (A-Z)' %}</option>           
+                        <option {% if sortby == 'Alphabetically (Z-A)' or sortby == 'Үсгийн дарааллаар (Я-А)' %} selected {% endif %} >{% trans 'Alphabetically (Z-A)' %}</option>                                        
                     </select>
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-2">
