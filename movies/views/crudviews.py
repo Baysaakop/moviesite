@@ -8,7 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from ..models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating
-from ..forms import SeriesForm, MovieForm, ArtistForm
+from ..forms import SeriesForm, MovieForm, ArtistForm, SeasonForm, EpisodeForm
 import json
 
 def is_valid_queryparam(param):
@@ -119,13 +119,23 @@ class MovieCreateView(CreateView):
     model = Movie
     template_name = 'movie/moviecreate.html'
     form_class = MovieForm
-    success_url = reverse_lazy('movielist')    
+    def form_valid(self, form):
+        movie = form.save(commit=False)
+        movie.created_by = self.request.user
+        movie.save()
+        form.save_m2m()
+        return redirect('movielist') 
 
 class MovieUpdateView(UpdateView):
     model = Movie
     template_name = 'movie/movieupdate.html'
     form_class = MovieForm    
-    success_url = reverse_lazy('movielist')    
+    def form_valid(self, form):
+        movie = form.save(commit=False)
+        movie.updated_by = self.request.user
+        movie.save()
+        form.save_m2m()
+        return redirect('moviedetail', pk=movie.pk) 
 
 class MovieDeleteView(DeleteView):
     model = Movie
@@ -193,25 +203,155 @@ class SeriesDetailView(DetailView):
         profile = getProfile(self.request.user)
         user_rating = getUserSeriesRating(self.request.user, self.object)
         context['profile'] = profile  
-        context['user_rating'] = user_rating
+        context['user_rating'] = user_rating        
         return context
 
 class SeriesCreateView(CreateView):
     model = Series
     template_name = 'series/seriescreate.html'
     form_class = SeriesForm
-    success_url = reverse_lazy('serieslist')    
+    def form_valid(self, form):
+        series = form.save(commit=False)
+        series.created_by = self.request.user
+        series.save()
+        form.save_m2m()
+        return redirect('serieslist') 
 
 class SeriesUpdateView(UpdateView):
     model = Series
     template_name = 'series/seriesupdate.html'
     form_class = SeriesForm    
-    success_url = reverse_lazy('serieslist')    
+    def form_valid(self, form):
+        series = form.save(commit=False)
+        series.updated_by = self.request.user
+        series.save()
+        form.save_m2m()
+        return redirect('seriesdetail', pk=series.pk) 
 
 class SeriesDeleteView(DeleteView):
     model = Series
     template_name = 'series/seriesdelete.html'
     success_url = reverse_lazy('serieslist')
+
+@login_required
+def season_create(request, pk):
+    series = Series.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = SeasonForm(request.POST)
+        if form.is_valid():
+            season = form.save(commit=False)
+            season.series = series
+            season.created_by = request.user
+            season.save()
+            form.save_m2m()
+            return redirect('seriesdetail', pk=series.pk) 
+    else:
+        form = SeasonForm()
+    context = {
+        'series': series,
+        'form': form
+    }
+    return render(request, 'season/seasoncreate.html', context)
+
+class SeasonUpdateView(UpdateView):
+    model = Season
+    template_name = 'season/seasonupdate.html'
+    form_class = SeasonForm    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        season = self.object
+        series = season.series
+        context['series'] = series
+        return context
+
+    def form_valid(self, form):
+        season = form.save(commit=False)
+        season.updated_by = self.request.user
+        season.save()
+        form.save_m2m()
+        series = season.series
+        return redirect('seriesdetail', pk=series.pk) 
+
+class SeasonDeleteView(DeleteView):
+    model = Season
+    template_name = 'season/seasondelete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        season = self.object
+        series = season.series
+        context['series'] = series
+        return context
+
+    def get_success_url(self):
+        season = self.object
+        series = season.series
+        return reverse_lazy('seriesdetail', kwargs={'pk': series.pk})
+
+@login_required
+def episode_create(request, pk):
+    season = Season.objects.get(pk=pk)
+    series = season.series
+    if request.method == 'POST':
+        form = EpisodeForm(request.POST)
+        if form.is_valid():
+            episode = form.save(commit=False)
+            episode.season = season
+            episode.created_by = request.user
+            episode.save()
+            form.save_m2m()
+            return redirect('seriesdetail', pk=series.pk) 
+    else:
+        form = EpisodeForm()
+    context = {
+        'series': series,
+        'season': season,
+        'form': form
+    }
+    return render(request, 'episode/episodecreate.html', context)
+
+class EpisodeUpdateView(UpdateView):
+    model = Episode
+    template_name = 'episode/episodeupdate.html'
+    form_class = EpisodeForm    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        episode = self.object
+        season = episode.season
+        series = season.series
+        context['season'] = series
+        context['series'] = series
+        return context
+
+    def form_valid(self, form):
+        episode = form.save(commit=False)
+        episode.updated_by = self.request.user
+        episode.save()
+        form.save_m2m()
+        season = episode.season
+        series = season.series
+        return redirect('seriesdetail', pk=series.pk)   
+
+class EpisodeDeleteView(DeleteView):
+    model = Episode
+    template_name = 'episode/episodedelete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        episode = self.object
+        season = episode.season
+        series = season.series
+        context['season'] = series
+        context['series'] = series
+        return context
+        
+    def get_success_url(self):
+        episode = self.object
+        season = episode.season
+        series = season.series
+        return reverse_lazy('seriesdetail', kwargs={'pk': series.pk})     
 
 class ArtistListView(ListView):
     model = Artist
@@ -273,13 +413,23 @@ class ArtistCreateView(CreateView):
     model = Artist
     template_name = 'artist/artistcreate.html'
     form_class = ArtistForm
-    success_url = reverse_lazy('artistlist')    
+    def form_valid(self, form):
+        artist = form.save(commit=False)
+        artist.created_by = self.request.user
+        artist.save()
+        form.save_m2m()
+        return redirect('artistlist')  
 
 class ArtistUpdateView(UpdateView):
     model = Artist
     template_name = 'artist/artistupdate.html'
     form_class = ArtistForm    
-    success_url = reverse_lazy('artistlist')    
+    def form_valid(self, form):
+        artist = form.save(commit=False)
+        artist.updated_by = self.request.user
+        artist.save()
+        form.save_m2m()
+        return redirect('artistdetail', pk=artist.pk)  
 
 class ArtistDeleteView(DeleteView):
     model = Artist

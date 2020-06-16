@@ -1,5 +1,5 @@
 from django import template
-from ..models import Profile
+from ..models import Profile, Series, Season, Episode
 
 register = template.Library()
 
@@ -36,4 +36,14 @@ def is_watchlisted(series, profile):
         else:
             return True          
 
+
+@register.simple_tag
+def get_seasons(*args):
+    seasons = Season.objects.filter(series=args[0])
+    return seasons
+
+@register.simple_tag
+def get_episodes(*args):
+    episodes = Episode.objects.filter(season=args[0])
+    return episodes
             

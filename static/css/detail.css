@@ -1,3 +1,11 @@
+.episode {
+    cursor: pointer;
+}
+
+.episode:hover {
+    background: #dedede;
+}
+
 #action_section .fa {
     padding: 10px;
     font-size: 20px;

@@ -48,6 +48,14 @@ urlpatterns += i18n_patterns (
     path('seriesupdate/<pk>/', crudviews.SeriesUpdateView.as_view(), name='seriesupdate'),
     path('seriesdelete/<pk>/', crudviews.SeriesDeleteView.as_view(), name='seriesdelete'),
     path('seriescastedit/<pk>/', crudviews.SeriesCastEdit, name='seriescastedit'),
+    ## SEASON VIEWS
+    path('seriesdetail/<pk>/new/', crudviews.season_create, name='seasoncreate'),
+    path('seasonupdate/<pk>/', crudviews.SeasonUpdateView.as_view(), name='seasonupdate'),
+    path('seasondelete/<pk>/', crudviews.SeasonDeleteView.as_view(), name='seasondelete'),    
+    ## EPISODE VIEWS
+    path('episodedetail/<pk>/new/', crudviews.episode_create, name='episodecreate'),
+    path('episodeupdate/<pk>/', crudviews.EpisodeUpdateView.as_view(), name='episodeupdate'),
+    path('episodedelete/<pk>/', crudviews.EpisodeDeleteView.as_view(), name='episodedelete'),    
     ## MOVIE VIEWS
     path('movielist/', crudviews.MovieListView.as_view(), name='movielist'),
     path('moviedetail/<pk>/', crudviews.MovieDetailView.as_view(), name='moviedetail'),

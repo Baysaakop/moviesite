@@ -5,8 +5,8 @@ NEW PLAN
 2.1 Series actions - Done
 3. Artist CRUD - Done
 3.1 Artist actions - Done
-4. Season CRUD
-5. Episode CRUD
+4. Season CRUD - Done
+5. Episode CRUD - Done
 6. Language - In progress
 7. Search page
 8. Social authentaction

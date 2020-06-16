@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block style %}
+<style>
+    form a {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    form a:hover {
+        background: #c3cac2;          
+        text-decoration: none;  
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'serieslist' %}">{% trans 'Series' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'seriesdetail' series.pk %}">{{ series }}</a></li>            
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Update' %} {{ season.name }}</li>
+        </ol>
+    </nav> 
+    <div class="border rounded m-3 p-3">
+        <h4>{% trans 'Update' %} {{ season.name }}</h4>
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}                  
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    {{ form.name|as_crispy_field }} 
+                </div>
+                <div class="form-group col-md-3">
+                    {{ form.number|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form.description|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.plot|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form.release_date|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.runningtime|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.mpa_rating|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form.genre|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.country|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.language|as_crispy_field }}
+                </div>                
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ form.imdb_rating|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form.metascore|as_crispy_field }}
+                </div>  
+                <div class="form-group col-md-4">
+                    {{ form.tomatometer|as_crispy_field }}
+                </div>               
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    {{ form.trailer|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form.image|as_crispy_field }}
+                </div>               
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    {{ form.production|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="selectedproduction">
+                        Selected Production
+                    </label>
+                    <select name="selectedproduction" id="selectedproduction" class="selectmultiple form-control" size="10" multiple>                        
+                    </select>
+                </div> 
+                <div class="form-group col-md-3 artist">
+                    {{ form.producer|as_crispy_field }}
+                </div> 
+                <div class="form-group col-md-3">
+                    <label for="selectedproducer">
+                        Selected Producer
+                    </label>
+                    <select name="selectedproducer" id="selectedproducer" class="selectmultiple form-control" size="10" multiple>                        
+                    </select>
+                </div>               
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3 artist">
+                    {{ form.director|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="selecteddirector">
+                        Selected Director
+                    </label>
+                    <select name="selecteddirector" id="selecteddirector" class="selectmultiple form-control" size="20" multiple>                        
+                    </select>
+                </div> 
+                <div class="form-group col-md-3 artist">
+                    {{ form.writer|as_crispy_field }}
+                </div> 
+                <div class="form-group col-md-3">
+                    <label for="selectedwriter">
+                        Selected Writer
+                    </label>
+                    <select name="selectedwriter" id="selectedwriter" class="selectmultiple form-control" size="20" multiple>                        
+                    </select>
+                </div>               
+            </div>           
+            <div class="form-row">
+                <div class="form-group col-md-2 mb-0">
+                    <button type="submit" class="btn btn-primary btn-block">{% trans 'Save' %}</button>
+                </div>
+                <div class="form-group col-md-2 mb-0">
+                    <a type="button" href="{% url 'seasondelete' season.pk %}" class="btn btn-danger btn-block">{% trans 'Delete' %}</a>
+                </div>
+            </div>            
+        </form>
+    </div>    
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script>    
+    $('#id_production').on('change', function (e) {
+        var selected = $(e.target).val();
+        var length = selected.length;
+        $("#selectedproduction").empty();
+        for (i = 0; i < length; i++) 
+        {
+            var id = selected[i];
+            $.ajax({
+                type: "GET",
+                url: "/getproductionbyid/",
+                data: {
+                    id: id
+                },
+                success: function(data)
+                {   
+                    $("#id").val(data.id);                   
+                    $("#name").val(data.name);
+                    $("#selectedproduction").append(
+                        "<option value='" + data.id + "' selected>" + data.name + "</option>"
+                    )
+                }
+            })
+        }        
+    });
+
+    $("div.artist > div.form-group > div > select").on('change', function (e) {
+        var name = this.name;
+        var selected = $(e.target).val();                
+        var length = selected.length;    
+        $("#selected" + name).empty();
+        for (i = 0; i < length; i++) 
+        {
+            var id = selected[i];
+            $.ajax({
+                type: "GET",
+                url: "/getartistbyid/",
+                data: {
+                    id: id
+                },
+                success: function(data)
+                {   
+                    $("#selected" + name).append(
+                        "<option value='" + data.id + "' selected>" + data.name + "</option>"
+                    )
+                }
+            })
+        }     
+    });
+</script>
+{% endblock %}
