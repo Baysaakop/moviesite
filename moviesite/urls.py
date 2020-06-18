@@ -31,14 +31,8 @@ urlpatterns += i18n_patterns (
     # path('commentlike/', movieactionviews.commentLike, name='commentlike'),
     # path('commentdislike/', movieactionviews.commentDislike, name='commentdislike'),
     ## SEARCH ACTIONS
-    path('searchmovie/', searchviews.searchmovie, name='searchmovie'),
-    path('searchartist/', searchviews.searchartist, name='searchartist'),    
-    path('searchproducer/', searchviews.searchproducer, name='searchproducer'),
-    path('searchdirector/', searchviews.searchdirector, name='searchdirector'),
-    path('searchwriter/', searchviews.searchwriter, name='searchwriter'),
+    path('search/', searchviews.search, name='search'),
     path('searchactor/', searchviews.searchactor, name='searchactor'),
-    path('searchproduction/', searchviews.searchproduction, name='searchproduction'),
-    path('getmoviebyid/', searchviews.getmoviebyid, name='getmoviebyid'),
     path('getartistbyid/', searchviews.getartistbyid, name='getartistbyid'),
     path('getproductionbyid/', searchviews.getproductionbyid, name='getproductionbyid'),
     ## SERIES VIEWS

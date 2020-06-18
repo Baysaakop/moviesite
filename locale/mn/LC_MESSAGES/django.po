@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 14:42+0800\n"
+"POT-Creation-Date: 2020-06-17 14:35+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\templates\account\account_inactive.html:7
+#: .\templates\account\account_inactive.html:33
+msgid "Account Inactive"
+msgstr "Идэвхигүй хаяг"
+
+#: .\templates\account\account_inactive.html:34
+msgid "This account is inactive."
+msgstr "Энэ хаяг идэвхигүй байна."
+
+#: .\templates\account\email.html:6 .\templates\account\email.html:32
+msgid "E-mail Addresses"
+msgstr "И-Мэйл хаягууд"
+
+#: .\templates\account\email.html:34
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "Дараах И-Мэйл хаягууд тань дээр бүртгэлтэй байна: "
+
+#: .\templates\account\email.html:46
+msgid "Verified"
+msgstr "Баталгаажсан"
+
+#: .\templates\account\email.html:48
+msgid "Unverified"
+msgstr "Баталгаажуулаагүй"
+
+#: .\templates\account\email.html:50
+msgid "Primary"
+msgstr "Үндсэн"
+
+#: .\templates\account\email.html:56
+msgid "Make Primary"
+msgstr "Үндсэн болгох"
+
+#: .\templates\account\email.html:57
+msgid "Re-send Verification"
+msgstr "Дахин баталгаажуулах"
+
+#: .\templates\account\email.html:58
+#: .\templates\socialaccount\connections.html:35
+msgid "Remove"
+msgstr "Арилгах"
+
+#: .\templates\account\email.html:64
+msgid "Warning:"
+msgstr "Анхааруулга:"
+
+#: .\templates\account\email.html:64
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr "Таньд одоогоор бүртгэлтэй И-Мэйл хаяг байхгүй байна. Та И-Мэйл хаягаа бүртгүүлснээр мэдээлэл авах, нууц үг шинэчлэх гэх зэрэг үйлдлүүдийг хийх боломжтой болно."
+
+#: .\templates\account\email.html:66
+msgid "Add E-mail Address"
+msgstr "И-Мэйл хаяг нэмэх"
+
+#: .\templates\account\email.html:70"
+msgid "Add E-mail"
+msgstr "И-Мэйл нэмэх"
+
+#: .\templates\account\email.html:80
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "Сонгосон И-Мэйл хаягыг устгахыг хүсч байна уу?"
 
 #: .\templates\account\email\email_confirmation_message.txt:1
 #, python-format
@@ -37,7 +101,7 @@ msgstr ""
 
 #: .\templates\account\email\email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
-msgstr ""
+msgstr "И-Мэйл хаягаа баталгаажуулна уу"
 
 #: .\templates\account\email\password_reset_key_message.txt:1
 #, python-format
@@ -66,6 +130,67 @@ msgstr ""
 msgid "Password Reset E-mail"
 msgstr ""
 
+#: .\templates\account\email_confirm.html:7
+#: .\templates\account\email_confirm.html:33
+msgid "Confirm E-mail Address"
+msgstr "И-Мэйл хаягаа баталгаажуулах"
+
+#: .\templates\account\email_confirm.html:36
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: .\templates\account\email_confirm.html:39
+msgid "Confirm"
+msgstr "Баталгаажуулах"
+
+#: .\templates\account\email_confirm.html:46
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href=\"%"
+"(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: .\templates\account\login.html:7 .\templates\account\login.html:60
+#: .\templates\account\login.html:96
+msgid "Sign In"
+msgstr "Нэвтрэх"
+
+#: .\templates\account\login.html:64
+msgid "Sign in using social media account to get quick access"
+msgstr "Сошиал медиа хаяг ашиглан илүү хурдан нэвтрэх"
+
+#: .\templates\account\login.html:74 .\templates\account\login.html:83
+msgid "Sign in with "
+msgstr "Нэвтрэх"
+
+#: .\templates\account\login.html:88 .\templates\account\signup.html:88
+msgid "OR"
+msgstr "ЭСВЭЛ"
+
+#: .\templates\account\login.html:98
+msgid "Forgot Password?"
+msgstr "Нууц үгээ мартсан уу?"
+
+#: .\templates\account\login.html:99
+msgid "Not a member yet?"
+msgstr "Бүртгүүлж амжаагүй юу?"
+
+#: .\templates\account\login.html:99
+msgid "Sign up here"
+msgstr "Энд дарж бүртгүүлнэ үү"
+
+#: .\templates\account\logout.html:6 .\templates\account\logout.html:32
+#: .\templates\account\logout.html:39
+msgid "Sign Out"
+msgstr "Гарах"
+
+#: .\templates\account\logout.html:33
+msgid "Are you sure you want to sign out?"
+msgstr "Та хаягаа гаргахдаа итгэлтэй байна уу?"
+
 #: .\templates\account\messages\cannot_delete_primary_email.txt:2
 #, python-format
 msgid "You cannot remove your primary e-mail address (%(email)s)."
@@ -93,15 +218,15 @@ msgstr ""
 
 #: .\templates\account\messages\logged_out.txt:2
 msgid "You have signed out."
-msgstr ""
+msgstr "Та гарсан байна."
 
 #: .\templates\account\messages\password_changed.txt:2
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Нууц үг солигдлоо."
 
 #: .\templates\account\messages\password_set.txt:2
 msgid "Password successfully set."
-msgstr ""
+msgstr "Нууц үг солигдлоо."
 
 #: .\templates\account\messages\primary_email_set.txt:2
 msgid "Primary e-mail address set."
@@ -109,6 +234,99 @@ msgstr ""
 
 #: .\templates\account\messages\unverified_primary_email.txt:2
 msgid "Your primary e-mail address must be verified."
+msgstr ""
+
+#: .\templates\account\password_change.html:6
+#: .\templates\account\password_change.html:32
+#: .\templates\account\password_change.html:37
+#: .\templates\account\password_reset_from_key.html:5
+#: .\templates\account\password_reset_from_key.html:31
+#: .\templates\account\password_reset_from_key_done.html:7
+#: .\templates\account\password_reset_from_key_done.html:33
+msgid "Change Password"
+msgstr "Нууц үг солих"
+
+#: .\templates\account\password_change.html:33
+msgid "Set new password to your account."
+msgstr "Шинэ нууц үг өгөх"
+
+#: .\templates\account\password_reset.html:7
+#: .\templates\account\password_reset.html:33
+#: .\templates\account\password_reset_done.html:7
+#: .\templates\account\password_reset_done.html:33
+msgid "Password Reset"
+msgstr "Нууц үг сэргээх"
+
+#: .\templates\account\password_reset.html:37
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: .\templates\account\password_reset.html:41
+msgid "Reset My Password"
+msgstr "Нууц үг сэргээх"
+
+#: .\templates\account\password_reset_done.html:37
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: .\templates\account\password_reset_from_key.html:31
+msgid "Bad Token"
+msgstr ""
+
+#: .\templates\account\password_reset_from_key.html:34
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: .\templates\account\password_reset_from_key.html:40
+msgid "change password"
+msgstr "Нууц үг солих"
+
+#: .\templates\account\password_reset_from_key.html:43
+#: .\templates\account\password_reset_from_key_done.html:34
+msgid "Your password is now changed."
+msgstr "Нууц үг солигдлоо"
+
+#: .\templates\account\password_set.html:7
+#: .\templates\account\password_set.html:33
+#: .\templates\account\password_set.html:37
+msgid "Set Password"
+msgstr "Нууц үг өгөх"
+
+#: .\templates\account\signup.html:7 .\templates\account\signup.html:60
+#: .\templates\account\signup.html:96 .\templates\socialaccount\signup.html:8
+#: .\templates\socialaccount\signup.html:19
+msgid "Sign Up"
+msgstr "Бүртгүүлэх"
+
+#: .\templates\account\signup.html:64
+msgid "Sign up using social media account to get quick access"
+msgstr "Сошиал медиа хаяг ашиглан илүү хурдан бүртгүүлэх"
+
+#: .\templates\account\signup.html:74 .\templates\account\signup.html:83
+msgid "Sign up with "
+msgstr "Бүртгүүлэх"
+
+#: .\templates\account\signup.html:98
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: .\templates\account\signup_closed.html:7
+#: .\templates\account\signup_closed.html:33
+msgid "Sign Up Closed"
+msgstr ""
+
+#: .\templates\account\signup_closed.html:34
+msgid "We are sorry, but the sign up is currently closed."
 msgstr ""
 
 #: .\templates\account\snippets\already_logged_in.html:5
@@ -120,22 +338,53 @@ msgstr ""
 msgid "you are already logged in as %(user_display)s."
 msgstr ""
 
+#: .\templates\account\verification_sent.html:7
+#: .\templates\account\verification_sent.html:33
+#: .\templates\account\verified_email_required.html:7
+#: .\templates\account\verified_email_required.html:33
+msgid "Verify Your E-mail Address"
+msgstr "И-Мэйл хаягаа баталгаажуулах"
+
+#: .\templates\account\verification_sent.html:34
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:36
+msgid ""
+"This part of the site requires us to verify that\n"
+"            you are who you claim to be. For this purpose, we require that "
+"you\n"
+"            verify ownership of your e-mail address. "
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:42
+msgid ""
+"We have sent an e-mail to you for\n"
+"            verification. Please click on the link inside this e-mail. "
+"Please\n"
+"            contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:48
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
 #: .\templates\artist\artistdelete.html:23
 #: .\templates\artist\artistdetail.html:15
 #: .\templates\artist\artistlist.html:15
 #: .\templates\artist\artistupdate.html:23 .\templates\base.html:59
-#: .\templates\episode\episodecastedit.html:23
 #: .\templates\episode\episodedelete.html:23
-#: .\templates\episode\episodedetail.html:15
-#: .\templates\episode\episodelist.html:15
 #: .\templates\movie\moviecastedit.html:23
 #: .\templates\movie\moviecreate.html:26 .\templates\movie\moviedelete.html:23
 #: .\templates\movie\moviedetail.html:15 .\templates\movie\movielist.html:15
 #: .\templates\movie\movieupdate.html:23 .\templates\profile.html:15
-#: .\templates\season\seasoncastedit.html:23
 #: .\templates\season\seasondelete.html:23
-#: .\templates\season\seasondetail.html:15
-#: .\templates\season\seasonlist.html:15
 #: .\templates\season\seasonupdate.html:23
 #: .\templates\series\seriescastedit.html:23
 #: .\templates\series\seriesdelete.html:23
@@ -166,22 +415,16 @@ msgstr "Үндэс"
 
 #: .\templates\artist\artistdetail.html:53
 #: .\templates\artist\artistlist.html:117
-#: .\templates\episode\episodedetail.html:97
-#: .\templates\episode\episodelist.html:124
 #: .\templates\movie\moviedetail.html:97 .\templates\movie\movielist.html:48
 #: .\templates\movie\movielist.html:124 .\templates\profile.html:109
 #: .\templates\profile.html:178 .\templates\profile.html:247
-#: .\templates\season\seasondetail.html:97
-#: .\templates\season\seasonlist.html:124
 #: .\templates\series\seriesdetail.html:97
 #: .\templates\series\serieslist.html:124
 msgid "Score"
 msgstr "Үнэлгээ"
 
 #: .\templates\artist\artistdetail.html:57
-#: .\templates\episode\episodedetail.html:101
 #: .\templates\movie\moviedetail.html:101 .\templates\movie\movielist.html:49
-#: .\templates\season\seasondetail.html:101
 #: .\templates\series\seriesdetail.html:101
 msgid "Likes"
 msgstr "Таалагдсан"
@@ -191,16 +434,12 @@ msgid "Followers"
 msgstr "Дагагчид"
 
 #: .\templates\artist\artistdetail.html:74
-#: .\templates\episode\episodedetail.html:122
-#: .\templates\episode\episodedetail.html:163
 #: .\templates\movie\moviedetail.html:122
 #: .\templates\movie\moviedetail.html:163
-#: .\templates\season\seasondetail.html:122
-#: .\templates\season\seasondetail.html:163
 #: .\templates\series\seriesdetail.html:122
 #: .\templates\series\seriesdetail.html:163
-#: .\templates\series\seriesdetail.html:213
-#: .\templates\series\seriesdetail.html:225
+#: .\templates\series\seriesdetail.html:306
+#: .\templates\series\seriesdetail.html:323
 msgid "Edit"
 msgstr "Засах"
 
@@ -219,9 +458,7 @@ msgstr "Кино"
 
 #: .\templates\artist\artistdetail.html:91
 #: .\templates\artist\artistdetail.html:146
-#: .\templates\episode\episodedetail.html:73
 #: .\templates\movie\moviedetail.html:73
-#: .\templates\season\seasondetail.html:73
 #: .\templates\series\seriesdetail.html:73
 msgid "Release Date"
 msgstr "Нээлт"
@@ -248,17 +485,13 @@ msgstr "Продюсер"
 
 #: .\templates\artist\artistdetail.html:96
 #: .\templates\artist\artistdetail.html:151
-#: .\templates\episode\episodedetail.html:41
 #: .\templates\movie\moviedetail.html:41
-#: .\templates\season\seasondetail.html:41
 #: .\templates\series\seriesdetail.html:41
 msgid "Director"
 msgstr "Найруулагч"
 
 #: .\templates\artist\artistdetail.html:97
 #: .\templates\artist\artistdetail.html:152
-#: .\templates\episode\episodedetail.html:49
-#: .\templates\season\seasondetail.html:49
 #: .\templates\series\seriesdetail.html:49
 msgid "Writer"
 msgstr "Зохиолч"
@@ -286,14 +519,8 @@ msgid "No"
 msgstr "Үгүй"
 
 #: .\templates\artist\artistdetail.html:141 .\templates\base.html:65
-#: .\templates\episode\episodecastedit.html:24
 #: .\templates\episode\episodedelete.html:24
-#: .\templates\episode\episodedetail.html:16
-#: .\templates\episode\episodelist.html:16
-#: .\templates\season\seasoncastedit.html:24
 #: .\templates\season\seasondelete.html:24
-#: .\templates\season\seasondetail.html:16
-#: .\templates\season\seasonlist.html:16
 #: .\templates\season\seasonupdate.html:24
 #: .\templates\series\seriescastedit.html:24
 #: .\templates\series\seriesdelete.html:24
@@ -310,15 +537,7 @@ msgstr "Цуврал"
 #: .\templates\artist\artistdetail.html:307
 #: .\templates\artist\artistdetail.html:308
 #: .\templates\artist\artistlist.html:84 .\templates\artist\artistlist.html:95
-#: .\templates\artist\artistlist.html:158
-#: .\templates\episode\episodedetail.html:207
-#: .\templates\episode\episodedetail.html:210
-#: .\templates\episode\episodedetail.html:233
-#: .\templates\episode\episodedetail.html:236
-#: .\templates\episode\episodedetail.html:331
-#: .\templates\episode\episodedetail.html:332
-#: .\templates\episode\episodelist.html:90
-#: .\templates\episode\episodelist.html:101 .\templates\home.html:91
+#: .\templates\artist\artistlist.html:158 .\templates\home.html:91
 #: .\templates\home.html:162 .\templates\movie\moviedetail.html:191
 #: .\templates\movie\moviedetail.html:194
 #: .\templates\movie\moviedetail.html:217
@@ -329,20 +548,12 @@ msgstr "Цуврал"
 #: .\templates\profile.html:75 .\templates\profile.html:86
 #: .\templates\profile.html:144 .\templates\profile.html:155
 #: .\templates\profile.html:213 .\templates\profile.html:224
-#: .\templates\season\seasondetail.html:207
-#: .\templates\season\seasondetail.html:210
-#: .\templates\season\seasondetail.html:233
-#: .\templates\season\seasondetail.html:236
-#: .\templates\season\seasondetail.html:331
-#: .\templates\season\seasondetail.html:332
-#: .\templates\season\seasonlist.html:90
-#: .\templates\season\seasonlist.html:101
-#: .\templates\series\seriesdetail.html:246
-#: .\templates\series\seriesdetail.html:249
-#: .\templates\series\seriesdetail.html:272
-#: .\templates\series\seriesdetail.html:275
-#: .\templates\series\seriesdetail.html:370
-#: .\templates\series\seriesdetail.html:371
+#: .\templates\series\seriesdetail.html:191
+#: .\templates\series\seriesdetail.html:194
+#: .\templates\series\seriesdetail.html:217
+#: .\templates\series\seriesdetail.html:220
+#: .\templates\series\seriesdetail.html:375
+#: .\templates\series\seriesdetail.html:376
 #: .\templates\series\serieslist.html:90
 #: .\templates\series\serieslist.html:101
 msgid "Add to Favorite"
@@ -363,22 +574,14 @@ msgstr "Дагах"
 #: .\templates\artist\artistdetail.html:214
 #: .\templates\artist\artistlist.html:90
 #: .\templates\artist\artistlist.html:102
-#: .\templates\episode\episodedetail.html:222
-#: .\templates\episode\episodedetail.html:225
-#: .\templates\episode\episodedetail.html:248
-#: .\templates\episode\episodedetail.html:251
 #: .\templates\movie\moviedetail.html:206
 #: .\templates\movie\moviedetail.html:209
 #: .\templates\movie\moviedetail.html:232
 #: .\templates\movie\moviedetail.html:235
-#: .\templates\season\seasondetail.html:222
-#: .\templates\season\seasondetail.html:225
-#: .\templates\season\seasondetail.html:248
-#: .\templates\season\seasondetail.html:251
-#: .\templates\series\seriesdetail.html:261
-#: .\templates\series\seriesdetail.html:264
-#: .\templates\series\seriesdetail.html:287
-#: .\templates\series\seriesdetail.html:290
+#: .\templates\series\seriesdetail.html:206
+#: .\templates\series\seriesdetail.html:209
+#: .\templates\series\seriesdetail.html:232
+#: .\templates\series\seriesdetail.html:235
 msgid "Give Rating"
 msgstr "Үнэлгээ өгөх"
 
@@ -388,26 +591,16 @@ msgstr "Үнэлгээ өгөх"
 #: .\templates\artist\artistdetail.html:301
 #: .\templates\artist\artistlist.html:95
 #: .\templates\artist\artistlist.html:153
-#: .\templates\episode\episodedetail.html:233
-#: .\templates\episode\episodedetail.html:236
-#: .\templates\episode\episodedetail.html:324
-#: .\templates\episode\episodedetail.html:325
-#: .\templates\episode\episodelist.html:101
 #: .\templates\movie\moviedetail.html:217
 #: .\templates\movie\moviedetail.html:220
 #: .\templates\movie\moviedetail.html:308
 #: .\templates\movie\moviedetail.html:309 .\templates\movie\movielist.html:101
 #: .\templates\movie\movielist.html:160 .\templates\profile.html:86
 #: .\templates\profile.html:155 .\templates\profile.html:224
-#: .\templates\season\seasondetail.html:233
-#: .\templates\season\seasondetail.html:236
-#: .\templates\season\seasondetail.html:324
-#: .\templates\season\seasondetail.html:325
-#: .\templates\season\seasonlist.html:101
-#: .\templates\series\seriesdetail.html:272
-#: .\templates\series\seriesdetail.html:275
-#: .\templates\series\seriesdetail.html:363
-#: .\templates\series\seriesdetail.html:364
+#: .\templates\series\seriesdetail.html:217
+#: .\templates\series\seriesdetail.html:220
+#: .\templates\series\seriesdetail.html:368
+#: .\templates\series\seriesdetail.html:369
 #: .\templates\series\serieslist.html:101
 msgid "Remove from Favorite"
 msgstr "Дуртай жагсаалтаас хасах"
@@ -438,10 +631,8 @@ msgid "Give rating on this artist"
 msgstr "Энэ жүжигчинд үнэлгээ өгөх"
 
 #: .\templates\artist\artistdetail.html:268
-#: .\templates\episode\episodedetail.html:292
 #: .\templates\movie\moviedetail.html:276
-#: .\templates\season\seasondetail.html:292
-#: .\templates\series\seriesdetail.html:331
+#: .\templates\series\seriesdetail.html:276
 msgid "Close"
 msgstr "Хаах"
 
@@ -453,15 +644,13 @@ msgstr "Үнэлгээ өгсөнд баярлалаа."
 msgid "Artist List"
 msgstr "Уран бүтээлчдийн жагсаалт"
 
-#: .\templates\artist\artistlist.html:23
-#: .\templates\episode\episodelist.html:23 .\templates\movie\movielist.html:23
-#: .\templates\season\seasonlist.html:23 .\templates\series\serieslist.html:23
+#: .\templates\artist\artistlist.html:23 .\templates\movie\movielist.html:23
+#: .\templates\series\serieslist.html:23
 msgid "Search by name"
 msgstr "Нэрээр хайлт хийх"
 
-#: .\templates\artist\artistlist.html:25
-#: .\templates\episode\episodelist.html:25 .\templates\movie\movielist.html:25
-#: .\templates\season\seasonlist.html:25 .\templates\series\serieslist.html:25
+#: .\templates\artist\artistlist.html:25 .\templates\movie\movielist.html:25
+#: .\templates\series\serieslist.html:25
 msgid "Name"
 msgstr "Нэр"
 
@@ -469,31 +658,25 @@ msgstr "Нэр"
 msgid "Occupation"
 msgstr "Мэргэжил"
 
-#: .\templates\artist\artistlist.html:38
-#: .\templates\episode\episodelist.html:38 .\templates\movie\movielist.html:38
-#: .\templates\season\seasonlist.html:38 .\templates\series\serieslist.html:38
+#: .\templates\artist\artistlist.html:38 .\templates\movie\movielist.html:38
+#: .\templates\series\serieslist.html:38
 msgid "Any"
 msgstr "Бүх"
 
-#: .\templates\artist\artistlist.html:45
-#: .\templates\episode\episodelist.html:45 .\templates\movie\movielist.html:45
-#: .\templates\season\seasonlist.html:45 .\templates\series\serieslist.html:45
+#: .\templates\artist\artistlist.html:45 .\templates\movie\movielist.html:45
+#: .\templates\series\serieslist.html:45
 msgid "Sort By"
 msgstr "Эрэмбэлэх"
 
 #: .\templates\artist\artistlist.html:55 .\templates\artist\artistlist.html:56
 #: .\templates\base.html:73 .\templates\base.html:75
-#: .\templates\episode\episodelist.html:61
-#: .\templates\episode\episodelist.html:62 .\templates\movie\movielist.html:61
-#: .\templates\movie\movielist.html:62 .\templates\season\seasonlist.html:61
-#: .\templates\season\seasonlist.html:62 .\templates\series\serieslist.html:61
-#: .\templates\series\serieslist.html:62
+#: .\templates\movie\movielist.html:61 .\templates\movie\movielist.html:62
+#: .\templates\series\serieslist.html:61 .\templates\series\serieslist.html:62
 msgid "Search"
 msgstr "Хайлт хийх"
 
-#: .\templates\artist\artistlist.html:62
-#: .\templates\episode\episodelist.html:68 .\templates\movie\movielist.html:68
-#: .\templates\season\seasonlist.html:68 .\templates\series\serieslist.html:68
+#: .\templates\artist\artistlist.html:62 .\templates\movie\movielist.html:68
+#: .\templates\series\serieslist.html:68
 msgid "Total"
 msgstr "Нийт"
 
@@ -563,99 +746,16 @@ msgstr "Гарах"
 msgid "Sign in"
 msgstr "Нэвтрэх"
 
-#: .\templates\episode\episodedetail.html:33
-#: .\templates\movie\moviedetail.html:33
-#: .\templates\season\seasondetail.html:33
-#: .\templates\series\seriesdetail.html:33
-msgid "Production"
-msgstr "Продакшн"
+#: .\templates\home.html:65
+msgid "Newly added movies"
+msgstr "Шинээр нэмэгдсэн кинонууд"
 
-#: .\templates\episode\episodedetail.html:57
-#: .\templates\episode\episodedetail.html:159
-#: .\templates\movie\moviedetail.html:159
-#: .\templates\season\seasondetail.html:57
-#: .\templates\season\seasondetail.html:159
-#: .\templates\series\seriesdetail.html:57
-#: .\templates\series\seriesdetail.html:159
-msgid "Cast"
-msgstr "Жүжигчид"
+#: .\templates\home.html:68 .\templates\home.html:139
+msgid "Show more"
+msgstr "Цааш үзэх"
 
-#: .\templates\episode\episodedetail.html:65
-#: .\templates\movie\moviedetail.html:65
-#: .\templates\season\seasondetail.html:65
-#: .\templates\series\seriesdetail.html:65
-msgid "Genres"
-msgstr "Төрөл"
-
-#: .\templates\episode\episodedetail.html:77
-#: .\templates\movie\moviedetail.html:77
-#: .\templates\season\seasondetail.html:77
-#: .\templates\series\seriesdetail.html:77
-msgid "Running Time"
-msgstr "Үргэлжлэх хугацаа"
-
-#: .\templates\episode\episodedetail.html:81
-#: .\templates\movie\moviedetail.html:81
-#: .\templates\season\seasondetail.html:81
-#: .\templates\series\seriesdetail.html:81
-msgid "Rating"
-msgstr "Ангилал"
-
-#: .\templates\episode\episodedetail.html:105
-#: .\templates\movie\moviedetail.html:105 .\templates\movie\movielist.html:50
-#: .\templates\season\seasondetail.html:105
-#: .\templates\series\seriesdetail.html:105
-msgid "Watched"
-msgstr "Үзсэн"
-
-#: .\templates\episode\episodedetail.html:109
-#: .\templates\movie\moviedetail.html:109 .\templates\movie\movielist.html:51
-#: .\templates\season\seasondetail.html:109
-#: .\templates\series\seriesdetail.html:109
-msgid "Watchlisted"
-msgstr "Үзэхээр нэмсэн"
-
-#: .\templates\episode\episodedetail.html:137
-#: .\templates\movie\moviedetail.html:137
-#: .\templates\season\seasondetail.html:137
-#: .\templates\series\seriesdetail.html:137
-msgid "Plot"
-msgstr "Үйл явдал"
-
-#: .\templates\episode\episodedetail.html:147
-#: .\templates\episode\episodedetail.html:150
-#: .\templates\movie\moviedetail.html:147
-#: .\templates\movie\moviedetail.html:150
-#: .\templates\season\seasondetail.html:147
-#: .\templates\season\seasondetail.html:150
-#: .\templates\series\seriesdetail.html:147
-#: .\templates\series\seriesdetail.html:150
-msgid "Trailer"
-msgstr "Танилцуулга"
-
-#: .\templates\episode\episodedetail.html:169
-#: .\templates\movie\moviedetail.html:169
-#: .\templates\season\seasondetail.html:169
-#: .\templates\series\seriesdetail.html:169
-msgid "Main Role"
-msgstr "Гол дүрд"
-
-#: .\templates\episode\episodedetail.html:177
-#: .\templates\movie\moviedetail.html:177
-#: .\templates\season\seasondetail.html:177
-#: .\templates\series\seriesdetail.html:177
-msgid "Supporting Role"
-msgstr "Туслах дүрд"
-
-#: .\templates\episode\episodedetail.html:212
-#: .\templates\episode\episodedetail.html:215
-#: .\templates\episode\episodedetail.html:238
-#: .\templates\episode\episodedetail.html:241
-#: .\templates\episode\episodedetail.html:361
-#: .\templates\episode\episodedetail.html:362
-#: .\templates\episode\episodelist.html:93
-#: .\templates\episode\episodelist.html:105 .\templates\home.html:94
-#: .\templates\home.html:165 .\templates\movie\moviedetail.html:196
+#: .\templates\home.html:94 .\templates\home.html:165
+#: .\templates\movie\moviedetail.html:196
 #: .\templates\movie\moviedetail.html:199
 #: .\templates\movie\moviedetail.html:222
 #: .\templates\movie\moviedetail.html:225
@@ -665,34 +765,19 @@ msgstr "Туслах дүрд"
 #: .\templates\profile.html:78 .\templates\profile.html:90
 #: .\templates\profile.html:147 .\templates\profile.html:159
 #: .\templates\profile.html:216 .\templates\profile.html:228
-#: .\templates\season\seasondetail.html:212
-#: .\templates\season\seasondetail.html:215
-#: .\templates\season\seasondetail.html:238
-#: .\templates\season\seasondetail.html:241
-#: .\templates\season\seasondetail.html:361
-#: .\templates\season\seasondetail.html:362
-#: .\templates\season\seasonlist.html:93
-#: .\templates\season\seasonlist.html:105
-#: .\templates\series\seriesdetail.html:251
-#: .\templates\series\seriesdetail.html:254
-#: .\templates\series\seriesdetail.html:277
-#: .\templates\series\seriesdetail.html:280
-#: .\templates\series\seriesdetail.html:400
-#: .\templates\series\seriesdetail.html:401
+#: .\templates\series\seriesdetail.html:196
+#: .\templates\series\seriesdetail.html:199
+#: .\templates\series\seriesdetail.html:222
+#: .\templates\series\seriesdetail.html:225
+#: .\templates\series\seriesdetail.html:405
+#: .\templates\series\seriesdetail.html:406
 #: .\templates\series\serieslist.html:93
 #: .\templates\series\serieslist.html:105
 msgid "Add to Watched"
 msgstr "Үзсэн киноны жагсаалтанд нэмэх"
 
-#: .\templates\episode\episodedetail.html:217
-#: .\templates\episode\episodedetail.html:220
-#: .\templates\episode\episodedetail.html:243
-#: .\templates\episode\episodedetail.html:246
-#: .\templates\episode\episodedetail.html:391
-#: .\templates\episode\episodedetail.html:392
-#: .\templates\episode\episodelist.html:96
-#: .\templates\episode\episodelist.html:109 .\templates\home.html:97
-#: .\templates\home.html:168 .\templates\movie\moviedetail.html:201
+#: .\templates\home.html:97 .\templates\home.html:168
+#: .\templates\movie\moviedetail.html:201
 #: .\templates\movie\moviedetail.html:204
 #: .\templates\movie\moviedetail.html:227
 #: .\templates\movie\moviedetail.html:230
@@ -702,154 +787,16 @@ msgstr "Үзсэн киноны жагсаалтанд нэмэх"
 #: .\templates\profile.html:81 .\templates\profile.html:94
 #: .\templates\profile.html:150 .\templates\profile.html:163
 #: .\templates\profile.html:219 .\templates\profile.html:232
-#: .\templates\season\seasondetail.html:217
-#: .\templates\season\seasondetail.html:220
-#: .\templates\season\seasondetail.html:243
-#: .\templates\season\seasondetail.html:246
-#: .\templates\season\seasondetail.html:391
-#: .\templates\season\seasondetail.html:392
-#: .\templates\season\seasonlist.html:96
-#: .\templates\season\seasonlist.html:109
-#: .\templates\series\seriesdetail.html:256
-#: .\templates\series\seriesdetail.html:259
-#: .\templates\series\seriesdetail.html:282
-#: .\templates\series\seriesdetail.html:285
-#: .\templates\series\seriesdetail.html:430
-#: .\templates\series\seriesdetail.html:431
+#: .\templates\series\seriesdetail.html:201
+#: .\templates\series\seriesdetail.html:204
+#: .\templates\series\seriesdetail.html:227
+#: .\templates\series\seriesdetail.html:230
+#: .\templates\series\seriesdetail.html:435
+#: .\templates\series\seriesdetail.html:436
 #: .\templates\series\serieslist.html:96
 #: .\templates\series\serieslist.html:109
 msgid "Add to Watchlist"
 msgstr "Дараа үзэх"
-
-#: .\templates\episode\episodedetail.html:227
-#: .\templates\episode\episodedetail.html:230
-#: .\templates\episode\episodedetail.html:253
-#: .\templates\episode\episodedetail.html:256
-#: .\templates\movie\moviedetail.html:211
-#: .\templates\movie\moviedetail.html:214
-#: .\templates\movie\moviedetail.html:237
-#: .\templates\movie\moviedetail.html:240
-#: .\templates\season\seasondetail.html:227
-#: .\templates\season\seasondetail.html:230
-#: .\templates\season\seasondetail.html:253
-#: .\templates\season\seasondetail.html:256
-#: .\templates\series\seriesdetail.html:266
-#: .\templates\series\seriesdetail.html:269
-#: .\templates\series\seriesdetail.html:292
-#: .\templates\series\seriesdetail.html:295
-msgid "Write Comment"
-msgstr "Сэтгэгдэл үлдээх"
-
-#: .\templates\episode\episodedetail.html:238
-#: .\templates\episode\episodedetail.html:241
-#: .\templates\episode\episodedetail.html:354
-#: .\templates\episode\episodedetail.html:355
-#: .\templates\episode\episodelist.html:105
-#: .\templates\movie\moviedetail.html:222
-#: .\templates\movie\moviedetail.html:225
-#: .\templates\movie\moviedetail.html:338
-#: .\templates\movie\moviedetail.html:339 .\templates\movie\movielist.html:105
-#: .\templates\movie\movielist.html:184 .\templates\profile.html:90
-#: .\templates\profile.html:159 .\templates\profile.html:228
-#: .\templates\season\seasondetail.html:238
-#: .\templates\season\seasondetail.html:241
-#: .\templates\season\seasondetail.html:354
-#: .\templates\season\seasondetail.html:355
-#: .\templates\season\seasonlist.html:105
-#: .\templates\series\seriesdetail.html:277
-#: .\templates\series\seriesdetail.html:280
-#: .\templates\series\seriesdetail.html:393
-#: .\templates\series\seriesdetail.html:394
-#: .\templates\series\serieslist.html:105
-msgid "Remove from Watched"
-msgstr "Үзсэн киноны жагсаалтаас хасах"
-
-#: .\templates\episode\episodedetail.html:243
-#: .\templates\episode\episodedetail.html:246
-#: .\templates\episode\episodedetail.html:384
-#: .\templates\episode\episodedetail.html:385
-#: .\templates\episode\episodelist.html:109
-#: .\templates\movie\moviedetail.html:227
-#: .\templates\movie\moviedetail.html:230
-#: .\templates\movie\moviedetail.html:368
-#: .\templates\movie\moviedetail.html:369 .\templates\movie\movielist.html:109
-#: .\templates\movie\movielist.html:208 .\templates\profile.html:94
-#: .\templates\profile.html:163 .\templates\profile.html:232
-#: .\templates\season\seasondetail.html:243
-#: .\templates\season\seasondetail.html:246
-#: .\templates\season\seasondetail.html:384
-#: .\templates\season\seasondetail.html:385
-#: .\templates\season\seasonlist.html:109
-#: .\templates\series\seriesdetail.html:282
-#: .\templates\series\seriesdetail.html:285
-#: .\templates\series\seriesdetail.html:423
-#: .\templates\series\seriesdetail.html:424
-#: .\templates\series\serieslist.html:109
-msgid "Remove from Watchlist"
-msgstr "Үзэх киноны жагсаалтаас хасах"
-
-#: .\templates\episode\episodedetail.html:248
-#: .\templates\episode\episodedetail.html:251
-#: .\templates\episode\episodedetail.html:413
-#: .\templates\episode\episodedetail.html:414
-#: .\templates\movie\moviedetail.html:232
-#: .\templates\movie\moviedetail.html:235
-#: .\templates\movie\moviedetail.html:397
-#: .\templates\movie\moviedetail.html:398
-#: .\templates\season\seasondetail.html:248
-#: .\templates\season\seasondetail.html:251
-#: .\templates\season\seasondetail.html:413
-#: .\templates\season\seasondetail.html:414
-#: .\templates\series\seriesdetail.html:287
-#: .\templates\series\seriesdetail.html:290
-#: .\templates\series\seriesdetail.html:452
-#: .\templates\series\seriesdetail.html:453
-msgid "Edit Rating"
-msgstr "Өгсөн үнэлгээгээ өөрчлөх"
-
-#: .\templates\episode\episodedetail.html:264
-#: .\templates\season\seasondetail.html:264
-#: .\templates\series\seriesdetail.html:303
-msgid "Give rating on this series"
-msgstr "Энэ цувралд үнэлгээ өгөх"
-
-#: .\templates\episode\episodedetail.html:415
-#: .\templates\movie\moviedetail.html:399
-#: .\templates\season\seasondetail.html:415
-#: .\templates\series\seriesdetail.html:454
-msgid "Thanks for your review."
-msgstr "Үнэлгээ өгсөнд баярлалаа."
-
-#: .\templates\episode\episodelist.html:4 .\templates\season\seasonlist.html:4
-#: .\templates\series\serieslist.html:4
-msgid "Series List"
-msgstr "Цувралын жагсаалт"
-
-#: .\templates\episode\episodelist.html:36 .\templates\movie\movielist.html:36
-#: .\templates\season\seasonlist.html:36 .\templates\series\serieslist.html:36
-msgid "Genre"
-msgstr "Төрөл"
-
-#: .\templates\episode\episodelist.html:68
-#: .\templates\season\seasonlist.html:68 .\templates\series\serieslist.html:68
-msgid "series"
-msgstr "Цуврал"
-
-#: .\templates\episode\episodelist.html:121
-#: .\templates\movie\movielist.html:121 .\templates\profile.html:106
-#: .\templates\profile.html:175 .\templates\profile.html:244
-#: .\templates\season\seasonlist.html:121
-#: .\templates\series\serieslist.html:121
-msgid "Release"
-msgstr "Нээлт"
-
-#: .\templates\home.html:65
-msgid "Newly added movies"
-msgstr "Шинээр нэмэгдсэн кинонууд"
-
-#: .\templates\home.html:68 .\templates\home.html:139
-msgid "Show more"
-msgstr "Цааш үзэх"
 
 #: .\templates\home.html:136
 msgid "Top rated movies"
@@ -864,6 +811,11 @@ msgstr "Кино"
 msgid "Add New Movie"
 msgstr "Шинээр кино нэмэх"
 
+#: .\templates\movie\moviedetail.html:33
+#: .\templates\series\seriesdetail.html:33
+msgid "Production"
+msgstr "Продакшн"
+
 #: .\templates\movie\moviedetail.html:49
 msgid "Screenwriter"
 msgstr "Кино зохиолч"
@@ -872,13 +824,125 @@ msgstr "Кино зохиолч"
 msgid "Main cast"
 msgstr "Гол дүр"
 
+#: .\templates\movie\moviedetail.html:65
+#: .\templates\series\seriesdetail.html:65
+msgid "Genres"
+msgstr "Төрөл"
+
+#: .\templates\movie\moviedetail.html:77
+#: .\templates\series\seriesdetail.html:77
+msgid "Running Time"
+msgstr "Үргэлжлэх хугацаа"
+
+#: .\templates\movie\moviedetail.html:81
+#: .\templates\series\seriesdetail.html:81
+msgid "Rating"
+msgstr "Ангилал"
+
+#: .\templates\movie\moviedetail.html:105 .\templates\movie\movielist.html:50
+#: .\templates\series\seriesdetail.html:105
+msgid "Watched"
+msgstr "Үзсэн"
+
+#: .\templates\movie\moviedetail.html:109 .\templates\movie\movielist.html:51
+#: .\templates\series\seriesdetail.html:109
+msgid "Watchlisted"
+msgstr "Үзэхээр нэмсэн"
+
+#: .\templates\movie\moviedetail.html:137
+#: .\templates\series\seriesdetail.html:137
+msgid "Plot"
+msgstr "Үйл явдал"
+
+#: .\templates\movie\moviedetail.html:147
+#: .\templates\movie\moviedetail.html:150
+#: .\templates\series\seriesdetail.html:147
+#: .\templates\series\seriesdetail.html:150
+msgid "Trailer"
+msgstr "Танилцуулга"
+
+#: .\templates\movie\moviedetail.html:159
+#: .\templates\series\seriesdetail.html:57
+#: .\templates\series\seriesdetail.html:159
+msgid "Cast"
+msgstr "Жүжигчид"
+
+#: .\templates\movie\moviedetail.html:169
+#: .\templates\series\seriesdetail.html:169
+msgid "Main Role"
+msgstr "Гол дүрд"
+
+#: .\templates\movie\moviedetail.html:177
+#: .\templates\series\seriesdetail.html:177
+msgid "Supporting Role"
+msgstr "Туслах дүрд"
+
+#: .\templates\movie\moviedetail.html:211
+#: .\templates\movie\moviedetail.html:214
+#: .\templates\movie\moviedetail.html:237
+#: .\templates\movie\moviedetail.html:240
+#: .\templates\series\seriesdetail.html:211
+#: .\templates\series\seriesdetail.html:214
+#: .\templates\series\seriesdetail.html:237
+#: .\templates\series\seriesdetail.html:240
+msgid "Write Comment"
+msgstr "Сэтгэгдэл үлдээх"
+
+#: .\templates\movie\moviedetail.html:222
+#: .\templates\movie\moviedetail.html:225
+#: .\templates\movie\moviedetail.html:338
+#: .\templates\movie\moviedetail.html:339 .\templates\movie\movielist.html:105
+#: .\templates\movie\movielist.html:184 .\templates\profile.html:90
+#: .\templates\profile.html:159 .\templates\profile.html:228
+#: .\templates\series\seriesdetail.html:222
+#: .\templates\series\seriesdetail.html:225
+#: .\templates\series\seriesdetail.html:398
+#: .\templates\series\seriesdetail.html:399
+#: .\templates\series\serieslist.html:105
+msgid "Remove from Watched"
+msgstr "Үзсэн киноны жагсаалтаас хасах"
+
+#: .\templates\movie\moviedetail.html:227
+#: .\templates\movie\moviedetail.html:230
+#: .\templates\movie\moviedetail.html:368
+#: .\templates\movie\moviedetail.html:369 .\templates\movie\movielist.html:109
+#: .\templates\movie\movielist.html:208 .\templates\profile.html:94
+#: .\templates\profile.html:163 .\templates\profile.html:232
+#: .\templates\series\seriesdetail.html:227
+#: .\templates\series\seriesdetail.html:230
+#: .\templates\series\seriesdetail.html:428
+#: .\templates\series\seriesdetail.html:429
+#: .\templates\series\serieslist.html:109
+msgid "Remove from Watchlist"
+msgstr "Үзэх киноны жагсаалтаас хасах"
+
+#: .\templates\movie\moviedetail.html:232
+#: .\templates\movie\moviedetail.html:235
+#: .\templates\movie\moviedetail.html:397
+#: .\templates\movie\moviedetail.html:398
+#: .\templates\series\seriesdetail.html:232
+#: .\templates\series\seriesdetail.html:235
+#: .\templates\series\seriesdetail.html:457
+#: .\templates\series\seriesdetail.html:458
+msgid "Edit Rating"
+msgstr "Өгсөн үнэлгээгээ өөрчлөх"
+
 #: .\templates\movie\moviedetail.html:248
 msgid "Give rating on this movie"
 msgstr "Энэ кинонд үнэлгээ өгөх"
 
+#: .\templates\movie\moviedetail.html:399
+#: .\templates\series\seriesdetail.html:459
+msgid "Thanks for your review."
+msgstr "Үнэлгээ өгсөнд баярлалаа."
+
 #: .\templates\movie\movielist.html:4
 msgid "Movie List"
 msgstr "Кино жагсаалт"
+
+#: .\templates\movie\movielist.html:36 .\templates\series\serieslist.html:36
+msgid "Genre"
+msgstr "Төрөл"
 
 #: .\templates\movie\movielist.html:47
 msgid "Latest"
@@ -903,6 +967,14 @@ msgstr "Үсгийн дарааллаар (Я-А)"
 #: .\templates\movie\movielist.html:68
 msgid "films"
 msgstr "кино"
+
+#: .\templates\movie\movielist.html:121 .\templates\profile.html:106
+#: .\templates\profile.html:175 .\templates\profile.html:244
+#: .\templates\series\seriesdetail.html:302
+#: .\templates\series\seriesdetail.html:329
+#: .\templates\series\serieslist.html:121
+msgid "Release"
+msgstr "Нээлт"
 
 #: .\templates\openid\login.html:9
 msgid "OpenID Sign In"
@@ -952,23 +1024,58 @@ msgstr "Үзсэн кино жагсаалт"
 msgid "Watchlist"
 msgstr "Үзэх кино жагсаалт"
 
-#: .\templates\series\seriesdetail.html:195
-#: .\templates\series\seriesdetail.html:209
-msgid "Season"
-msgstr "Бүлэг"
-
-#: .\templates\series\seriesdetail.html:200
+#: .\templates\season\seasoncreate.html:26
+#: .\templates\season\seasoncreate.html:30
+#: .\templates\series\seriesdetail.html:292
 msgid "Add new season"
 msgstr "Шинэ бүлэг нэмэх"
 
-#: .\templates\series\seriesdetail.html:214
+#: .\templates\season\seasoncreate.html:136
+#: .\templates\season\seasonupdate.html:136
+msgid "Save"
+msgstr ""
+
+#: .\templates\season\seasonupdate.html:26
+#: .\templates\season\seasonupdate.html:30
+msgid "Update"
+msgstr ""
+
+#: .\templates\season\seasonupdate.html:139
+#, fuzzy
+#| msgid "Release"
+msgid "Delete"
+msgstr "Нээлт"
+
+#: .\templates\series\seriesdetail.html:248
+msgid "Give rating on this series"
+msgstr "Энэ цувралд үнэлгээ өгөх"
+
+#: .\templates\series\seriesdetail.html:287
+#: .\templates\series\seriesdetail.html:301
+msgid "Season"
+msgstr "Бүлэг"
+
+#: .\templates\series\seriesdetail.html:307
 msgid "Add new episode"
 msgstr "Шинэ анги нэмэх"
 
-#: .\templates\series\seriesdetail.html:228
-#: .\templates\series\seriesdetail.html:232
+#: .\templates\series\seriesdetail.html:319
 msgid "Episode"
 msgstr "Анги"
+
+#: .\templates\series\seriesdetail.html:328
+#, fuzzy
+#| msgid "Occupation"
+msgid "Duration"
+msgstr "Мэргэжил"
+
+#: .\templates\series\serieslist.html:4
+msgid "Series List"
+msgstr "Цувралын жагсаалт"
+
+#: .\templates\series\serieslist.html:68
+msgid "series"
+msgstr "Цуврал"
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:8
@@ -989,10 +1096,6 @@ msgstr ""
 msgid ""
 "You can sign in to your account using any of the following third party "
 "accounts:"
-msgstr ""
-
-#: .\templates\socialaccount\connections.html:35
-msgid "Remove"
 msgstr ""
 
 #: .\templates\socialaccount\connections.html:43
@@ -1031,11 +1134,6 @@ msgstr ""
 
 #: .\templates\socialaccount\signup.html:5
 msgid "Signup"
-msgstr ""
-
-#: .\templates\socialaccount\signup.html:8
-#: .\templates\socialaccount\signup.html:19
-msgid "Sign Up"
 msgstr ""
 
 #: .\templates\socialaccount\signup.html:10

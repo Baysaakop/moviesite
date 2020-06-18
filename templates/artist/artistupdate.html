@@ -28,7 +28,7 @@
     </nav> 
     <div class="border rounded m-3 p-3">
         <h4>Update Artist</h4>
-        <form method="POST" novalidate>
+        <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}                  
             <div class="form-row">
                 <div class="form-group col-md-4">

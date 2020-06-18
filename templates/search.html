@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static custom_tags movie_tags i18n %}
+{% block title %}
+{% trans 'Movie List' %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="movielist" class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Search' %}</li>
+        </ol>
+    </nav>
+    <div class="m-3">
+        <form method="GET" action="." id="filterform">
+            <div class="form-row">
+                <div class="form-group col-12">                    
+                    <div class="input-group" id="search">                                        
+                        <input class="form-control py-2 border-right-0 border" id="search" type="search" name="search" placeholder="{% trans 'Search' %}" value="" />
+                        <a id="searchbutton" href="javascript:{}" class="input-group-append" onclick="document.getElementById('filterform').submit();">
+                            <div class="input-group-text bg-transparent">
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>                  
+        </form>
+    </div>
+    {% if movies %}
+    <div id="resultmovies" class="m-3">
+        <h5>{% trans 'Result in movies' %} - {{ movies.count }}</h5>
+        <ul>
+            {% for movie in movies %}
+            <li><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if series %}
+    <div id="resultseries" class="m-3">
+        <h5>{% trans 'Result in series' %} - {{ series.count }}</h5>
+        <ul>
+            {% for ser in series %}
+            <li><a href="{% url 'seriesdetail' ser.pk %}">{{ ser.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if artists %}
+    <div id="resultartists" class="m-3">
+        <h5>{% trans 'Result in artists' %} - {{ artists.count }}</h5>
+        <ul>
+            {% for artist in artists %}
+            <li><a href="{% url 'artistdetail' artist.pk %}">{{ artist.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{% endblock %}

@@ -1,10 +1,10 @@
 {% extends "account/base.html" %}
 
 {% load account %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}
-Account Inactive
+{% trans "Account Inactive" %}
 {% endblock %}
 
 {% block style %}
@@ -30,8 +30,8 @@ Account Inactive
 {% block content %}
 <div class="container" id="container">
     <div class="border rounded" id="content">
-        <h2 class="text-center">Account Inactive</h2>        
-        <p class="text-center">This account is inactive.</p>     
+        <h2 class="text-center">{% trans "Account Inactive" %}</h2>        
+        <p class="text-center">{% trans "This account is inactive." %}</p>     
     </div>        
 </div>
 {% endblock %}

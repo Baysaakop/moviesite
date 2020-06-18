@@ -38,14 +38,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
     ## ADDITION
     'crispy_forms',
     'tempus_dominus',
 ]
 
 SITE_ID = 1
-
-ACCOUNT_EMAIL_REQUIRED = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -149,4 +148,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
 
 LOGIN_REDIRECT_URL = 'home'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'baysaakop@gmail.com'
+EMAIL_HOST_PASSWORD = 'Biohazard1215'

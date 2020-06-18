@@ -1,20 +1,19 @@
 {% extends "account/base.html" %}
 
 {% load account %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}
-Sign Up Closed
+{% trans "Sign Up Closed" %}
 {% endblock %}
 
 {% block style %}
 <style>
-    #container {
-        height: 100vh;
+    #container {        
         width: 100vw;
         display: flex;
         justify-content: center;
-        align-items: center;        
+        padding: 10%;          
     }
 
     #content {
@@ -22,7 +21,7 @@ Sign Up Closed
         color: black;
         width: 600px;
         height: auto;
-        padding: 30px;
+        padding: 5%;     
     }    
 </style>
 {% endblock %}
@@ -30,8 +29,8 @@ Sign Up Closed
 {% block content %}
 <div class="container" id="container">
     <div class="border rounded" id="content">
-        <h2 class="text-center">Sign Up Closed</h2>        
-        <p class="text-center">We are sorry, but the sign up is currently closed.</p>     
+        <h2 class="text-center">{% trans "Sign Up Closed" %}</h2>        
+        <p class="text-center">{% trans "We are sorry, but the sign up is currently closed." %}</p>     
     </div>        
 </div>
 {% endblock %}

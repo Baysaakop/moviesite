@@ -1,20 +1,19 @@
 {% extends "account/base.html" %}
 
 {% load account %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}
-Verify Your E-mail Address
+{% trans "Verify Your E-mail Address" %}
 {% endblock %}
 
 {% block style %}
 <style>
-    #container {
-        height: 100vh;
+    #container {        
         width: 100vw;
         display: flex;
         justify-content: center;
-        align-items: center;        
+        padding: 10%;     
     }
 
     #content {
@@ -22,7 +21,7 @@ Verify Your E-mail Address
         color: black;
         width: 600px;
         height: auto;
-        padding: 30px;
+        padding: 5%;     
     }    
 </style>
 {% endblock %}
@@ -30,8 +29,8 @@ Verify Your E-mail Address
 {% block content %}
 <div class="container" id="container">
     <div class="border rounded" id="content">
-        <h2 class="text-center">Verify Your E-mail Address</h2>        
-        <p class="text-center">We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.</p>     
+        <h2 class="text-center">{% trans "Verify Your E-mail Address" %}</h2>        
+        <p class="text-center">{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>     
     </div>        
 </div>
 {% endblock %}

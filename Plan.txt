@@ -1,4 +1,4 @@
-NEW PLAN
+Phase 1
 1. Movie CRUD - Done
 1.1 Movie actions - Done
 2. Series CRUD - Done
@@ -8,8 +8,16 @@ NEW PLAN
 4. Season CRUD - Done
 5. Episode CRUD - Done
 6. Language - In progress
-7. Search page
-8. Social authentaction
+7. Search page - Done
+8. Social authentaction - In progress
 9. Help page
 10. Data import - In progress
+!!! To Lower Case - Done
+!!! Email Verification - In progress
 
+Phase 2
+11. News CRUD
+11.1 News actions
+12. Review CRUD
+12.1 Review actions
+13. Critic model?

@@ -1,20 +1,19 @@
 {% extends "account/base.html" %}
 {% load socialaccount %}
 {% providers_media_js %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}
-Sign in
+{% trans "Sign In" %}
 {% endblock %}
 
 {% block style %}
 <style>
-    #container {
-        height: 100vh;
+    #container {        
         width: 100vw;
         display: flex;
-        justify-content: center;
-        align-items: center;        
+        justify-content: center;   
+        padding: 10%;             
     }
 
     #content {
@@ -22,22 +21,28 @@ Sign in
         color: black;
         width: 600px;
         height: auto;
-        padding: 30px;
+        padding: 5%;     
     }
 
-    .socialbtn {        
+    .socialaccount_provider {        
         color: white;
         text-decoration: none;             
         padding: 10px;       
         margin-top: 10px;        
+        padding: 20%;                
+        font-size: 28px;
     }
 
-    .fb {
+    .facebook {
         background-color: #3B5998;
     }
 
     .google {
         background-color: #dd4b39;              
+    }
+
+    .github {
+        background-color: #24292e;         
     }
 
     .seperator {        
@@ -57,33 +62,48 @@ Sign in
 {% block content %}
 <div class="container" id="container">
     <div class="border rounded" id="content">
-        <h2 class="text-center">Sign in</h2>        
+        <h2 class="text-center">{% trans "Sign In" %}</h2>    
+        {% get_providers as socialaccount_providers %}    
+        {% if socialaccount_providers %}
         <p class="text-muted">
-            Sign in using social media account to get quick access
+            {% trans "Sign in using social media account to get quick access" %}
         </p>
         <div class="row">
-            <div class="col-md-6">
-                <a class="socialbtn btn btn-block google" href="{% provider_login_url "google" %}">
-                    <i class="fa fa-google"></i> Sign in with Google
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a class="socialbtn btn btn-block fb" href="{% provider_login_url "facebook" method="oauth2" %}">
-                    <i class="fa fa-facebook"></i> Sign in with Facebook
-                </a>   
-            </div>
+            {% for provider in socialaccount_providers %}
+                {% if provider.id == "openid" %}
+                {% for brand in provider.get_brands %}
+                <div class="col-6 col-md-3">
+                    <a title="{{brand.name}}" 
+                        class="socialaccount_provider {{provider.id}} {{brand.id}} btn btn-block" 
+                        href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">
+                        <i class="fa fa-{{provider.id}}"></i> 
+                        <!-- {{brand.name}}                         -->
+                    </a>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="col-6 col-md-3">
+                    <a title="{{provider.name}}" 
+                        class="socialaccount_provider {{provider.id}} btn btn-block" 
+                        href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+                        <i class="fa fa-{{provider.id}}"></i> 
+                        <!-- {{provider.name}}                         -->
+                    </a>
+                </div>
+            {% endfor %}
         </div>             
-        <p class="seperator text-muted"><span>OR</span></p>
+        <p class="seperator text-muted"><span>{% trans "OR" %}</span></p>
+        {% endif %}
         <form class="login text-left" method="post" action="{% url 'account_login' %}">
             {% csrf_token %}
             {{ form|crispy }}
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <button class="btn btn-dark btn-block" type="submit">Sign in</button>
+            <button class="btn btn-dark btn-block" type="submit">{% trans "Sign In" %}</button>
         </form>                  
-        <p class="text-center mt-3"><a href="{% url 'account_reset_password' %}">Forgot your password?</a></p>
-        <p class="text-center">Not a member yet? <a href="{% url 'account_signup' %}">Create an account</a></p>
+        <p class="text-center mt-3"><a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a></p>
+        <p class="text-center">{% trans "Not a member yet?" %} <a href="{% url 'account_signup' %}">{% trans "Sign up here" %}</a></p>
     </div>        
 </div>
 {% endblock %}

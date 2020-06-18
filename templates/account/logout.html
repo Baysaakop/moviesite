@@ -1,19 +1,18 @@
 {% extends "account/base.html" %}
 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags i18n %}
 
 {% block title %}
-Sign out
+{% trans "Sign Out" %}
 {% endblock %}
 
 {% block style %}
 <style>
     #container {
-        height: 100vh;
         width: 100vw;
         display: flex;
         justify-content: center;
-        align-items: center;        
+        padding: 10%;           
     }
 
     #content {
@@ -21,7 +20,7 @@ Sign out
         color: black;
         width: 600px;
         height: auto;
-        padding: 30px;
+        padding: 5%;     
     }
 </style>
 {% endblock %}
@@ -29,14 +28,14 @@ Sign out
 {% block content %}
 <div class="container" id="container">
     <div class="border rounded" id="content">
-        <h2 class="text-center">Sign out</h2>
-        <p>Are you sure you want to sign out?</p>
+        <h2 class="text-center">{% trans "Sign Out" %}</h2>
+        <p>{% trans "Are you sure you want to sign out?" %}</p>
         <form method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}      
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}      
-            <button class="btn btn-danger btn-block" type="submit">Sign out</button>
+            <button class="btn btn-danger btn-block" type="submit">{% trans "Sign Out" %}</button>
         </form>                  
     </div>        
 </div>
