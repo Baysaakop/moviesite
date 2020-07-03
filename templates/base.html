@@ -15,145 +15,97 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     {{ form.media }} 
 </head>
-<body>
-    <div id="top">        
-        <div class="row px-3">
-            <div class="col-sm-6 d-flex justify-content-center justify-content-sm-start align-items-center" style="min-height: 80px;">
-                <h3>{% trans 'Mollywood' %}</h3>
-                <div id="logo">
-                    <div class="body"></div>                        
-                    <div class="roll small">
-                        <div class="hole hole1"></div>
-                        <div class="hole hole2"></div>
-                        <div class="hole hole3"></div>
-                        <div class="hole hole4"></div>
-                        <div class="hole hole5"></div>
-                    </div>
-                    <div class="roll big">
-                        <div class="hole hole1"></div>
-                        <div class="hole hole2"></div>
-                        <div class="hole hole3"></div>
-                        <div class="hole hole4"></div>
-                        <div class="hole hole5"></div>
-                    </div>                        
-                    <div class="thing"></div>
-                </div>
+<body>  
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <div id="logo">
+                <div class="body"></div>                        
             </div>
-            <div class="col-sm-6 d-flex justify-content-around justify-content-sm-end align-items-center" style="min-height: 80px;">
+            <a class="navbar-brand ml-2" href="{% url 'home' %}">             
+                {% trans 'MOLLYWOOD' %}
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation" style="border: 1px solid #fff;">
+                <span class="navbar-toggler-icon"><i class="fa fa-navicon" style="color: #fff; font-size: 28px;"></i></span>
+            </button>      
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav left mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'movielist' %}">{% trans 'MOVIES' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'serieslist' %}">{% trans 'SERIES' %}</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'artistlist' %}">{% trans 'ARTISTS' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{% trans 'NEWS' %}</a>
+                    </li>                                   
+                </ul>
+                <ul class="navbar-nav right text-left text-md-center">                    
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="account" data-toggle="dropdown" href="#" title="{% trans 'Account' %}">
+                            {% trans 'MY ACCOUNT' %}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'PROFILE' %}</a>
+                            {% if user|isAdmin %}
+                            <a class="dropdown-item" href="{% url 'moviecreate' %}">{% trans 'NEW MOVIE' %}</a>                        
+                            <a class="dropdown-item" href="{% url 'seriescreate' %}">{% trans 'NEW SERIES' %}</a>                        
+                            <a class="dropdown-item" href="{% url 'artistcreate' %}">{% trans 'NEW ARTIST' %}</a>                        
+                            {% endif %}
+                            <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'SIGN OUT' %}</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" style="border: 1px solid #302b63;" href="{% url 'account_login' %}">{% trans 'SIGN IN' %}</a>
+                    </li>                                 
+                    {% endif %}  
+                    <li class="nav-item dropdown">
+                        <a class="nav-link py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="language" data-toggle="dropdown" href="#" title="{% trans 'Language' %}">                                                        
+                            <i class="fa fa-globe" style="font-size: 22px;"></i>
+                        </a>                        
+                        <div class="dropdown-menu dropdown-menu-right py-2">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <button class="dropdown-item language" data-value="{{ language.code }}">
+                                {{ language.name_local }} ({{ language.code }})
+                            </button>
+                            {% endfor %}                                                     
+                            <form id="langform" action="{% url 'set_language' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ redirect_to }}">    
+                                <select name="language" class="custom-select">                                    
+                                    {% for language in languages %}
+                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                    {% endfor %}
+                                </select>                                                          
+                            </form>                      
+                        </div>               
+                    </li>
+                </ul>
+            </div>
+        </div>        
+    </nav>                 
+    {% block content %}
+    {% endblock %}           
+    <div id="footer" class="jumbotron text-center mb-0">
+        <div class="container">            
+            <div class="mb-3">
                 <a href="#" class="fa fa-facebook"></a>
                 <a href="#" class="fa fa-twitter"></a>
                 <a href="#" class="fa fa-google"></a>                    
                 <a href="#" class="fa fa-youtube"></a>
                 <a href="#" class="fa fa-instagram"></a>
-            </div>
-        </div>        
-    </div>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top px-3">       
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav left mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'movielist' %}">{% trans 'Movies' %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'serieslist' %}">{% trans 'Series' %}</a>
-                </li>  
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'artistlist' %}">{% trans 'Artists' %}</a>
-                </li>                                   
-            </ul>    
-            <ul class="navbar-nav right text-left text-md-center">
-                <li class="nav-item">                                        
-                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="search" href="{% url 'search' %}" title="{% trans 'Search' %}">
-                        <i class="fa fa-search" style="font-size: 22px;"></i>
-                        <span class="icontext">{% trans 'Search' %}</span>                            
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="notification" data-toggle="dropdown" href="#" title="{% trans 'Notification' %}">
-                        <span class="icontext">{% trans 'Notification' %}</span>
-                        <i class="fa fa-bell" style="font-size: 20px;"></i>
-                    </a>
-                    <div class="dropdown-menu py-2">
-                        <a class="dropdown-item" href="#">News 1</a>
-                        <a class="dropdown-item" href="#">News 2</a>
-                        <a class="dropdown-item" href="#">News 3</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="help" data-toggle="dropdown" href="#" title="{% trans 'Help' %}"> 
-                        <span class="icontext">{% trans 'Help' %}</span>
-                        <i class="fa fa-question-circle" style="font-size: 24px;"></i>
-                    </a>
-                    <div class="dropdown-menu py-2">
-                        <a class="dropdown-item" href="#">{% trans 'Help' %}</a>
-                        <a class="dropdown-item" href="#">{% trans 'About us' %}</a>
-                        <a class="dropdown-item" href="#">{% trans 'Q&A' %}</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="language" data-toggle="dropdown" href="#" title="{% trans 'Language' %}">
-                        <span class="icontext">{% trans 'Language' %}</span>
-                        <i class="fa fa-globe" style="font-size: 22px;"></i>
-                    </a>                        
-                    <div class="dropdown-menu dropdown-menu-right py-2">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <button class="dropdown-item language" data-value="{{ language.code }}">
-                                {{ language.name_local }} ({{ language.code }})
-                            </button>
-                        {% endfor %}                                                     
-                        <form id="langform" action="{% url 'set_language' %}" method="post" style="display: none;">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ redirect_to }}">    
-                            <select name="language" class="custom-select">                                    
-                                {% for language in languages %}
-                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
-                                        {{ language.name_local }} ({{ language.code }})
-                                    </option>
-                                {% endfor %}
-                            </select>                                                          
-                        </form>                      
-                    </div>               
-                </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="icon py-2 d-flex justify-content-start justify-content-md-center align-items-center" id="account" data-toggle="dropdown" href="#" title="{% trans 'Account' %}">
-                        <span class="icontext">{% trans 'Account' %}</span>
-                        <i class="fa fa-user-circle" style="font-size: 22px;"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{% url 'profile' %}">{% trans 'Profile' %}</a>
-                        {% if user|isAdmin %}
-                        <a class="dropdown-item" href="{% url 'moviecreate' %}">{% trans 'Add new movie' %}</a>                        
-                        <a class="dropdown-item" href="{% url 'seriescreate' %}">{% trans 'Add new series' %}</a>                        
-                        <a class="dropdown-item" href="{% url 'artistcreate' %}">{% trans 'Add new artist' %}</a>                        
-                        {% endif %}
-                        <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'Sign out' %}</a>
-                    </div>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account_login' %}">{% trans 'Sign in' %}</a>
-                </li>                                 
-                {% endif %}                    
-            </ul>                
-        </div>          
-    </nav>
-    
-    {% block content %}
-    {% endblock %}        
-    
-    <div id="footer" class="jumbotron text-center" style="margin-bottom:0">
-        <p>Footer</p>
+            </div>     
+            <p class="mb-0" style="font-size: small">© 2020 Mollywood. All Rights Reserved. Designed by One Plus.</p>
+        </div>                
     </div>    
     {% block javascript %}
     <script>    

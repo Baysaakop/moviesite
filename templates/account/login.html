@@ -25,7 +25,6 @@
     }
 
     .socialaccount_provider {        
-        color: white;
         text-decoration: none;             
         padding: 10px;       
         margin-top: 10px;        
@@ -43,6 +42,18 @@
 
     .github {
         background-color: #24292e;         
+    }
+
+    .instagram {
+        background-color: #125688;
+    }
+
+    .fa {
+        color: white;
+    }
+
+    .socialaccount_provider:hover {
+        opacity: 0.8;
     }
 
     .seperator {        
@@ -76,8 +87,7 @@
                     <a title="{{brand.name}}" 
                         class="socialaccount_provider {{provider.id}} {{brand.id}} btn btn-block" 
                         href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">
-                        <i class="fa fa-{{provider.id}}"></i> 
-                        <!-- {{brand.name}}                         -->
+                        <i class="fa fa-{{provider.id}}"></i>                         
                     </a>
                 </div>
                 {% endfor %}
@@ -86,11 +96,17 @@
                     <a title="{{provider.name}}" 
                         class="socialaccount_provider {{provider.id}} btn btn-block" 
                         href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
-                        <i class="fa fa-{{provider.id}}"></i> 
-                        <!-- {{provider.name}}                         -->
+                        <i class="fa fa-{{provider.id}}"></i>                         
                     </a>
                 </div>
             {% endfor %}
+            <div class="col-6 col-md-3">
+                <a title="Instagram" 
+                    class="socialaccount_provider instagram btn btn-block" 
+                    href="#">
+                    <i class="fa fa-instagram"></i>                     
+                </a>
+            </div>
         </div>             
         <p class="seperator text-muted"><span>{% trans "OR" %}</span></p>
         {% endif %}

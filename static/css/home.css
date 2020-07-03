@@ -1,140 +1,148 @@
-.carousel-caption {
-    background: #000;
-    opacity: .8;
+.header {
+    color: #020d18;
+    font-size: 32px;
+    font-weight: bold;
 }
 
-.carousel-title {
-    font-size: 24px;
+#searchform p {
+    font-size: 32px;
 }
 
-.listTitle {
-    font-size: 24px;
+#searchform select {
+    background: #020d18; 
+    color: #fff; 
+    border-radius: 0%;
+    font-size: 20px;    
+    max-width: 120px;    
 }
 
-.rowlist .column {
-    padding: 5px;
-}
-
-.rowlist .card {    
-    border: 5px solid #dedede;    
-    width: 100%;
-    height: 300px;    
-    transition: all .5s;    
-}
-
-.rowlist .card:hover {
-    border: 5px solid #000;    
-}
-
-.rowlist .card-img {     
-    height: 80%;
-    overflow: hidden;    
-}
-
-.rowlist .card-img .card-img-top {
-    width: 100%;
-    height: 100%;    
-    display: block;    
-}
-
-.rowlist .card-img .card-img-overlay {         
-    background: #000;    
+#searchform option,
+#searchform input,
+#searchform button {
+    background: #020d18; 
     color: #fff;       
-    height: 70%; 
-    opacity: .8;
-    text-decoration: none;
-    font-size: 12px;
+    border-radius: 0%;
+    font-size: 20px; 
+}
+
+#searchform button:hover {
+    background: #dd4b39; 
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.viewButton {
+    background: #020d18;
+    color: #fff;
+    border-radius: 0%;
+}
+
+.viewButton:hover {
+    background: #dd4b39;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+.card {    
+    color: #fff;
+    overflow: hidden;
+}
+
+.card-img-overlay {             
+    height: 25%;          
+    transition: all .5s ease;    
+}
+
+.card-img-overlay.full {
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     visibility: hidden;
 }
 
-.rowlist .card-img:hover .card-img-overlay {         
+.card-img-overlay.top {
+    top: -25%; 
+}
+
+.card-img-overlay.mid {
+    height: 50%;
+    top: 25%;
+    visibility: hidden;
+}
+
+.card-img-overlay.bot {
+    top: 100%;
+}
+
+.card:hover .card-img-overlay.top {        
+    top: 0;  
+}
+
+.card:hover .card-img-overlay.bot {        
+    top: 75%;  
+}
+
+.card:hover .card-img-overlay.full {
     visibility: visible;
 }
 
-.rowlist .card-body {
-    padding: 5px;
-    color: #000;
-    text-decoration: none;
-    overflow: hidden;     
+.card:hover .card-img-overlay.mid {
+    visibility: visible;
 }
 
-.rowlist .card-title {    
-    font-size: 14px;
-    font-weight: bold;        
-    margin-top: 0; 
-    padding: 0;    
+.star-rating .fa {
+    color: white;
 }
 
-@media screen and (max-width:992px) {
-    .rowlist .card {
-        height: 400px;
+.star-rating .checked {
+    color: orange;
+}
+
+.readButton {
+    border-radius: 0%;
+}
+
+.movie-title {
+    font-size: 20px;
+    font-weight: bold;    
+}
+
+.movie-release {
+    color: #dedede;
+    font-size: 14px;    
+}
+
+#counter {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 100%;
+    background: #020d18;
+}
+
+@media only screen and (max-width: 480px) {
+    .header {
+        font-size: 20px;
     }
 
-    .rowlist .card-img {     
-        height: 70%;
+    #searchform p {
+        font-size: 20px;
+    }       
+    
+    #searchform select {
+        font-size: 12px;    
+        max-width: 80px;  
+        padding: 0%;  
     }
     
-    .rowlist .card-title {
-        font-size: 12px;             
-    }
-}
-
-@media screen and (max-width:768px) {
-    .rowlist .column {
-        padding: 10px;
+    #searchform option,
+    #searchform input,
+    #searchform button {    
+        font-size: 12px; 
     }
 
-    .rowlist .card {
-        height: 400px;
-    }
-
-    .rowlist .card-img {     
-        height: 70%;
-    }   
-
-    .rowlist .card-img .card-img-overlay {         
-        font-size: 15px;
-    }
-
-    .rowlist .card-body {
-        padding: 10px; 
-    }
-
-    .rowlist .card-title {
-        font-size: 14px;                    
-    }
-}
-
-@media screen and (max-width:576px) {  
-    .carousel-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .carousel-title {
-        font-size: 14px;
-    }
-
-    .carousel-description {
+    .viewButton {
         font-size: 12px;
-    }
-    
-    .rowlist .card {
-        height: 500px;
-    }
-
-    .rowlist .card-img {     
-        height: 75%;
-    }
-
-    .rowlist .card-img .card-img-overlay {         
-        font-size: 24px;
-    }
-
-    .rowlist .card-title {
-        font-size: 16px;        
     }
 }

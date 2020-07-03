@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.conf import settings
 from django.utils import translation
-from ..models import Occupation, Artist, Genre, Movie, Profile, MovieRating
+from ..models import Occupation, Artist, Genre, Movie, Profile, MovieRating, Series
 from datetime import date
 
 ## Additional functions
@@ -42,16 +42,17 @@ def home(request):
     # user_language = 'mn'
     # translation.activate(user_language)
     # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
-    newmovies = Movie.objects.all().order_by('-updated_at')[:6]
-    topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:6]        
+    latestmovies = Movie.objects.all().order_by('-created_at')[:4]
+    latestseries = Series.objects.all().order_by('-created_at')[:4]
+    # topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:4]        
     # mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
     # mostwatchedmovies = Movie.objects.annotate(count_watched=Count('moviewatchedlist')).order_by('-count_watched')[:6]
     profile = None
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
     context = {
-        'newmovies': newmovies,
-        'topratedmovies': topratedmovies,
+        'latestmovies': latestmovies,
+        'latestseries': latestseries,
         # 'mostlikedmovies': mostlikedmovies,
         # 'mostwatchedmovies': mostwatchedmovies,
         'profile': profile
