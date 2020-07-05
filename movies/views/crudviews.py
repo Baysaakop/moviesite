@@ -56,7 +56,7 @@ class MovieListView(ListView):
     context_object_name = 'queryset'
     paginate_by = 24
     count = 0
-    ordering = ['-updated_at']    
+    ordering = ['-created_at']    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +148,7 @@ class SeriesListView(ListView):
     context_object_name = 'queryset'
     paginate_by = 12
     count = 0
-    ordering = ['-updated_at']    
+    ordering = ['-created_at']    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -359,7 +359,7 @@ class ArtistListView(ListView):
     context_object_name = 'queryset'
     paginate_by = 24
     count = 0
-    ordering = ['-updated_at']    
+    ordering = ['-created_at']    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="movielist" class="container">
+<div id="list" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -17,7 +17,7 @@
         </ol>
     </nav>
     <div class="m-3">
-        <form method="get" action="." id="filterform" class="p-3 border rounded bg-light">
+        <form method="get" action="." id="filterform" class="p-3">
             <div class="form-row">
                 <div class="form-group col-12">
                     <label for="searchbyname">{% trans 'Search by name' %}</label>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                <div class="form-group col-sm-12 col-md-6 col-lg-5">
                     <label for="inputOccupation">{% trans 'Occupation' %}</label>
                     <select id="inputOccupation" class="form-control" name="occupationname">
                         <option {% if occupationname is None %} selected {% endif %}>{% trans 'Any' %}</option>
@@ -41,7 +41,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group col-sm-12 col-md-6 col-lg-4">
+                <div class="form-group col-sm-12 col-md-6 col-lg-5">
                     <label for="sort">{% trans 'Sort By' %}</label>
                     <select id="sort" class="form-control" name="sortby">
                         <option {% if sortby == "Latest" %} selected {% endif %} >Latest</option>                           
@@ -50,10 +50,8 @@
                     </select>
                 </div>
                 <div class="form-group col-sm-12 col-md-6 col-lg-2">
-                </div>
-                <div class="form-group col-sm-12 col-md-6 col-lg-2">
-                    <label class="text-light">{% trans 'Search' %}</label>
-                    <button type="submit" class="btn btn-primary btn-block">{% trans 'Search' %}</button>
+                    <label class="text-light" style="visibility: hidden;">{% trans 'Search' %}</label>
+                    <button type="submit" class="btn btn-danger btn-block rounded-0">{% trans 'Search' %}</button>
                 </div>
             </div>        
         </form>
@@ -65,9 +63,9 @@
         {% for artist in queryset %}
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
                 <a href="{% url 'artistdetail' artist.pk %}">
-                    <div class="card mb-0">                                     
+                    <div class="card rounded-0 mb-0">                                     
                         {% if artist.image %}
-                        <img class="card-img" src="{{ artist.image.url }}" alt="Card image">
+                        <img class="card-img rounded-0" src="{{ artist.image.url }}" alt="Card image">
                         {% else %}
                         <div class="card-img" style="min-height: 220px;">
                             <div class="title d-flex justify-content-center align-items-center text-center">
@@ -105,18 +103,7 @@
                                 {% endif %}
                             </div>
                         </div>                                                                                                         
-                    </div>   
-                    <div class="p-2 border bg-light">
-                        <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <small style="font-weight: bold;">{{ artist }}</small>  
-                        </div>            
-                        <div class="birthyear">
-                            <small style="font-weight: bold;">{% trans 'Birth year' %}: {{ artist.birthdate|date:"Y" }}</small>
-                        </div>
-                        <div class="score">
-                            <small style="font-weight: bold;">{% trans 'Score' %}: {{ artist.score }}</small>       
-                        </div>                                                                                               
-                    </div>                
+                    </div>                 
                 </a>                                        
             </div>
         {% endfor %}

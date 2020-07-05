@@ -10,144 +10,162 @@ Mollywood
 {% endblock %}
 
 {% block content %}
-<div id="block-search" class="d-flex justify-content-center align-items-center" style="height: 50vh;">
-    <form id="searchform" action="#">
-        <p>SEARCH FOR MOVIES, SERIES OR ARTISTS</p>
-        <div class="input-group" id="searchbar">
-            <select class="form-control input-group-prepend">
-                <option class="input-group-text" value="movie">MOVIE</option>
-                <option class="input-group-text" value="series">SERIES</option>
-                <option class="input-group-text" value="artist">ARTISTS</option>
-            </select>
-            <input type="text" class="form-control" placeholder="NAME...">
-            <div class="input-group-append">
-                <button class="input-group-text">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="container">
-    <!-- <form id="searchform" action="#">
-        <p class="header" for="searchbar">SEARCH FOR MOVIES, SERIES OR ARTISTS</p>
-        <div class="input-group" id="searchbar">
-            <select class="form-control input-group-prepend">
-                <option class="input-group-text" value="movie">MOVIE</option>
-                <option class="input-group-text" value="series">SERIES</option>
-                <option class="input-group-text" value="artist">ARTISTS</option>
-            </select>
-            <input type="text" class="form-control" placeholder="NAME...">
-            <div class="input-group-append">
-                <button class="input-group-text">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form> -->
-    <div id="latestmovies">
-        <div class="row">
-            <div class="col-8">
-                <p class="header" style="color: #020d18;">{% trans 'LATEST MOVIES' %}</p>
-            </div>
-            <div class="col-4 text-right">
-                <a href="{% url 'movielist' %}" class="viewButton btn">{% trans 'MORE' %} >></a>
-            </div>
-        </div>
-        <div class="card-deck">
-            {% for movie in latestmovies %}           
-            <div class="card rounded-0">                               
-                <img class="card-img rounded-0" src="{{ movie.image.url }}" alt="Movie image">                
-                <div class="card-img-overlay full"></div>
-                <div class="card-img-overlay top d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <div class="star-rating">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                        <div class="number-rating">
-                            <p class="m-0">8.2 / 10</p>
-                        </div>
-                    </div>                    
-                </div>
-                <div class="card-img-overlay mid d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <a href="{% url 'moviedetail' movie.pk %}" class="readButton btn btn-danger stretched-link" style="font-size: 14px;">DETAILS</a>
-                    </div>  
-                </div>
-                <div class="card-img-overlay bot d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <p class="movie-title m-0">{{ movie.name }}</p>
-                        <p class="movie-release m-0">{{  movie.release_date|date:"d M Y" }}</p>
-                    </div>  
-                </div>                
-            </div>
-            {% endfor %}
-        </div>          
+<div id="suggestedmovie">
+    <video autoplay muted loop class="movieVideo">
+        <source src="{% static 'videos/the_wonder_woman_1984_trailer_1080.mp4' %}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <div class="movieDetail">
+        <h2>{{ suggestedmovie.name }}</h2>     
+        <p>Release Date: {{ suggestedmovie.release_date|date:"d M Y" }}</p> 
+        <p>{% for gen in suggestedmovie.genre.all %} {{ gen.name }} | {% endfor %} </p> 
+        <p>Warner Bros. Pictures</p> 
+        <a href="#" class="viewButton btn btn-primary"><i class="fa fa-play-circle-o"></i> Play</a>
+        <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="viewButton btn btn-danger"><i class="fa fa-info-circle"></i> More</a>
     </div>
-    <div id="latestseries" style="margin-top: 80px; margin-bottom: 50px;">
-        <div class="row">
-            <div class="col-6">
-                <p class="header" style="color: #020d18;">{% trans 'LATEST SERIES' %}</p>
+</div>
+<div id="latestmovies" class="container" style="margin-top: 50px; margin-bottom: 100px;">
+    <div class="row">
+        <div class="col-8">
+            <p class="header">{% trans 'LATEST MOVIES' %}</p>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{% url 'movielist' %}" class="viewButton btn btn-danger">{% trans 'MORE' %} >></a>
+        </div>
+    </div>
+    <div class="card-deck">
+        {% for movie in latestmovies %}           
+        <div class="card rounded-0">                               
+            <img class="card-img rounded-0" src="{{ movie.image.url }}" alt="Movie image">                
+            <div class="card-img-overlay full"></div>
+            <div class="card-img-overlay top d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <div class="star-rating">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                    <div class="number-rating">
+                        <p class="m-0">8.2 / 10</p>
+                    </div>
+                </div>                    
             </div>
-            <div class="col-6 text-right">
-                <a href="{% url 'serieslist' %}" class="viewButton btn">{% trans 'MORE' %} >></a>
+            <div class="card-img-overlay mid d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <a href="{% url 'moviedetail' movie.pk %}" class="readButton btn btn-danger stretched-link" style="font-size: 14px;">DETAILS</a>
+                </div>  
+            </div>
+            <div class="card-img-overlay bot d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <p class="movie-title m-0">{{ movie.name }}</p>
+                    <p class="movie-release m-0">{{  movie.release_date|date:"d M Y" }}</p>
+                </div>  
+            </div>                
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div id="suggestedseries" style="background: #030b0f; padding-top: 20px; padding-bottom: 20px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <video autoplay muted loop class="movieVideo">
+                    <source src="{% static 'videos/the_mandalorian_trailer_1080.mp4' %}" type="video/mp4">
+                    Your browser does not support HTML5 video.
+                </video>
+            </div>
+            <div class="col-md-4" style="color: white;">
+                <h2>{{ suggestedseries.name }}</h2>     
+                <p>Release Date: {{ suggestedseries.release_date|date:"d M Y" }}</p> 
+                <p>{% for gen in suggestedseries.genre.all %} {{ gen.name }} | {% endfor %} </p> 
+                <p>Disney +, Lucasfilm</p> 
+                <p>Starring: Pedro Pascal, Carl Weathers, Gina Carano </p>
+                <a href="#" class="viewButton btn btn-primary"><i class="fa fa-play"></i> Play</a>
+                <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="viewButton btn btn-danger"><i class="fa fa-info"></i> More</a>
             </div>
         </div>
-        <div class="card-deck">
-            {% for series in latestseries %}           
-            <div class="card rounded-0">                               
-                <img class="card-img rounded-0" src="{{ series.image.url }}" alt="Series image">                
-                <div class="card-img-overlay full"></div>
-                <div class="card-img-overlay top d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <div class="star-rating">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                        <div class="number-rating">
-                            <p class="m-0">7.5 / 10</p>
-                        </div>
-                    </div>                    
-                </div>
-                <div class="card-img-overlay mid d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <a href="{% url 'seriesdetail' series.pk %}" class="readButton btn btn-danger stretched-link" style="font-size: 14px;">DETAILS</a>
-                    </div>  
-                </div>
-                <div class="card-img-overlay bot d-flex justify-content-center align-items-center text-center">
-                    <div class="item">
-                        <p class="movie-title m-0">{{ series.name }}</p>
-                        <p class="movie-release m-0">{{  series.release_date|date:"d M Y" }}</p>
-                    </div>  
-                </div>                
-            </div>
-            {% endfor %}
-        </div> 
-    </div>      
+    </div>
 </div>
+<div id="latestseries" class="container" style="margin-top: 50px; margin-bottom: 100px;">
+    <div class="row">
+        <div class="col-6">
+            <p class="header">{% trans 'LATEST SERIES' %}</p>
+        </div>
+        <div class="col-6 text-right">
+            <a href="{% url 'serieslist' %}" class="viewButton btn btn-danger">{% trans 'MORE' %} >></a>
+        </div>
+    </div>
+    <div class="card-deck">
+        {% for series in latestseries %}           
+        <div class="card rounded-0">                               
+            <img class="card-img rounded-0" src="{{ series.image.url }}" alt="Series image">                
+            <div class="card-img-overlay full"></div>
+            <div class="card-img-overlay top d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <div class="star-rating">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star"></span>
+                    </div>
+                    <div class="number-rating">
+                        <p class="m-0">7.5 / 10</p>
+                    </div>
+                </div>                    
+            </div>
+            <div class="card-img-overlay mid d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <a href="{% url 'seriesdetail' series.pk %}" class="readButton btn btn-danger stretched-link" style="font-size: 14px;">DETAILS</a>
+                </div>  
+            </div>
+            <div class="card-img-overlay bot d-flex justify-content-center align-items-center text-center">
+                <div class="item">
+                    <p class="movie-title m-0">{{ series.name }}</p>
+                    <p class="movie-release m-0">{{  series.release_date|date:"d M Y" }}</p>
+                </div>  
+            </div>                
+        </div>
+        {% endfor %}
+    </div> 
+</div> 
 <div id="counter">
     <div class="container py-4">
         <div class="d-flex justify-content-around" style="color: white;">
             <div class="w-100 text-center p-3">
-                <h4>MOVIES</h4>
-                <h4>115</h4>
+                <h4><i class="fa fa-film"></i> MOVIES</h4>
+                <h5 class="count">115</h5>
             </div>
             <div class="w-100 text-center p-3">
-                <h4>SERIES</h4>
-                <h4>42</h4>
+                <h4><i class="fa fa-laptop"></i> SERIES</h4>
+                <h5 class="count">43</h5>
             </div>
             <div class="w-100 text-center p-3">
-                <h4>ARTISTS</h4>
-                <h4>478</h4>
+                <h4><i class="fa fa-group"></i> ARTISTS</h4>
+                <h5 class="count">479</h5>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.count').each(function(){
+            $(this).prop('Counter',0).animate({
+                Counter: $(this).text()
+            },{
+                duration: 3000,
+                easing: 'swing',
+                step: function (now){
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

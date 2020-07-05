@@ -60,7 +60,7 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" style="border: 1px solid #302b63;" href="{% url 'account_login' %}">{% trans 'SIGN IN' %}</a>
+                        <a class="nav-link" href="{% url 'account_login' %}">{% trans 'SIGN IN' %}</a>
                     </li>                                 
                     {% endif %}  
                     <li class="nav-item dropdown">
@@ -114,6 +114,16 @@
             console.log(lang);
             $("#langform select").val(lang);
             $("#langform").submit();            
+        });
+
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(document).scrollTop() > 100) {
+                    $("nav").addClass("scrolled");
+                } else {
+                    $("nav").removeClass("scrolled");
+                }
+            });
         });
     </script>
     {% endblock %}

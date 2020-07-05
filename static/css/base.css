@@ -1,6 +1,6 @@
 body {
     font-family: 'Comfortaa', cursive;    
-    background: #d1dcdf;
+    background: #0f1a22;
     /* background: #0f0c29; 
     background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29); 
     background: linear-gradient(to right, #24243e, #302b63, #0f0c29);    */
@@ -20,13 +20,14 @@ body {
     filter: blur(12px);
 } */
 
-nav {
-    background: #020d18;     
+nav.navbar {
+    background: #030b0f;  
     min-height: 80px;       
 }
 
 #logo {    
-    background: #020d18;
+    background: #030b0f;
+    background: rgba(0, 0, 0, 0);
     width: 60px;
     height: 60px;
 }
@@ -62,7 +63,7 @@ nav {
 
 .nav-link {
     color: #fff;     
-    width: 100px;
+    min-width: 100px;
 }
 
 .nav-link:hover {        

@@ -44,6 +44,8 @@ def home(request):
     # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
     latestmovies = Movie.objects.all().order_by('-created_at')[:4]
     latestseries = Series.objects.all().order_by('-created_at')[:4]
+    suggestedmovie = Movie.objects.latest('created_at')
+    suggestedseries = Series.objects.latest('created_at')
     # topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:4]        
     # mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
     # mostwatchedmovies = Movie.objects.annotate(count_watched=Count('moviewatchedlist')).order_by('-count_watched')[:6]
@@ -53,6 +55,8 @@ def home(request):
     context = {
         'latestmovies': latestmovies,
         'latestseries': latestseries,
+        'suggestedmovie': suggestedmovie,
+        'suggestedseries': suggestedseries,
         # 'mostlikedmovies': mostlikedmovies,
         # 'mostwatchedmovies': mostwatchedmovies,
         'profile': profile

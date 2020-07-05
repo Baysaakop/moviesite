@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="seriesdetail" class="container">
+<div id="detail" class="container">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -17,18 +17,18 @@
             <li class="breadcrumb-item active" aria-current="page">{{ series }}</li>
         </ol>
     </nav>
-    <div class="m-3 p-3 border rounded">
+    <div class="m-3 p-3 border" style="background: #030b0f; color: white;">
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card rounded-0">
                     {% if series.image %}
-                    <img class="card-img" src="{{ series.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    <img class="card-img rounded-0" src="{{ series.image.url }}" alt="Card image" style="width: 100%; height: auto;">
                     {% else %}
                     <div class="card-body bg-light" style="height: 300px;"></div>
                     {% endif %}
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" style="font-size: small;">
+                    <table class="table table-striped" style="color: white; font-size: small;">
                         <tr>
                             <th>{% trans 'Production' %}</th>
                             <td>
@@ -81,7 +81,7 @@
                             <th>{% trans 'Rating' %}</th>
                             <td>{{ series.mpa_rating }}</td>
                         </tr> 
-                        <!-- <tr>
+                        <tr>
                             <th>IMDB</th>
                             <td>{{ movie.imdb_rating }}</td>
                         </tr> 
@@ -92,7 +92,7 @@
                         <tr>
                             <th>Tomatometer</th>
                             <td>{{ movie.tomatometer }}</td>
-                        </tr>  -->
+                        </tr>  
                         <tr>
                             <th>{% trans 'Score' %}</th>
                             <td><span class="avg-score">{{ series.score|floatformat:1|intcomma }}</span></td>
@@ -119,7 +119,7 @@
                     </div>
                     {% if user.is_authenticated and user|isAdmin %}
                     <div id="update">                        
-                        <a href="{% url 'seriesupdate' series.pk %}" class="btn btn-outline-dark"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                        <a href="{% url 'seriesupdate' series.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
                     </div>                
                     {% endif %}
                 </div>
@@ -145,13 +145,17 @@
                 </div>   
                 <div id="trailer">
                     <h5>{% trans 'Trailer' %}</h5>
-                    {% if series.trailer is None %}
+                    <!-- {% if series.trailer is None %}
                     <div class="bg-light d-flex justify-content-center align-items-center border" style="height: 200px;">
                         <h4>{% trans 'Trailer' %}</h4>
                     </div>
                     {% else %}
                     <iframe width="100%" height="300" src="{{ series.trailer }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                                                          
-                    {% endif %}
+                    {% endif %} -->
+                    <video autoplay muted loop class="movieVideo" style="width: 100%; height: auto;">
+                        <source src="{% static 'videos/the_mandalorian_trailer_1080.mp4' %}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
                 </div>
                 <div id="cast" class="mt-3">
                     <div class="d-flex justify-content-between">
@@ -160,7 +164,7 @@
                         </div>                   
                         {% if user.is_authenticated and user|isAdmin %}
                         <div id="editcast">                        
-                            <a href="{% url 'seriescastedit' series.pk %}" class="btn btn-outline-dark"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                            <a href="{% url 'seriescastedit' series.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
                         </div>                
                         {% endif %}     
                     </div>                  
@@ -186,7 +190,7 @@
             </div>
         </div>                        
     </div>  
-    <div id="action_section" class="m-3 border rounded d-flex flex-row justify-content-around text-center">
+    <div id="action_section" class="m-3 d-flex flex-row justify-content-around text-center">
         {% if profile is None %}
         <a href="{% url 'account_login' %}" class="w-100" title="{% trans 'Add to Favorite' %}">
             <i class="fa fa-thumbs-o-up"></i>
@@ -278,7 +282,7 @@
             </div>
         </div>
     </div>          
-    <div id="episodes_section" class="m-3 border rounded">
+    <div id="episodes_section" class="m-3">
         <div id="seasons">
             {% get_seasons series as seasons %}
             <ul class="nav nav-tabs" role="tablist">
@@ -303,8 +307,8 @@
                         </div>
                         {% if user.is_authenticated and user|isAdmin %}
                         <div>
-                            <a href="{% url 'seasonupdate' season.pk %}" class="btn btn-outline-dark"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
-                            <a href="{% url 'episodecreate' season.pk %}" class="btn btn-outline-dark"><i class="fa fa-plus"></i> {% trans 'Add new episode' %}</a>
+                            <a href="{% url 'seasonupdate' season.pk %}" class="btn btn-danger rounded-0"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                            <a href="{% url 'episodecreate' season.pk %}" class="btn btn-primary rounded-0"><i class="fa fa-plus"></i> {% trans 'Add new episode' %}</a>
                         </div>
                         {% endif %}
                     </div>                        
@@ -320,7 +324,7 @@
                                         </div>
                                         {% if user.is_authenticated and user|isAdmin %}                                                      
                                         <div class="episode-edit">
-                                            <a class="btn btn-outline-dark" href="{% url 'episodeupdate' episode.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>                                                                                                    
+                                            <a class="btn btn-outline-danger rounded-0" href="{% url 'episodeupdate' episode.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>                                                                                                    
                                         </div>                                                                                 
                                         {% endif %}
                                     </div>         

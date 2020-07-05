@@ -1,14 +1,36 @@
+#list {
+    color: white;
+    margin-top: 100px;
+}
+
+.breadcrumb, #filterform {
+    background: #030b0f;    
+    border-radius: 0%;
+    border: 1px solid white;
+}
+
+#filterform .form-control {
+    background: #030b0f;
+    border-radius: 0%;
+}
+
 #searchbutton {
     cursor: pointer;
     text-decoration: none;
+    border-radius: 0%;
 }
 
 #searchbutton:hover {
-    background: #dee2e6;  
+    background: #dd4b39;      
+}
+
+#searchbutton:hover .fa-search {
+    color: white;
 }
 
 .card {    
-    border: 5px solid #000;    
+    border: 4px solid #fff; 
+    background: #030b0f;   
     width: 100%;
     height: auto;    
     transition: all .5s;    
