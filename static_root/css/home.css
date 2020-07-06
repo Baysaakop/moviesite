@@ -1,115 +1,119 @@
-.listTitle {
+#suggestedmovie {
+    margin-top: 0;
+}
+
+.movieVideo {
+    width: 100%; 
+    height: auto;
+    position: relative;
+}
+
+.movieDetail {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    background: rgba(0, 0, 0, 0.8);
+    color: #f1f1f1;
+    padding: 20px;
+}
+
+.header {
+    color: #fff;
     font-size: 24px;
 }
 
-.rowlist .column {
-    padding: 5px;
+.viewButton {
+    border-radius: 0%;
 }
 
-.rowlist .card {    
-    border: 5px solid #dedede;    
+.card {    
+    color: #fff;
+    overflow: hidden;
+}
+
+.card-img-overlay {             
+    height: 25%;          
+    transition: all .5s ease;    
+}
+
+.card-img-overlay.full {
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 300px;    
-    transition: all .5s;    
-}
-
-.rowlist .card:hover {
-    border: 5px solid #000;    
-}
-
-.rowlist .card-img {     
-    height: 80%;
-    overflow: hidden;    
-}
-
-.rowlist .card-img .card-img-top {
-    width: 100%;
-    height: 100%;    
-    display: block;    
-}
-
-.rowlist .card-img .card-img-overlay {         
-    background: #000;    
-    color: #fff;       
-    height: 70%; 
-    opacity: .8;
-    text-decoration: none;
-    font-size: 12px;
+    height: 100%;
     visibility: hidden;
 }
 
-.rowlist .card-img:hover .card-img-overlay {         
+.card-img-overlay.top {
+    top: -25%; 
+}
+
+.card-img-overlay.mid {
+    height: 50%;
+    top: 25%;
+    visibility: hidden;
+}
+
+.card-img-overlay.bot {
+    top: 100%;
+}
+
+.card:hover .card-img-overlay.top {        
+    top: 0;  
+}
+
+.card:hover .card-img-overlay.bot {        
+    top: 75%;  
+}
+
+.card:hover .card-img-overlay.full {
     visibility: visible;
 }
 
-.rowlist .card-body {
-    padding: 5px;
-    color: #000;
-    text-decoration: none;
-    overflow: hidden;     
+.card:hover .card-img-overlay.mid {
+    visibility: visible;
 }
 
-.rowlist .card-title {    
-    font-size: 12px;
-    font-weight: bold;        
-    margin-top: 0; 
-    padding: 0;    
+.star-rating .fa {
+    color: white;
 }
 
-@media screen and (max-width:992px) {
-    .rowlist .card {
-        height: 400px;
-    }
-
-    .rowlist .card-img {     
-        height: 70%;
-    }
-    
-    .rowlist .card-title {
-        font-size: 12px;             
-    }
+.star-rating .checked {
+    color: orange;
 }
 
-@media screen and (max-width:768px) {
-    .rowlist .column {
-        padding: 10px;
-    }
-
-    .rowlist .card {
-        height: 400px;
-    }
-
-    .rowlist .card-img {     
-        height: 70%;
-    }   
-
-    .rowlist .card-img .card-img-overlay {         
-        font-size: 15px;
-    }
-
-    .rowlist .card-body {
-        padding: 10px; 
-    }
-
-    .rowlist .card-title {
-        font-size: 14px;                    
-    }
+.readButton {
+    border-radius: 0%;
 }
 
-@media screen and (max-width:576px) {  
-    .rowlist .card {
-        height: 500px;
+.movie-title {
+    font-size: 20px;
+    font-weight: bold;    
+}
+
+.movie-release {
+    color: #dedede;
+    font-size: 14px;    
+}
+
+#counter {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 100%;
+    background: #030b0f;
+}
+
+@media only screen and (max-width: 480px) {
+    #suggestedmovie {
+        margin-top: 80px;
     }
 
-    .rowlist .card-img {     
-        height: 75%;
+    .header {
+        font-size: 20px;
     }
 
-    .rowlist .card-img .card-img-overlay {         
-        font-size: 24px;
-    }
-
-    .rowlist .card-title {
-        font-size: 16px;        
+    .viewButton {
+        font-size: 12px;
     }
 }

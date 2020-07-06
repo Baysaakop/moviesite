@@ -1,23 +1,16 @@
 {% extends 'base.html' %}
+{% load static crispy_forms_tags i18n %}
 
-{% load crispy_forms_tags i18n %}
+{% block title %}
+{% trans 'Edit Cast' %}
+{% endblock %}
 
 {% block style %}
-<style>
-    form a {
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    form a:hover {
-        background: #c3cac2;          
-        text-decoration: none;  
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="margin-top: 100px;">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
@@ -26,15 +19,14 @@
             <li class="breadcrumb-item active" aria-current="page">Cast Edit</li>
         </ol>
     </nav> 
-    <div class="border rounded m-3 p-3">
-        <h4>Cast of {{ movie }}</h4>
-        <hr>
-        <form method="POST" enctype="multipart/form-data" novalidate>
+    <div class="m-3" style="color: white;">
+        <h4>Cast of {{ movie }}</h4>        
+        <form method="POST" enctype="multipart/form-data" id="filterform" class="p-3" novalidate>
             {% csrf_token %}                                 
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="maincastlist">Main Cast</label>
-                    <div id="maincastlist" class="rounded border p-3" style="min-height: 240px;">     
+                    <div id="maincastlist" class="border p-3" style="min-height: 240px;">     
                         {% for cast in movie.maincast.all %}
                         <div class='custom-control custom-checkbox'>
                             <input type='checkbox' class='custom-control-input' name='maincast' id='maincast{{ cast.pk }}' value='{{ cast.pk }}' checked>
@@ -60,7 +52,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="supportingcastlist">Supporting Cast</label>
-                    <div id="supportingcastlist" class="rounded border p-3" style="min-height: 400px;">     
+                    <div id="supportingcastlist" class="border p-3" style="min-height: 400px;">     
                         {% for cast in movie.supportingcast.all %}
                         <div class='custom-control custom-checkbox'>
                             <input type='checkbox' class='custom-control-input' name='supportingcast' id='supportingcast{{ cast.pk }}' value='{{ cast.pk }}' checked>
@@ -87,7 +79,7 @@
             </div>   
             <div class="form-row">
                 <div class="form-group col-md-2 mb-0">
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    <button type="submit" class="btn btn-success btn-block rounded-0">Save</button>
                 </div>
             </div>            
         </form>

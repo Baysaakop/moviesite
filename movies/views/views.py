@@ -46,6 +46,9 @@ def home(request):
     latestseries = Series.objects.all().order_by('-created_at')[:4]
     suggestedmovie = Movie.objects.latest('created_at')
     suggestedseries = Series.objects.latest('created_at')
+    count_movie = Movie.objects.all().count()
+    count_series = Series.objects.all().count()
+    count_artist = Artist.objects.all().count()
     # topratedmovies = Movie.objects.all().order_by('-imdb_rating')[:4]        
     # mostlikedmovies = Movie.objects.annotate(count_liked=Count('liked_movies')).order_by('-count_liked')[:6]
     # mostwatchedmovies = Movie.objects.annotate(count_watched=Count('moviewatchedlist')).order_by('-count_watched')[:6]
@@ -57,6 +60,9 @@ def home(request):
         'latestseries': latestseries,
         'suggestedmovie': suggestedmovie,
         'suggestedseries': suggestedseries,
+        'count_movie': count_movie,
+        'count_series': count_series,
+        'count_artist': count_artist,
         # 'mostlikedmovies': mostlikedmovies,
         # 'mostwatchedmovies': mostwatchedmovies,
         'profile': profile

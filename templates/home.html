@@ -12,10 +12,10 @@ Mollywood
 {% block content %}
 <div id="suggestedmovie">
     <video autoplay muted loop class="movieVideo">
-        <source src="{% static 'videos/the_wonder_woman_1984_trailer_1080.mp4' %}" type="video/mp4">
+        <source src="{{ suggestedmovie.trailer.url }}" type="video/mp4">
         Your browser does not support HTML5 video.
-    </video>
-    <div class="movieDetail">
+    </video>     
+    <div class="movieDetail" style="border: 1px solid white;">
         <h2>{{ suggestedmovie.name }}</h2>     
         <p>Release Date: {{ suggestedmovie.release_date|date:"d M Y" }}</p> 
         <p>{% for gen in suggestedmovie.genre.all %} {{ gen.name }} | {% endfor %} </p> 
@@ -72,7 +72,7 @@ Mollywood
         <div class="row">
             <div class="col-md-8">
                 <video autoplay muted loop class="movieVideo">
-                    <source src="{% static 'videos/the_mandalorian_trailer_1080.mp4' %}" type="video/mp4">
+                    <source src="{{ suggestedseries.trailer.url }}" type="video/mp4">
                     Your browser does not support HTML5 video.
                 </video>
             </div>
@@ -136,15 +136,15 @@ Mollywood
         <div class="d-flex justify-content-around" style="color: white;">
             <div class="w-100 text-center p-3">
                 <h4><i class="fa fa-film"></i> MOVIES</h4>
-                <h5 class="count">115</h5>
+                <h5 class="count" data-count="1218">0</h5>
             </div>
             <div class="w-100 text-center p-3">
                 <h4><i class="fa fa-laptop"></i> SERIES</h4>
-                <h5 class="count">43</h5>
+                <h5 class="count" data-count="641">0</h5>
             </div>
             <div class="w-100 text-center p-3">
                 <h4><i class="fa fa-group"></i> ARTISTS</h4>
-                <h5 class="count">479</h5>
+                <h5 class="count" data-count="5124">0</h5>
             </div>
         </div>
     </div>
@@ -154,18 +154,37 @@ Mollywood
 
 {% block javascript %}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('.count').each(function(){
-            $(this).prop('Counter',0).animate({
-                Counter: $(this).text()
-            },{
-                duration: 3000,
-                easing: 'swing',
-                step: function (now){
-                    $(this).text(Math.ceil(now));
-                }
+    var a = 0;
+    $(window).scroll(function() {
+
+    var oTop = $('#counter').offset().top - window.innerHeight;
+    if (a == 0 && $(window).scrollTop() > oTop) {
+        $('.count').each(function() {
+        var $this = $(this),
+            countTo = $this.attr('data-count');
+        $({
+            countNum: $this.text()
+        }).animate({
+            countNum: countTo
+            },
+
+            {
+
+            duration: 2000,
+            easing: 'swing',
+            step: function() {
+                $this.text(Math.floor(this.countNum));
+            },
+            complete: function() {
+                $this.text(this.countNum);
+                //alert('finished');
+            }
+
             });
         });
+        a = 1;
+    }
+
     });
 </script>
 {% endblock %}

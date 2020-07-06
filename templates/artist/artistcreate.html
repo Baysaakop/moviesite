@@ -1,32 +1,25 @@
 {% extends 'base.html' %}
+{% load static crispy_forms_tags i18n %}
 
-{% load crispy_forms_tags %}
+{% block title %}
+{% trans 'Add New Artist' %}
+{% endblock %}
 
 {% block style %}
-<style>
-    form a {
-        cursor: pointer;
-        text-decoration: none;
-    }
-
-    form a:hover {
-        background: #c3cac2;          
-        text-decoration: none;  
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="margin-top: 100px;">
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>        
             <li class="breadcrumb-item active" aria-current="page">Add new artist</li>
         </ol>
     </nav> 
-    <div class="border rounded m-3 p-3">
+    <div class="m-3" style="color: white;">
         <h4>Add New Artist</h4>
-        <form method="POST" enctype="multipart/form-data" novalidate>
+        <form method="POST" enctype="multipart/form-data" id="filterform" class="p-3" novalidate>
             {% csrf_token %}                  
             <div class="form-row">
                 <div class="form-group col-md-4">
@@ -58,7 +51,7 @@
             </div>            
             <div class="form-row">
                 <div class="form-group col-md-2 mb-0">
-                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                    <button type="submit" class="btn btn-success btn-block rounded-0">Save</button>
                 </div>
             </div>            
         </form>

@@ -9,20 +9,20 @@
 {% endblock %}
 
 {% block content %}
-<div id="profile" class="container">   
+<div id="profile" class="container" style="margin-top: 100px; height: 90vh;">   
     <nav aria-label="breadcrumb" class="m-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>        
             <li class="breadcrumb-item active" aria-current="page">{% trans 'Profile' %}</li>
         </ol>
     </nav> 
-    <div id="info" class="m-3 p-3 border rounded">
+    <div id="info" class="m-3 p-3 border rounded-0" style="color: white">
         <div class="d-flex justify-content-between">
             <h4 class="d-block">{% trans 'Profile' %}</h4>    
-            <a href="#collapseInfo" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
+            <a href="#collapseInfo" data-toggle="collapse" style="color: white; text-decoration: none; font-size: 24px;"><i class="fa fa-caret-down text-right"></i></a>
         </div>    
         <div id="collapseInfo" class="collapse show table-responsive" data-parent="#profile">
-            <table class="table">
+            <table class="table" style="color: white;">
                 <tr>
                     <td><strong>{% trans 'Email' %}</strong></td>
                     <td>{{ profile.user.email }}</td>
@@ -46,17 +46,17 @@
             </table>
         </div>        
     </div> 
-    <div id="likelist" class="m-3 p-3 border rounded">        
+    <div id="likelist" class="m-3 p-3 border rounded-0" style="color: white;">        
         <div class="d-flex justify-content-between align-items-center">
             <h4>{% trans 'Favorite list' %}: {{ movie_favorite.count }}</h4>    
-            <a href="#collapseLikelist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
+            <a href="#collapseLikelist" data-toggle="collapse" style="color: white; text-decoration: none; font-size: 24px;"><i class="fa fa-caret-down text-right"></i></a>
         </div>   
         <div id="collapseLikelist" class="collapse hide" data-parent="#profile">
             <div class="movielist row p-3">
                 {% for movie in movie_favorite %}
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
                     <a href="{% url 'moviedetail' movie.pk %}">
-                        <div class="card mb-0">                                     
+                        <div class="card rounded-0 mb-0">                                     
                             {% if movie.image %}
                             <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
                             {% else %}
@@ -97,86 +97,6 @@
                                     {% endif %}
                                 </div>
                             </div>                                                                                                         
-                        </div>   
-                        <div class="p-2 border bg-light">
-                            <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                <smalls style="font-weight: bold;">{{ movie }}</smalls>  
-                            </div>       
-                            <div class="release">
-                                <small style="font-weight: bold;">{% trans 'Release' %}: {{ movie.release_date|date:"Y" }}</small>
-                            </div>    
-                            <div class="imdb">
-                                <small style="font-weight: bold;">{% trans 'Score' %}: {{ movie.score }}</small>       
-                            </div>                                                                                                   
-                        </div>            
-                    </a>                                        
-                </div> 
-                {% endfor %}
-            </div>            
-        </div>  
-    </div> 
-    <div id="watchedlist" class="m-3 p-3 border rounded">        
-        <div class="d-flex justify-content-between align-items-center">
-            <h4>{% trans 'Watched list' %} {{ movie_watched.count }}</h4>    
-            <a href="#collapseWatchedlist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
-        </div>  
-        <div id="collapseWatchedlist" class="collapse hide" data-parent="#profile">
-            <div class="movielist row p-3">
-                {% for movie in movie_watched %}
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
-                    <a href="{% url 'moviedetail' movie.pk %}">
-                        <div class="card mb-0">                                     
-                            {% if movie.image %}
-                            <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
-                            {% else %}
-                            <div class="card-img" style="min-height: 220px;">
-                                <div class="title d-flex justify-content-center align-items-center text-center">
-                                    <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
-                                </div>
-                            </div>
-                            {% endif %}   
-                            <div class="card-img-overlay">                
-                                <div class="title d-flex justify-content-center align-items-center text-center">
-                                    <h6 class="card-title text-center">{{ movie }}</h6>
-                                </div>
-                                <div class="actions d-flex justify-content-start p-0 text-center">
-                                    {% if profile is None %}
-                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
-                                        <i class="fa fa-thumbs-o-up"></i>
-                                    </a>
-                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watched' %}">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watchlist' %}">
-                                        <i class="fa fa-plus-circle"></i>
-                                    </a>
-                                    {% else %}
-                                    <a id="favorite{{ movie.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ movie.id }}"
-                                        title="{% if movie|is_favorite:profile %} {% trans 'Remove from Favorite' %} {% else %} {% trans 'Add to Favorite' %} {% endif %}">
-                                        <i id="icon-favorite{{ movie.id }}" class="{% if movie|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
-                                    </a>
-                                    <a id="watched{{ movie.id }}" href="#" class="action watched p-2" style="width: 33%;" data-id="{{ movie.id }}"
-                                        title="{% if movie|is_watched:profile %} {% trans 'Remove from Watched' %} {% else %} {% trans 'Add to Watched' %} {% endif %}">
-                                        <i id="icon-watched{{ movie.id }}" class="{% if movie|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
-                                    </a>
-                                    <a id="watchlist{{ movie.id }}" href="#" class="action watchlist p-2" style="width: 33%;" data-id="{{ movie.id }}"
-                                        title="{% if movie|is_watchlisted:profile %} {% trans 'Remove from Watchlist' %} {% else %} {% trans 'Add to Watchlist' %} {% endif %}">
-                                        <i id="icon-watchlist{{ movie.id }}" class="{% if movie|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
-                                    </a>
-                                    {% endif %}
-                                </div>
-                            </div>                                                                                                         
-                        </div>   
-                        <div class="p-2 border bg-light">
-                            <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                <smalls style="font-weight: bold;">{{ movie }}</smalls>  
-                            </div>       
-                            <div class="release">
-                                <small style="font-weight: bold;">{% trans 'Release' %}: {{ movie.release_date|date:"Y" }}</small>
-                            </div>    
-                            <div class="imdb">
-                                <small style="font-weight: bold;">{% trans 'Score' %}: {{ movie.score }}</small>       
-                            </div>                                                                                                   
                         </div>              
                     </a>                                        
                 </div> 
@@ -184,17 +104,17 @@
             </div>            
         </div>  
     </div> 
-    <div id="watchlist" class="m-3 p-3 border rounded">        
+    <div id="watchedlist" class="m-3 p-3 border rounded-0" style="color: white;">        
         <div class="d-flex justify-content-between align-items-center">
-            <h4>{% trans 'Watchlist' %} {{ movie_watchlist.count }}</h4>    
-            <a href="#collapseWatchlist" data-toggle="collapse" style="color: black; text-decoration: none;"><i class="fa fa-caret-square-o-up text-right"></i></a>
+            <h4>{% trans 'Watched list' %} {{ movie_watched.count }}</h4>    
+            <a href="#collapseWatchedlist" data-toggle="collapse" style="color: white; text-decoration: none; font-size: 24px;"><i class="fa fa-caret-down text-right"></i></a>
         </div>  
-        <div id="collapseWatchlist" class="collapse hide" data-parent="#profile">
+        <div id="collapseWatchedlist" class="collapse hide" data-parent="#profile">
             <div class="movielist row p-3">
-                {% for movie in movie_watchlist %}
+                {% for movie in movie_watched %}
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
                     <a href="{% url 'moviedetail' movie.pk %}">
-                        <div class="card mb-0">                                     
+                        <div class="card rounded-0 mb-0">                                     
                             {% if movie.image %}
                             <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
                             {% else %}
@@ -236,7 +156,7 @@
                                 </div>
                             </div>                                                                                                         
                         </div>   
-                        <div class="p-2 border bg-light">
+                        <!-- <div class="p-2 border bg-light">
                             <div class="name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                 <smalls style="font-weight: bold;">{{ movie }}</smalls>  
                             </div>       
@@ -246,7 +166,65 @@
                             <div class="imdb">
                                 <small style="font-weight: bold;">{% trans 'Score' %}: {{ movie.score }}</small>       
                             </div>                                                                                                   
-                        </div>               
+                        </div>               -->
+                    </a>                                        
+                </div> 
+                {% endfor %}
+            </div>            
+        </div>  
+    </div> 
+    <div id="watchlist" class="m-3 p-3 border rounded-0" style="color: white;">        
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>{% trans 'Watchlist' %} {{ movie_watchlist.count }}</h4>    
+            <a href="#collapseWatchlist" data-toggle="collapse" style="color: white; text-decoration: none; font-size: 24px;"><i class="fa fa-caret-down text-right"></i></a>
+        </div>  
+        <div id="collapseWatchlist" class="collapse hide" data-parent="#profile">
+            <div class="movielist row p-3">
+                {% for movie in movie_watchlist %}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
+                    <a href="{% url 'moviedetail' movie.pk %}">
+                        <div class="card rounded-0 mb-0">                                     
+                            {% if movie.image %}
+                            <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
+                            {% else %}
+                            <div class="card-img" style="min-height: 220px;">
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
+                                </div>
+                            </div>
+                            {% endif %}   
+                            <div class="card-img-overlay">                
+                                <div class="title d-flex justify-content-center align-items-center text-center">
+                                    <h6 class="card-title text-center">{{ movie }}</h6>
+                                </div>
+                                <div class="actions d-flex justify-content-start p-0 text-center">
+                                    {% if profile is None %}
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Favorite' %}">
+                                        <i class="fa fa-thumbs-o-up"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watched' %}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'account_login' %}" class="action p-2" style="width: 33%;" title="{% trans 'Add to Watchlist' %}">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </a>
+                                    {% else %}
+                                    <a id="favorite{{ movie.id }}" href="#" class="action favorite p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_favorite:profile %} {% trans 'Remove from Favorite' %} {% else %} {% trans 'Add to Favorite' %} {% endif %}">
+                                        <i id="icon-favorite{{ movie.id }}" class="{% if movie|is_favorite:profile %} fa fa-thumbs-up {% else %} fa fa-thumbs-o-up {% endif %}"></i>
+                                    </a>
+                                    <a id="watched{{ movie.id }}" href="#" class="action watched p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watched:profile %} {% trans 'Remove from Watched' %} {% else %} {% trans 'Add to Watched' %} {% endif %}">
+                                        <i id="icon-watched{{ movie.id }}" class="{% if movie|is_watched:profile %} fa fa-eye-slash {% else %} fa fa-eye {% endif %}"></i>
+                                    </a>
+                                    <a id="watchlist{{ movie.id }}" href="#" class="action watchlist p-2" style="width: 33%;" data-id="{{ movie.id }}"
+                                        title="{% if movie|is_watchlisted:profile %} {% trans 'Remove from Watchlist' %} {% else %} {% trans 'Add to Watchlist' %} {% endif %}">
+                                        <i id="icon-watchlist{{ movie.id }}" class="{% if movie|is_watchlisted:profile %} fa fa-minus-circle {% else %} fa fa-plus-circle {% endif %}"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>                                                                                                         
+                        </div>                 
                     </a>                                        
                 </div> 
                 {% endfor %}
