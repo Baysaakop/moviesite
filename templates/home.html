@@ -11,7 +11,7 @@ Mollywood
 
 {% block content %}
 <div id="suggestedmovie">
-    <video autoplay muted loop class="movieVideo">
+    <video autoplay muted loop class="movieVideo" id="mv" paused="false">
         <source src="{{ suggestedmovie.trailer.url }}" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>     
@@ -20,8 +20,12 @@ Mollywood
         <p>Release Date: {{ suggestedmovie.release_date|date:"d M Y" }}</p> 
         <p>{% for gen in suggestedmovie.genre.all %} {{ gen.name }} | {% endfor %} </p> 
         <p>Warner Bros. Pictures</p> 
-        <a href="#" class="viewButton btn btn-primary"><i class="fa fa-play-circle-o"></i> Play</a>
+        <button type="button" class="viewButton btn btn-primary"><i class="fa fa-play-circle-o"></i> Play</button>
         <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="viewButton btn btn-danger"><i class="fa fa-info-circle"></i> More</a>
+    </div>
+    <div class="trailercontroller">        
+        <span class="circle-control" onclick="playpause('mv', 'mvicon')"><i id="mvicon" class="fa fa-pause"></i></span>
+        <span class="circle-control" onclick="mute('mv', 'mvsoundicon')"><i id="mvsoundicon" class="fa fa-volume-off"></i></span>
     </div>
 </div>
 <div id="latestmovies" class="container" style="margin-top: 50px; margin-bottom: 100px;">
@@ -71,10 +75,14 @@ Mollywood
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <video autoplay muted loop class="movieVideo">
+                <video loop muted class="movieVideo" id="sv" paused="false">
                     <source src="{{ suggestedseries.trailer.url }}" type="video/mp4">
                     Your browser does not support HTML5 video.
                 </video>
+                <div class="trailercontroller">        
+                    <span class="circle-control" onclick="playpause('sv', 'svicon')"><i id="svicon" class="fa fa-pause"></i></span>
+                    <span class="circle-control" onclick="mute('sv', 'svsoundicon')"><i id="svsoundicon" class="fa fa-volume-off"></i></span>
+                </div>
             </div>
             <div class="col-md-4" style="color: white;">
                 <h2>{{ suggestedseries.name }}</h2>     
@@ -82,7 +90,7 @@ Mollywood
                 <p>{% for gen in suggestedseries.genre.all %} {{ gen.name }} | {% endfor %} </p> 
                 <p>Disney +, Lucasfilm</p> 
                 <p>Starring: Pedro Pascal, Carl Weathers, Gina Carano </p>
-                <a href="#" class="viewButton btn btn-primary"><i class="fa fa-play"></i> Play</a>
+                <button type="button" class="viewButton btn btn-primary"><i class="fa fa-play-circle-o"></i> Play</button>
                 <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="viewButton btn btn-danger"><i class="fa fa-info"></i> More</a>
             </div>
         </div>
@@ -154,37 +162,82 @@ Mollywood
 
 {% block javascript %}
 <script type="text/javascript">
-    var a = 0;
-    $(window).scroll(function() {
+    var mv = document.getElementById("mv");
+    var sv = document.getElementById("sv");    
 
-    var oTop = $('#counter').offset().top - window.innerHeight;
-    if (a == 0 && $(window).scrollTop() > oTop) {
-        $('.count').each(function() {
-        var $this = $(this),
-            countTo = $this.attr('data-count');
-        $({
-            countNum: $this.text()
-        }).animate({
-            countNum: countTo
-            },
-
-            {
-
-            duration: 2000,
-            easing: 'swing',
-            step: function() {
-                $this.text(Math.floor(this.countNum));
-            },
-            complete: function() {
-                $this.text(this.countNum);
-                //alert('finished');
-            }
-
-            });
-        });
-        a = 1;
+    function playpause(video_id, icon_id) {
+        var video = document.getElementById(video_id);
+        var icon = document.getElementById(icon_id);
+        if (video.paused) {
+            video.play();
+            $(video).attr("paused", "false");
+            $(icon).attr("class", "fa fa-pause");
+        }   
+        else {
+            video.pause();
+            $(video).attr("paused", "true");
+            $(icon).attr("class", "fa fa-play");
+        }     
     }
 
+    function mute(video_id, icon_id) {
+        var video = document.getElementById(video_id);
+        var icon = document.getElementById(icon_id);
+        if (video.muted) {
+            video.muted = false;
+            $(icon).attr("class", "fa fa-volume-up");
+        }
+        else {
+            video.muted = true;
+            $(icon).attr("class", "fa fa-volume-off");
+        }        
+    }
+
+    var counted = 0;
+    $(window).scroll(function() {
+        var oTop = $('#counter').offset().top - window.innerHeight;
+        if (counted == 0 && $(window).scrollTop() > oTop) {
+            $('.count').each(function() {
+            var $this = $(this),
+                countTo = $this.attr('data-count');
+            $({
+                countNum: $this.text()
+            }).animate({
+                countNum: countTo
+                },
+
+                {
+
+                duration: 2000,
+                easing: 'swing',
+                step: function() {
+                    $this.text(Math.floor(this.countNum));
+                },
+                complete: function() {
+                    $this.text(this.countNum);
+                    //alert('finished');
+                }
+
+                });
+            });
+            counted = 1;
+        }    
+        if ($(window).scrollTop() < $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 && 
+            $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 < $(window).scrollTop() + window.innerHeight &&
+            $(mv).attr("paused") == "false") {            
+            mv.play();            
+        }        
+        else {
+            mv.pause();           
+        }
+        if ($(window).scrollTop() < $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 && 
+            $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 < $(window).scrollTop() + window.innerHeight &&
+            $(sv).attr("paused") == "false") {            
+            sv.play();           
+        }        
+        else {
+            sv.pause();           
+        }
     });
 </script>
 {% endblock %}
