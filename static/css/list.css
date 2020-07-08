@@ -1,7 +1,7 @@
 #list {
     color: white;
     margin-top: 100px;
-    height: 90vh;
+    min-height: 90vh;
 }
 
 .breadcrumb, #filterform {
@@ -34,7 +34,7 @@
     border: 4px solid #000; 
     background: #030b0f;   
     width: 100%;
-    height: auto;    
+    height: 220px;
     transition: all .5s;    
     overflow: hidden;
 }
@@ -56,6 +56,10 @@
     visibility: visible;
 }
 
+.card:hover .scores {
+    visibility: visible;
+}
+
 .card-img {     
     height: auto;
     width: 100%;    
@@ -70,8 +74,16 @@
     padding: 0;
 }
 
+.scores {
+    background: rgba(0, 0, 0, 0.3);
+    height: 20%;
+    width: 100%;
+    top: 0;
+    visibility: hidden;
+}
+
 .title {         
-    height: 80%;
+    height: 60%;
     width: 100%;
     padding: 5px;
     color: #fff;
@@ -97,5 +109,22 @@
 }
 
 .actions .action:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.page-link {
+    background: #030b0f;
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    background: #030b0f;
+    background: rgba(0, 0, 0, 0.3);
+    color: #dedede;
+}
+
+.page-item.active .page-link {
+    background: #dd4b39;
+    border: 1px solid white;
+    color: white;
 }

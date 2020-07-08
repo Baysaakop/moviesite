@@ -115,6 +115,6 @@ class Command(BaseCommand):
                         )                        
                         artist.save()
                         artist.occupation.add(o)
-                    movie.cast.add(Artist.objects.get(name=actor.strip()))                        
+                    movie.maincast.add(Artist.objects.get(name=actor.strip()))                        
                 
         self.stdout.write(self.style.SUCCESS('Data imported successfully'))

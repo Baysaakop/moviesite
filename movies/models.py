@@ -113,6 +113,7 @@ class Movie(models.Model):
     metascore = models.IntegerField(default=0)
     tomatometer = models.IntegerField(default=0)
     image = models.ImageField(upload_to='movies/images/', blank=True, null=True)    
+    poster = models.TextField(blank=True, null=True)
     trailer = models.FileField(upload_to='movies/trailers/', blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='movie_created_by')
     created_at = models.DateTimeField(auto_now_add=True, null=True)    

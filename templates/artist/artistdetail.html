@@ -90,7 +90,8 @@
                                 <tr>
                                     <th>{% trans 'Release Date' %}</th>
                                     <th>{% trans 'Film name' %}</th>
-                                    <th>{% trans 'Film score' %}</th>
+                                    <th>{% trans 'IMDB' %}</th>
+                                    <th>{% trans 'Metascore' %}</th>
                                     <th>{% trans 'Actor' %}</th>
                                     <th>{% trans 'Producer' %}</th>
                                     <th>{% trans 'Director' %}</th>
@@ -102,7 +103,8 @@
                                 <tr>
                                     <td>{{ movie.release_date|date:"Y" }}</td>
                                     <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
-                                    <td>{{ movie.score }}</td>     
+                                    <td>{{ movie.imdb_rating }}</td>     
+                                    <td>{{ movie.metascore }}</td>     
                                     <td>
                                         {% if artist in movie.maincast.all %}
                                             {% trans 'Yes' %}
@@ -145,7 +147,8 @@
                                 <tr>
                                     <th>{% trans 'Release Date' %}</th>
                                     <th>{% trans 'Film name' %}</th>
-                                    <th>{% trans 'Film score' %}</th>
+                                    <th>{% trans 'IMDB' %}</th>
+                                    <th>{% trans 'Metascore' %}</th>
                                     <th>{% trans 'Actor' %}</th>
                                     <th>{% trans 'Producer' %}</th>
                                     <th>{% trans 'Director' %}</th>
@@ -158,6 +161,7 @@
                                     <td>{{ series.release_date|date:"Y" }}</td>
                                     <td><a href="{% url 'seriesdetail' series.pk %}">{{ series.name }}</a></td>
                                     <td>{{ series.imdb_rating }}</td>     
+                                    <td>{{ series.metascore }}</td>  
                                     <td>
                                         {% if artist in series.maincast.all %}
                                             {% trans 'Yes' %}

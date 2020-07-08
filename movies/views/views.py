@@ -8,6 +8,7 @@ from django.conf import settings
 from django.utils import translation
 from ..models import Occupation, Artist, Genre, Movie, Profile, MovieRating, Series
 from datetime import date
+import random
 
 ## Additional functions
 
@@ -44,7 +45,7 @@ def home(request):
     # request.session[translation.LANGUAGE_SESSION_KEY] = user_language
     latestmovies = Movie.objects.all().order_by('-created_at')[:4]
     latestseries = Series.objects.all().order_by('-created_at')[:4]
-    suggestedmovie = Movie.objects.latest('created_at')
+    suggestedmovie = random.choice(latestmovies)
     suggestedseries = Series.objects.latest('created_at')
     count_movie = Movie.objects.all().count()
     count_series = Series.objects.all().count()

@@ -68,12 +68,26 @@
                         <img class="card-img rounded-0" src="{{ artist.image.url }}" alt="Card image">
                         {% else %}
                         <div class="card-img" style="min-height: 220px;">
-                            <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h5 class="card-title" style="color: #000;">{{ artist }}</h5>                                
+                            <div class="d-flex justify-content-center align-items-center text-center">
+                                <h5 class="p-3" style="color: white;">{{ artist }}</h5>                                
                             </div>
                         </div>
                         {% endif %}   
                         <div class="card-img-overlay">                
+                            <div class="scores d-flex justify-content-start p-0 text-center">
+                                <div class="imdb p-2" style="width: 50%;">
+                                    <span style="font-size: 16px;">
+                                        <img src="{% static 'images/imdb_logo.png' %}" alt="imdb_logo" style="width: 20px; height: 20px">
+                                        0.0
+                                    </span>
+                                </div>
+                                <div class="metascore p-2" style="width: 50%;">
+                                    <span style="font-size: 16px;">
+                                        <img src="{% static 'images/metacritic_logo.png' %}" alt="imdb_logo" style="width: 20px; height: 20px;">
+                                        0
+                                    </span>
+                                </div>
+                            </div>          
                             <div class="title d-flex justify-content-center align-items-center text-center">
                                 <h6 class="card-title text-center">{{ artist }}</h6>                               
                             </div>

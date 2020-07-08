@@ -45,7 +45,8 @@
                     <label for="sort">{% trans 'Sort By' %}</label>
                     <select id="sort" class="form-control" name="sortby">
                         <option {% if sortby == 'Latest' or sortby == 'Шинээр нэмэгдсэн' %} selected {% endif %} >{% trans 'Latest' %}</option>         
-                        <option {% if sortby == 'Score' or sortby == 'Үнэлгээгээр' %} selected {% endif %} >{% trans 'Score' %}</option>   
+                        <option {% if sortby == 'IMDB Rating' or sortby == 'IMDB Үнэлгээгээр' %} selected {% endif %} >{% trans 'IMDB Rating' %}</option> 
+                        <option {% if sortby == 'Metascore' or sortby == 'Meta Үнэлгээгээр' %} selected {% endif %} >{% trans 'Metascore' %}</option>   
                         <option {% if sortby == 'Likes' or sortby == 'Like-н тоогоор' %} selected {% endif %} >{% trans 'Likes' %}</option>                                                        
                         <option {% if sortby == 'Watched' or sortby == 'Үзсэн тоогоор' %} selected {% endif %} >{% trans 'Watched' %}</option>    
                         <option {% if sortby == 'Watchlisted' or sortby == 'Үзэхээр нэмсэн тоогоор' %} selected {% endif %} >{% trans 'Watchlisted' %}</option>                                                         
@@ -71,17 +72,33 @@
                 <a href="{% url 'moviedetail' movie.pk %}">
                     <div class="card rounded-0 mb-0">                                     
                         {% if movie.image %}
-                        <img class="card-img" src="{{ movie.image.url }}" alt="Card image">
+                        <img class="card-img" src="{{ movie.image.url }}" alt="Card image">                        
+                        {% elif movie.poster %}                        
+                        <img class="card-img" src="{{ movie.poster }}" alt="Card image">
                         {% else %}
                         <div class="card-img" style="min-height: 220px;">
-                            <div class="title d-flex justify-content-center align-items-center text-center">
-                                <h5 class="card-title" style="color: #000;">{{ movie }}</h5>                                
+                            <div class="d-flex justify-content-center align-items-center text-center">
+                                <h5 class="p-3" style="color: white;">{{ movie }}</h5>                                
                             </div>
                         </div>
                         {% endif %}   
-                        <div class="card-img-overlay">                
+                        <div class="card-img-overlay">        
+                            <div class="scores d-flex justify-content-start p-0 text-center">
+                                <div class="imdb p-2" style="width: 50%;">
+                                    <span style="font-size: 16px;">
+                                        <img src="{% static 'images/imdb_logo.png' %}" alt="imdb_logo" style="width: 20px; height: 20px">
+                                        {{ movie.imdb_rating }}
+                                    </span>
+                                </div>
+                                <div class="metascore p-2" style="width: 50%;">
+                                    <span style="font-size: 16px;">
+                                        <img src="{% static 'images/metacritic_logo.png' %}" alt="imdb_logo" style="width: 20px; height: 20px;">
+                                        {{ movie.metascore }}
+                                    </span>
+                                </div>
+                            </div>        
                             <div class="title d-flex justify-content-center align-items-center p-0 text-center">
-                                <h6 class="card-title text-center">{{ movie }}</h6>
+                                <h6 class="card-title text-center">{{ movie }}</h6>                                
                             </div>
                             <div class="actions d-flex justify-content-start p-0 text-center">
                                 {% if profile is None %}

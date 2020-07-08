@@ -146,10 +146,14 @@
                 <div id="trailer">
                     <h5>{% trans 'Trailer' %}</h5>
                     {% if series.trailer %}
-                    <video autoplay loop class="movieVideo" style="width: 100%; height: auto;">
+                    <video muted loop class="video" id="mv" paused="false">
                         <source src="{{ series.trailer.url }}" type="video/mp4">                         
                         Your browser does not support HTML5 video.
-                    </video>                    
+                    </video>          
+                    <div class="controls">        
+                        <span class="circle-control" onclick="playpause('mv', 'mvicon')"><i id="mvicon" class="fa fa-pause"></i></span>
+                        <span class="circle-control" onclick="mute('mv', 'mvsoundicon')"><i id="mvsoundicon" class="fa fa-volume-off"></i></span>
+                    </div>            
                     {% else %}
                     <div class="d-flex justify-content-center align-items-center border" style="height: 250px;">
                         <h4 style="color: white;">{% trans 'Trailer' %}</h4>
@@ -348,6 +352,49 @@
 {% block javascript %}
 {{ block.super }}
 <script>
+    var mv = document.getElementById("mv");
+
+    var playPromise = mv.play();
+    if (playPromise !== undefined) {
+        playPromise.then(_ => {
+        // Automatic playback started!
+        // Show playing UI.
+        // We can now safely pause video...
+        video.pause();
+        })
+        .catch(error => {
+        // Auto-play was prevented
+        // Show paused UI.
+        });
+    }
+
+    function playpause(video_id, icon_id) {
+        var video = document.getElementById(video_id);
+        var icon = document.getElementById(icon_id);
+        if (video.paused) {
+            video.play();
+            $(video).attr("paused", "false");
+            $(icon).attr("class", "fa fa-pause");
+        }   
+        else {
+            video.pause();
+            $(video).attr("paused", "true");
+            $(icon).attr("class", "fa fa-play");
+        }     
+    }
+
+    function mute(video_id, icon_id) {
+        var video = document.getElementById(video_id);
+        var icon = document.getElementById(icon_id);
+        if (video.muted) {
+            video.muted = false;
+            $(icon).attr("class", "fa fa-volume-up");
+        }
+        else {
+            video.muted = true;
+            $(icon).attr("class", "fa fa-volume-off");
+        }        
+    }
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();   
     });    

@@ -83,8 +83,10 @@ class MovieListView(ListView):
         if is_valid_queryparam(sortby):
             if sortby == 'Latest':
                 queryset = queryset.order_by('-updated_at')
-            elif sortby == 'Score':
-                queryset = queryset.order_by('-score')
+            elif sortby == 'IMDB Rating':
+                queryset = queryset.order_by('-imdb_rating')
+            elif sortby == 'Metascore':
+                queryset = queryset.order_by('-metascore')
             elif sortby == 'Likes':
                 queryset = queryset.order_by('-likes')
             elif sortby == 'Watched':

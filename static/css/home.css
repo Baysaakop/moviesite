@@ -2,26 +2,28 @@
     margin-top: 0;
 }
 
-.movieVideo {
-    width: 100%; 
-    height: auto;
-    position: relative;
+.trailer {
+    position: relative;    
 }
 
-.movieDetail {
+.video {
+    width: 100%; 
+    height: auto;    
+}
+
+.controls {
+    position: absolute;
+    bottom: 25%;
+    right: 5%;    
+}
+
+.details {
     position: absolute;
     bottom: 20%;
     left: 10%;
     background: rgba(0, 0, 0, 0.8);
     color: #f1f1f1;
     padding: 20px;
-}
-
-.trailercontroller {
-    position: absolute;
-    bottom: 20%;
-    right: 10%;    
-    color: #f1f1f1;    
 }
 
 .circle-control {
@@ -45,7 +47,7 @@
 
 .header {
     color: #fff;
-    font-size: 24px;
+    font-size: 32px;
 }
 
 .viewButton {
