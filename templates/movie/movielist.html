@@ -10,13 +10,13 @@
 
 {% block content %}
 <div id="list" class="container">
-    <nav aria-label="breadcrumb" class="m-3">
+    <nav aria-label="breadcrumb" class="m-md-3">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{% trans 'Movies' %}</li>
         </ol>
     </nav>
-    <div class="m-3">
+    <div class="m-md-3">
         <form method="get" action="." id="filterform" class="p-3">
             <div class="form-row">
                 <div class="form-group col-12">
@@ -66,7 +66,7 @@
     <div class="text-center m-3">
         <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'films' %}</label>
     </div> 
-    <div class="row p-3">
+    <div class="row p-md-3">
         {% for movie in queryset %}
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
                 <a href="{% url 'moviedetail' movie.pk %}">

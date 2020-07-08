@@ -2,6 +2,11 @@
     margin-top: 0;
 }
 
+.header {
+    color: #fff;
+    font-size: 32px;
+}
+
 .trailer {
     position: relative;    
 }
@@ -43,15 +48,6 @@
 
 .circle-control:hover .fa {
     background: rgba(255, 255, 255, 0.6);
-}
-
-.header {
-    color: #fff;
-    font-size: 32px;
-}
-
-.viewButton {
-    border-radius: 0%;
 }
 
 .card {    
@@ -111,18 +107,8 @@
     color: orange;
 }
 
-.readButton {
-    border-radius: 0%;
-}
-
-.movie-title {
+.filmtitle {
     font-size: 20px;
-    font-weight: bold;    
-}
-
-.movie-release {
-    color: #dedede;
-    font-size: 14px;    
 }
 
 #counter {
@@ -136,12 +122,57 @@
     #suggestedmovie {
         margin-top: 80px;
     }
-
-    .header {
-        font-size: 20px;
+    
+    .details {
+        top: 100%;
+        left: 0;
+        background: #030b0f;
+        color: #fff;
+        padding: 20px;
+        left: 4%;        
+        width: 92%;               
+        position: relative;
     }
 
-    .viewButton {
+    .controls {        
+        bottom: 60%;
+        right: 5%;    
+    }
+
+    .header {
+        font-size: 18px;
+        padding: 0;
+    }
+    
+    .text {
+        font-size: 12px;
+    }
+
+    .filmtitle {
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+
+    .card-img-overlay.full {
+        visibility: visible;
+    }
+    
+    .card-img-overlay.top {
+        top: 0; 
+    }
+    
+    .card-img-overlay.mid {
+        visibility: visible;
+    }
+    
+    .card-img-overlay.bot {
+        top: 75%;
+    }    
+
+    .star-rating .fa {
         font-size: 12px;
     }
 }
