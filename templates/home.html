@@ -2,7 +2,7 @@
 {% load static custom_tags movie_tags i18n %}
 
 {% block title %}
-Mollywood
+MOLLYWOOD
 {% endblock %}
 
 {% block style %}
@@ -13,7 +13,7 @@ Mollywood
 <div id="suggestedmovie">
     {% if suggestedmovie.trailer %}
     <div class="trailer">
-        <video muted loop class="video" id="mv" paused="false">
+        <video autoplay muted loop class="video" id="mv" paused="false">
             <source src="{{ suggestedmovie.trailer.url }}" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>   
@@ -26,8 +26,8 @@ Mollywood
             <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="btn btn-danger rounded-0"><i class="fa fa-info-circle"></i> More</a>
         </div>
         <div class="controls">        
-            <span class="circle-control" onclick="playpause('mv', 'mvicon')"><i id="mvicon" class="fa fa-pause"></i></span>
-            <span class="circle-control" onclick="mute('mv', 'mvsoundicon')"><i id="mvsoundicon" class="fa fa-volume-off"></i></span>
+            <span class="circle-control" onclick="playpause('mv', 'mvplayicon')"><i id="mvplayicon" class="fa fa-pause"></i></span>
+            <span class="circle-control" onclick="muteunmute('mv', 'mvmuteicon')"><i id="mvmuteicon" class="fa fa-volume-off"></i></span>
         </div>
     </div>        
     {% else %}
@@ -92,8 +92,8 @@ Mollywood
                     Your browser does not support HTML5 video.
                 </video>
                 <div class="controls">        
-                    <span class="circle-control" onclick="playpause('sv', 'svicon')"><i id="svicon" class="fa fa-pause"></i></span>
-                    <span class="circle-control" onclick="mute('sv', 'svsoundicon')"><i id="svsoundicon" class="fa fa-volume-off"></i></span>
+                    <span class="circle-control" onclick="playpause('sv', 'svplayicon')"><i id="svplayicon" class="fa fa-pause"></i></span>
+                    <span class="circle-control" onclick="muteunmute('sv', 'svmuteicon')"><i id="svmuteicon" class="fa fa-volume-off"></i></span>
                 </div>
             </div>
             <div class="col-md-4" style="color: white;">
@@ -207,22 +207,19 @@ Mollywood
 
 {% block javascript %}
 <script type="text/javascript">
-    var mv = document.getElementById("mv");
-    var sv = document.getElementById("sv");
-
-    var playPromise = mv.play();
-    if (playPromise !== undefined) {
-        playPromise.then(_ => {
-        // Automatic playback started!
-        // Show playing UI.
-        // We can now safely pause video...
-        video.pause();
-        })
-        .catch(error => {
-        // Auto-play was prevented
-        // Show paused UI.
-        });
-    }
+    // var playPromise = mv.play();
+    // if (playPromise !== undefined) {
+    //     playPromise.then(_ => {
+    //     // Automatic playback started!
+    //     // Show playing UI.
+    //     // We can now safely pause video...
+    //     video.pause();
+    //     })
+    //     .catch(error => {
+    //     // Auto-play was prevented
+    //     // Show paused UI.
+    //     });
+    // }
 
     function playpause(video_id, icon_id) {
         var video = document.getElementById(video_id);
@@ -239,7 +236,7 @@ Mollywood
         }     
     }
 
-    function mute(video_id, icon_id) {
+    function muteunmute(video_id, icon_id) {
         var video = document.getElementById(video_id);
         var icon = document.getElementById(icon_id);
         if (video.muted) {
@@ -264,9 +261,7 @@ Mollywood
             }).animate({
                 countNum: countTo
                 },
-
                 {
-
                 duration: 2000,
                 easing: 'swing',
                 step: function() {
@@ -276,27 +271,26 @@ Mollywood
                     $this.text(this.countNum);
                     //alert('finished');
                 }
-
                 });
             });
             counted = 1;
         }    
-        if ($(window).scrollTop() < $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 && 
-            $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 < $(window).scrollTop() + window.innerHeight &&
-            $(mv).attr("paused") == "false" && mv.paused) {            
-            mv.play();            
-        }        
-        else {
-            mv.pause();           
-        }
-        if ($(window).scrollTop() < $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 && 
-            $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 < $(window).scrollTop() + window.innerHeight &&
-            $(sv).attr("paused") == "false" && mv.paused) {            
-            sv.play();           
-        }        
-        else {
-            sv.pause();           
-        }
+        // if ($(window).scrollTop() < $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 && 
+        //     $('#suggestedmovie').offset().top + $('#suggestedmovie').height() / 2 < $(window).scrollTop() + window.innerHeight &&
+        //     $('#mv').attr("paused") == "false") {            
+        //     $('#mv').play();            
+        // }        
+        // else {
+        //     $('#mv').pause();           
+        // }
+        // if ($(window).scrollTop() < $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 && 
+        //     $('#suggestedseries').offset().top + $('#suggestedseries').height() / 2 < $(window).scrollTop() + window.innerHeight &&
+        //     $('#sv').attr("paused") == "false") {            
+        //     $('#sv').play();           
+        // }        
+        // else {
+        //     $('#sv').pause();           
+        // }
     });
 </script>
 {% endblock %}
