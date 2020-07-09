@@ -24,9 +24,7 @@ MOLLYWOOD
             <p class="text">Warner Bros. Pictures</p> 
             <button type="button" class="btn btn-primary rounded-0"><i class="fa fa-play-circle-o"></i> Play</button>
             <a href="{% url 'moviedetail' suggestedmovie.pk %}" class="btn btn-danger rounded-0"><i class="fa fa-info-circle"></i> More</a>
-        </div>
-        <div class="controls">        
-            <span class="circle-control" onclick="playpause('mv', 'mvplayicon')"><i id="mvplayicon" class="fa fa-pause"></i></span>
+            <span class="circle-control ml-3" onclick="playpause('mv', 'mvplayicon')"><i id="mvplayicon" class="fa fa-pause"></i></span>
             <span class="circle-control" onclick="muteunmute('mv', 'mvmuteicon')"><i id="mvmuteicon" class="fa fa-volume-off"></i></span>
         </div>
     </div>        
@@ -91,10 +89,6 @@ MOLLYWOOD
                     <source src="{{ suggestedseries.trailer.url }}" type="video/mp4">
                     Your browser does not support HTML5 video.
                 </video>
-                <div class="controls">        
-                    <span class="circle-control" onclick="playpause('sv', 'svplayicon')"><i id="svplayicon" class="fa fa-pause"></i></span>
-                    <span class="circle-control" onclick="muteunmute('sv', 'svmuteicon')"><i id="svmuteicon" class="fa fa-volume-off"></i></span>
-                </div>
             </div>
             <div class="col-md-4" style="color: white;">
                 <p class="header">{{ suggestedseries.name }}</p>     
@@ -104,6 +98,8 @@ MOLLYWOOD
                 <p class="text">Starring: Pedro Pascal, Carl Weathers, Gina Carano </p>
                 <button type="button" class="btn btn-primary rounded-0"><i class="fa fa-play-circle-o"></i> Play</button>
                 <a href="{% url 'seriesdetail' suggestedseries.pk %}" class="btn btn-danger rounded-0"><i class="fa fa-info"></i> More</a>
+                <span class="circle-control ml-3" onclick="playpause('sv', 'svplayicon')"><i id="svplayicon" class="fa fa-play"></i></span>
+                <span class="circle-control" onclick="muteunmute('sv', 'svmuteicon')"><i id="svmuteicon" class="fa fa-volume-off"></i></span>
             </div>
         </div>
     </div>
