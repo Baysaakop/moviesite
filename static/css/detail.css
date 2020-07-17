@@ -3,6 +3,18 @@
     margin-top: 100px;
 }
 
+#filmography td a {
+    text-decoration: none;
+    color: white;    
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#filmography td.movietitle:hover {
+    background: #dd4b39;    
+}
+
 .breadcrumb, #filterform {
     background: #030b0f;    
     border-radius: 0%;
@@ -68,6 +80,12 @@
 #action_section a:hover,
 #action_section div:hover {
     background: #dd4b39;   
+}
+
+.modal-content {
+    background: #030b0f;
+    color: white;
+    border: 1px solid white;
 }
 
 .modal-rating input {

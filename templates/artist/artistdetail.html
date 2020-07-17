@@ -102,7 +102,7 @@
                                 {% for movie in movielist %}
                                 <tr>
                                     <td>{{ movie.release_date|date:"Y" }}</td>
-                                    <td><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
+                                    <td class="movietitle"><a href="{% url 'moviedetail' movie.pk %}">{{ movie.name }}</a></td>
                                     <td>{{ movie.imdb_rating }}</td>     
                                     <td>{{ movie.metascore }}</td>     
                                     <td>

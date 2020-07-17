@@ -1,9 +1,9 @@
 from django import forms
-from django.forms import SelectMultiple
+from django.forms import SelectMultiple, Textarea
 from tempus_dominus.widgets import DatePicker
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Movie, Series, Artist, Genre, Country, Occupation, Season, Episode
+from .models import Movie, Series, Artist, Genre, Country, Occupation, Season, Episode, Production, Post
 
 class MovieForm(forms.ModelForm):
     class Meta:
@@ -18,8 +18,8 @@ class MovieForm(forms.ModelForm):
         widgets = {
             'release_date': DatePicker(
                 options={
-                    'minDate': '1900-01-01',
-                    'maxDate': '2500-01-01',
+                    'minDate': '1800-01-01',
+                    'maxDate': '3000-01-01',
                 }
             ),
             'production': SelectMultiple(
@@ -50,6 +50,7 @@ class MovieForm(forms.ModelForm):
         self.helper.form_method = 'post'
         ## ARTIST FILTERING
         self.fields['genre'].queryset = Genre.objects.order_by('name')   
+        self.fields['production'].queryset = Production.objects.order_by('name')   
         self.fields['producer'].queryset = Artist.objects.filter(occupation__name='Producer').order_by('name')   
         self.fields['director'].queryset = Artist.objects.filter(occupation__name='Director').order_by('name')   
         self.fields['writer'].queryset = Artist.objects.filter(occupation__name='Writer').order_by('name')   
@@ -80,8 +81,8 @@ class SeriesForm(forms.ModelForm):
         widgets = {
             'release_date': DatePicker(
                 options={
-                    'minDate': '1900-01-01',
-                    'maxDate': '2500-01-01',
+                    'minDate': '1800-01-01',
+                    'maxDate': '3000-01-01',
                 }
             ),
             'production': SelectMultiple(
@@ -111,6 +112,7 @@ class SeriesForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.fields['genre'].queryset = Genre.objects.order_by('name')   
+        self.fields['production'].queryset = Production.objects.order_by('name')   
         self.fields['producer'].queryset = Artist.objects.filter(occupation__name='Producer').order_by('name')   
         self.fields['director'].queryset = Artist.objects.filter(occupation__name='Director').order_by('name')   
         self.fields['writer'].queryset = Artist.objects.filter(occupation__name='Writer').order_by('name')  
@@ -140,8 +142,8 @@ class SeasonForm(forms.ModelForm):
         widgets = {
             'release_date': DatePicker(
                 options={
-                    'minDate': '1900-01-01',
-                    'maxDate': '2500-01-01',
+                    'minDate': '1800-01-01',
+                    'maxDate': '3000-01-01',
                 }
             ),
             'production': SelectMultiple(
@@ -200,8 +202,8 @@ class EpisodeForm(forms.ModelForm):
         widgets = {
             'release_date': DatePicker(
                 options={
-                    'minDate': '1900-01-01',
-                    'maxDate': '2500-01-01',
+                    'minDate': '1800-01-01',
+                    'maxDate': '3000-01-01',
                 }
             ),
             'production': SelectMultiple(
@@ -273,3 +275,57 @@ class ArtistForm(forms.ModelForm):
         self.fields['occupation'].required = False
         self.fields['country'].required = False
         self.fields['image'].required = False  
+
+class ProductionForm(forms.ModelForm):
+    class Meta:
+        model = Production
+        fields = ('name', 'description', 
+            'startdate',  'image'
+        )
+        widgets = {
+            'startdate': DatePicker(
+                options={
+                    'minDate': '1800-01-01',
+                    'maxDate': '3000-01-01',
+                }
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProductionForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'         
+        ## REQUIREMENT SETTING
+        self.fields['startdate'].required = False
+        self.fields['image'].required = False          
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('name', 'text', 'related_movie','related_artist', 'image')
+        widgets = {
+            'related_movie': SelectMultiple(
+                attrs={
+                    'size': '10',
+                }
+            ),
+            'related_artist': SelectMultiple(
+                attrs={
+                    'size': '10',
+                }
+            ),
+            'text': Textarea(
+                attrs={
+                    'rows': 30,
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.fields['related_movie'].queryset = Movie.objects.order_by('name')     
+        self.fields['related_artist'].queryset = Artist.objects.order_by('name')     
+        self.fields['related_movie'].required = False
+        self.fields['related_artist'].required = False          

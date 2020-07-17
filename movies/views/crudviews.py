@@ -7,8 +7,8 @@ from django.conf import settings
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
-from ..models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating
-from ..forms import SeriesForm, MovieForm, ArtistForm, SeasonForm, EpisodeForm
+from ..models import Country, Language, Genre, Occupation, MPA_Rating, Production, Artist, Movie, Episode, Season, Series, Profile, ArtistRating, MovieRating, SeriesRating, Post
+from ..forms import SeriesForm, MovieForm, ArtistForm, SeasonForm, EpisodeForm, ProductionForm, PostForm
 import json
 
 def is_valid_queryparam(param):
@@ -479,3 +479,101 @@ def MovieCastEdit(request, pk):
             'actors': actors
         }
         return render(request, 'movie/moviecastedit.html', context)
+
+class ProductionDetailView(DetailView):
+    model = Production
+    template_name = 'production/productiondetail.html'
+    context_object_name = 'production'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        profile = getProfile(self.request.user)
+        movies = Movie.objects.filter(production=self.object).order_by('release_date').distinct()
+        context['movielist'] = movies
+        context['profile'] = profile
+        return context
+
+class ProductionCreateView(CreateView):
+    model = Production
+    template_name = 'production/productioncreate.html'
+    form_class = ProductionForm
+    def form_valid(self, form):
+        production = form.save(commit=False)
+        production.created_by = self.request.user
+        production.save()
+        form.save_m2m()
+        return redirect('productiondetail', pk=production.pk)  
+
+class ProductionUpdateView(UpdateView):
+    model = Production
+    template_name = 'production/productionupdate.html'
+    form_class = ProductionForm    
+    def form_valid(self, form):
+        production = form.save(commit=False)
+        production.updated_by = self.request.user
+        production.save()
+        form.save_m2m()
+        return redirect('productiondetail', pk=production.pk)  
+
+class ProductionDeleteView(DeleteView):
+    model = Production
+    template_name = 'production/productiondelete.html'
+    success_url = reverse_lazy('home')        
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'post/postlist.html'
+    context_object_name = 'queryset'
+    paginate_by = 8
+    count = 0
+    ordering = ['-created_at']    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)       
+        profile = getProfile(self.request.user)                
+        context['count'] = self.count
+        context['profile'] = profile
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()     
+        self.count = queryset.count() 
+        return queryset
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post/postdetail.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        profile = getProfile(self.request.user)    
+        context['profile'] = profile
+        return context
+
+class PostCreateView(CreateView):
+    model = Post
+    template_name = 'post/postcreate.html'
+    form_class = PostForm
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.created_by = self.request.user
+        post.save()
+        form.save_m2m()
+        return redirect('postlist')  
+
+class PostUpdateView(UpdateView):
+    model = Post
+    template_name = 'post/postupdate.html'
+    form_class = PostForm    
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.updated_by = self.request.user
+        post.save()
+        form.save_m2m()
+        return redirect('postdetail', pk=post.pk)  
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'post/postdelete.html'
+    success_url = reverse_lazy('postlist')

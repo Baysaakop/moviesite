@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static custom_tags humanize i18n %}
+{% block title %}
+{{ post }}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="detail" class="container">
+    <nav aria-label="breadcrumb" class="m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'artistlist' %}">{% trans 'Posts' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ post }}</li>
+        </ol>
+    </nav>
+    <div class="m-3 p-3 border" style="background: #030b0f; color: white;">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    {% if post.image %}
+                    <img class="card-img" src="{{ post.image.url }}" alt="Card image" style="width: 100%; height: auto;">
+                    {% else %}
+                    <div class="card-body bg-light" style="height: 300px;"></div>
+                    {% endif %}
+                </div>                
+            </div>
+            <div class="col-md-9">
+                <div class="d-flex justify-content-between">
+                    <div id="title">
+                        <h4>{{ post.name }}</h4>
+                    </div>
+                    {% if user.is_authenticated and user|isAdmin %}
+                    <div id="update">                        
+                        <a href="{% url 'postupdate' post.pk %}"><i class="fa fa-edit"></i> {% trans 'Edit' %}</a>
+                    </div>                
+                    {% endif %}
+                </div>
+                <hr>
+                <div id="bio">
+                    <p>{{ post.text }}</p>
+                </div>                         
+            </div>
+        </div>                        
+    </div>        
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });        
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static custom_tags i18n %}
+{% block title %}
+{% trans 'Post List' %}
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="list" class="container">
+    <nav aria-label="breadcrumb" class="m-md-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Posts' %}</li>
+        </ol>
+    </nav>
+    <div class="text-center m-3">
+        <label for="pagination">{% trans 'Total' %}: {{ count }} {% trans 'posts' %}</label>
+    </div> 
+    <div class="row p-md-3">
+        {% for post in queryset %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3" >
+                <a href="{% url 'postdetail' post.pk %}">
+                    <div class="card rounded-0 mb-0">                                     
+                        {% if post.image %}
+                        <img class="card-img rounded-0" src="{{ post.image.url }}" alt="Card image">
+                        {% else %}
+                        <div class="card-img" style="min-height: 220px;">
+                            <div class="d-flex justify-content-center align-items-center text-center">
+                                <h5 class="p-3" style="color: white;">{{ post }}</h5>                                
+                            </div>
+                        </div>
+                        {% endif %}   
+                        <div class="card-img-overlay">                
+                            <div class="scores d-flex justify-content-start p-0 text-center">
+                            </div>          
+                            <div class="title d-flex justify-content-center align-items-center text-center">
+                                <h6 class="card-title text-center">{{ post }}</h6>                               
+                            </div>                            
+                        </div>                                                                                                         
+                    </div>                 
+                </a>                                        
+            </div>
+        {% endfor %}
+    </div>
+    <div class="text-center m-3">        
+        <div id="pagination" class="d-flex justify-content-center">           
+            {% include 'includes/pagination.html' %}  
+        </div>
+    </div>    
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+{{ block.super }}
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });    
+</script>
+{% endblock %}

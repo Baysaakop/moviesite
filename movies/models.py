@@ -38,6 +38,8 @@ class Occupation(models.Model):
 class Production(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
+    startdate = models.DateField(auto_now=False, blank=True, null=True)
+    image = models.ImageField(upload_to='productions/', blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='production_created_by')
     created_at = models.DateTimeField(auto_now_add=True, null=True)    
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='production_updated_by')
@@ -316,3 +318,16 @@ class ArtistRating(models.Model):
 
     def __str__(self):
         return self.user.username + " on " + artist.name
+
+class Post(models.Model):
+    name = models.CharField(max_length=100)
+    text = models.TextField(blank=True, null=True)
+    related_movie = models.ManyToManyField(Movie)
+    related_artist = models.ManyToManyField(Artist)    
+    image = models.ImageField(upload_to='post/', blank=True, null=True)    
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='news_created_by')
+    created_at = models.DateTimeField(auto_now_add=True, null=True)        
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.name

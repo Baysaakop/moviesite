@@ -35,7 +35,7 @@
                             <th>{% trans 'Production' %}</th>
                             <td>
                                 {% for production in movie.production.all %}
-                                <a href="#">{{ production.name }}</a><br>
+                                <a href="{% url 'productiondetail' production.pk %}">{{ production.name }}</a><br>
                                 {% endfor %}
                             </td>
                         </tr>          

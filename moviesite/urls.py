@@ -63,6 +63,17 @@ urlpatterns += i18n_patterns (
     path('artistcreate/', crudviews.ArtistCreateView.as_view(), name='artistcreate'),
     path('artistupdate/<pk>/', crudviews.ArtistUpdateView.as_view(), name='artistupdate'),
     path('artistdelete/<pk>/', crudviews.ArtistDeleteView.as_view(), name='artistdelete'),
+    ## PRODUCTION VIEWS    
+    path('productiondetail/<pk>/', crudviews.ProductionDetailView.as_view(), name='productiondetail'),
+    path('productioncreate/', crudviews.ProductionCreateView.as_view(), name='productioncreate'),
+    path('productionupdate/<pk>/', crudviews.ProductionUpdateView.as_view(), name='productionupdate'),
+    path('productiondelete/<pk>/', crudviews.ProductionDeleteView.as_view(), name='productiondelete'),
+    ## POST VIEWS
+    path('postlist/', crudviews.PostListView.as_view(), name='postlist'),
+    path('postdetail/<pk>/', crudviews.PostDetailView.as_view(), name='postdetail'),
+    path('postcreate/', crudviews.PostCreateView.as_view(), name='postcreate'),
+    path('postupdate/<pk>/', crudviews.PostUpdateView.as_view(), name='postupdate'),
+    path('postdelete/<pk>/', crudviews.PostDeleteView.as_view(), name='postdelete'),
     ## AUTH
     path('accounts/', include('allauth.urls')),
     path('profile/', views.profile, name='profile'),    
